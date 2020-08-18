@@ -1,0 +1,94 @@
+﻿@model IEnumerable<WebApp.Core.EF.CMS_Questions>
+@using WebApp.Common;
+<div class="panel panel-default box-news">
+    <div class="panel-heading">
+        <a title="@ViewBag.TITLE" href="@Utilities.UrlContent("hoi-dap", "", "hd","")">@ViewBag.TITLE</a>
+    </div>
+    <div class="panel-body">
+        @if (Model != null && Model.Count() > 0)
+        {
+            <div class="row">
+                <div class="col-xs-12">
+                    <ul>
+                        @foreach (var item in Model)
+                        {
+                            <li><a title="@item.Title" onclick="view(@item.ID)" style="cursor: pointer">@Utilities.ReturnSubString(90, @item.Title)</a></li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+
+<div class="modal fade" id="qModal" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title" id="modal-title">Modal Header</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <div class="col-lg-12">
+                            <label>Câu hỏi:</label>
+                        </div>
+                        <div class="col-lg-offset-1 col-lg-11" id="q" style="background: #f2f2f2;"></div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-lg-12">
+                            <label>Câu trả lời:</label>
+                        </div>
+                        <div class="col-lg-offset-1 col-lg-11" id="a" style="background: #f2f2f2;"></div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-lg-12">
+                            <label>File đính kèm:</label>
+                            <span id="f"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script type="text/javascript">
+    function view(idquestion) {
+        var pJson = { 'idquestion': idquestion };
+        jQuery.ajax({
+            url: SiteUrlAdmin + "/CMS_Questions/Detail",
+            contentType: 'application/json',
+            dataType: 'json',
+            data: JSON.stringify(pJson),
+            type: "POST",
+            success: function (r) {
+                if (r.state == true) {
+                    var Q = r.objQ;
+                    jQuery('#modal-title').text(Q.Title);
+                    jQuery('#q').html(Q.Contents);
+                    jQuery('#a').html(Q.Answer);
+                    if (Q.FileName != null && Q.FileName != '') {
+                        var sName = Q.FileName.split('/');
+                        var content = '<span style="color:brown;">' + sName[sName.length - 1] + '</span> <a href="' + SiteUrlImgCKFinder + Q.FileName + '" target="blank" title="tải về"><i class="fas fa-download"></i></a>';
+                        jQuery('#f').html(content);
+                    }
+                    else {
+                        jQuery('#f').html('');
+                    }
+                    jQuery('#qModal').modal('show');
+                }
+                else {
+                    alert(r.mess);
+                }
+            }
+        });
+    }
+</script>

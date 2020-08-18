@@ -1,0 +1,89 @@
+.agsjsTOCNode {
+    padding-top: 1px;
+    padding-bottom: 1px;
+    background-color: white;
+}
+
+.agsjsTOCContent {
+    white-space: nowrap;
+}
+
+    .agsjsTOCContent input[type="checkbox"] {
+        vertical-align: middle;
+        padding: 0px;
+        margin: 0px;
+    }
+
+.agsjsTOCOutOfScale {
+    color: grey;
+    opacity: 0.5;
+}
+
+.dijitTreeExpando {
+    vertical-align: middle;
+}
+
+.agsjsTOCRootLayer {
+}
+
+    .agsjsTOCRootLayer input[type="checkbox"] {
+        vertical-align: middle;
+        padding: 0px;
+        margin: 0px;
+    }
+
+.agsjsTOCRootLayerLabel {
+    font-size: 11pt;
+    font-weight: bold;
+    vertical-align: middle;
+    color: black;
+    margin-left: 3px;
+}
+
+.agsjsTOCServiceLayerLabel {
+    vertical-align: middle;
+    margin-left: 3px;
+}
+
+    .agsjsTOCServiceLayerLabel:hover {
+        cursor: pointer;
+    }
+
+    .agsjsTOCServiceLayerLabel .active {
+        border: 1px solid transparent;
+        border-color: #D1D1D1;
+        background-color: #efefef;
+        color: #777;
+        text-shadow: 0px 1px 1px #FFF;
+        border-radius: 2px;
+    }
+
+.agsjsTOCGroupLayer {
+    font-weight: bold;
+}
+
+.agsjsTOCGroupLayerLabel {
+    font-size: 10pt;
+}
+
+.agsjsTOCGroupLayer {
+    font-weight: bold;
+}
+
+.agsjsTOCLayerLabel {
+    font-size: 10pt;
+    padding-left: 2px;
+}
+
+.agsjsTOCLegendIcon {
+    /* width: 50px;*/
+}
+
+.agsjsTOCLegendLabel {
+    font-size: 8pt;
+    padding-left: 2px;
+}
+
+.agsjsTOCSlider {
+    padding: 5px 20px 5px 30px;
+}

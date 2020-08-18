@@ -1,0 +1,256 @@
+﻿<!--A Design by W3layouts
+Author: W3layout
+Author URL: http://w3layouts.com
+License: Creative Commons Attribution 3.0 Unported
+License URL: http://creativecommons.org/licenses/by/3.0/
+-->
+@using System.Web.Security
+@using WebApp.Core.EF
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Hệ thống Cơ sở dữ liệu điểm lưới tọa độ các cấp trên địa bàn tỉnh Nghệ An</title>
+    <link rel="shortcut icon" href="@Url.Content("~/Images/monre1.png")" type="image/x-icon">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href="@Url.Content("~/Content/CSSBase/jquery-ui.css")" rel="stylesheet" />
+    <!-- Latest compiled and minified JavaScript -->
+    <link href="@Url.Content("~/Content/CSSBase/bootstrap.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/CSSBase/font-awesome.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/CSSBase/fontawesome-all.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/CSSBase/bootstrap-select.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/CSSBase/jsTree/style.min.css")" rel="stylesheet" />
+    @*jstree*@
+    <link rel="stylesheet" href="@Url.Content("~/Content/CSSBase/bootstrap-datetimepicker.css")" />
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+
+    <!-- DataTable -->
+    <link href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap.min.css" rel="stylesheet" />
+
+    <!-- Font Awesome -->
+    <link href="@Url.Content("~/Content/LTE/font-awesome.min.css")" rel="stylesheet" />
+    <!-- Ionicons -->
+    <link href="@Url.Content("~/Content/LTE/ionicons.min.css")" rel="stylesheet" />
+
+    <link href="@Url.Content("~/Content/CS02/Style.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/CS02/main.css")" rel="stylesheet" />
+    <link href="~/Content/CSSBase/bootstrap-select.css" rel="stylesheet" />
+
+    <!-- Theme style -->
+    @*<link href="@Url.Content("~/Content/LTE/AdminLTE.min.css")" rel="stylesheet" />
+        <link href="@Url.Content("~/Content/LTE/_all-skins.min.css")" rel="stylesheet" />*@
+    <style>
+        .dataTables_wrapper .dataTables_paginate .paginate_button {
+            box-sizing: border-box;
+            display: inline-block;
+            min-width: 1.5em;
+            /* padding: 0.5em 1em; */
+            /* margin-left: 2px; */
+            text-align: center;
+            text-decoration: none !important;
+            cursor: pointer;
+            *cursor: hand;
+            color: #333 !important;
+            border: 1px solid transparent;
+            border-radius: 2px;
+        }
+    </style>
+</head>
+<body>
+    <header id="header">
+        <div class="container" style="height: 150px;background-position: center;background-size: cover;background-repeat: no-repeat, repeat;background-image: url('/Images/Banner/NAN_Banner.png');">
+            <div class="">
+                <div class="row header-social" style="height:1px;">
+                    <div class="col-lg-12 text-right">
+                        @*<span class="hidden-xs"><a href="@Url.Content("~/rss")">RSS <i class="fa fa-rss"></i></a></span>*@
+                        @*<span class="hidden-xs"><a href="@Url.Content("~/so-do-trang")">Sơ đồ trang <i class="glyphicon glyphicon-equalizer"></i></a></span>*@
+                        @if (Context.User.Identity.IsAuthenticated)
+                        {
+                            //string urlLogoutSSO = System.Configuration.ConfigurationManager.AppSettings["casLogoutURL"];
+                            <span><a href="@Url.Content("~/admin/qt_home")" target="_blank">Xin chào: @Context.User.Identity.Name <i class="fa fa-angle-double-right"></i></a></span>
+                            <span><a href="@Url.Content("~/cs/home/logout")">Đăng xuất <i class="fa fa-sign-out-alt"></i></a></span>
+                        }
+                        else
+                        {
+                            string urlLoginSSO = System.Configuration.ConfigurationManager.AppSettings["casLoginURL"] + "?service=" + System.Configuration.ConfigurationManager.AppSettings["SiteUrl"];
+                            @*<span><a href="@urlLoginSSO">Đăng nhập <i class="fa fa-sign-in-alt"></i></a></span>*@
+                            <a href="@Url.Content("~/cs/home/login")" class="btn btn-success btn-xs">Đăng nhập</a>
+                        }
+                    </div>
+                </div>
+                <div class="row hidden-xs" id="_layout_header_img" style="">
+                    @*<div class="col-lg-1 col-md-1 col-xs-2 header-logo text-center">
+                            <a href="@Url.Content("~")">
+                                <img src="@Url.Content("~/images/banner/cs.png")" alt="header-logo" />
+                            </a>
+                        </div>
+                        <div class="col-lg-11 col-md-11 col-xs-10">
+                            <p class="header-title-2">2</p>
+                            <p class="header-title-1">1</p>
+                        </div>*@
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container" id="_layout_mainmenu">
+        <div class="row">
+            <div class="nav-parent">
+                @{Html.RenderAction("MainMenu", "System");}
+            </div>
+        </div>
+    </div>
+    <div class="container content" id="_layout_content" style="background: #fff;">
+        <div class="row" id="_layout_content_header">
+            <div class="col-lg-12">
+                <h4>@RenderSection("header", required: false)</h4>
+            </div>
+        </div>
+        <div class="row" id="_layout_content_alert">
+            @if (TempData["AlertMessage"] != null)
+            {
+                <div id="AlertBox" class="alert @TempData["AlertType"] hide">
+                    @TempData["AlertMessage"]
+                </div>
+            }
+        </div>
+        @RenderBody()
+
+        <footer class="main-footer" id="footer">
+            <div class="row">
+                <div class="col-xs-12 footer">
+                    <div class="hidden-xs hidden-sm col-md-1 footer-image">
+                        <img src="@Url.Content("~/Images/monre1.png")" alt="banner" />
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-5 footer-description">
+                        <p class="text1">CƠ QUAN CHỦ QUẢN: <span>SỞ TÀI NGUYÊN MÔI TRƯỜNG TỈNH NGHỆ AN</span></p>
+                        <p class="text3">Chịu trách nhiệm chính: Trung tâm Công nghệ thông tin; Phòng Đo đạc, bản đồ và viễn thám</p>
+                        <p class="text4">Sử dụng thông tin của Webstie này phải ghi rõ nguồn: http://www.tnmt.nghean.gov.vn</p>
+                    </div>
+                    <div class="hidden-xs hidden-sm col-md-1">
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-5 footer-contact">
+                        <p class="text2">Liên hệ: <span>Số 31 - Quang Trung - TP. Vinh - Nghệ An</span></p>
+                        <p class="text2">Điện thoại: <span>0238.358.084</span></p>
+                        <p class="text2">Email: <span>tnmt@nghean.gov.vn</span></p>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- jQuery -->
+    <script src="@Url.Content("~/Scripts/JSBase/jquery.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/JSBase/jquery-ui.js")" type="text/javascript"></script>
+    <script type="text/javascript">
+        //$.noConflict();
+    </script>
+    <!--Validate-->
+    <script src="@Url.Content("~/Scripts/JSBase/jquery.validate.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/JSBase/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+    <!--Confirm-->
+    <script src="@Url.Content("~/Scripts/JSBase/jquery.unobtrusive-ajax.min.js")" type="text/javascript"></script>
+    <!-- Bootstrap Core JavaScript -->
+    <script src="@Url.Content("~/Scripts/JSBase/moment.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/JSBase/bootstrap.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/JSBase/bootstrap-datetimepicker.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/JSBase/jstree.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/ckfinder/ckfinder.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/JSBase/bootstrap-select.js")"></script>
+    <!-- Custom Theme JavaScript -->
+    <script src="@Url.Content("~/Scripts/JSBase/Web.config.js")" type="text/javascript"></script>
+
+    <!-- DataTable -->
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js" type="text/javascript"></script>
+    <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap.min.js" type="text/javascript"></script>
+
+    <!-- HoldOn -->
+    <link href="~/Scripts/HoldOn/HoldOn.min.css" rel="stylesheet" />
+    <script src="~/Scripts/HoldOn/HoldOn.min.js"></script>
+
+    <script>
+        function ajaxLoading(themeName) {
+            HoldOn.open({
+                theme: themeName
+                //message: "<h4>" + " Đang thực hiện. Vui lòng đợi!</h4>"
+            });
+        }
+
+        function ajaxStop() {
+            HoldOn.close();
+        }
+
+        $(document)
+            .ajaxStart(function () {
+                ajaxLoading('sk-fading-circle');
+            })
+            .ajaxStop(function () {
+                ajaxStop();
+            });
+
+        $(document).ready(function () {
+            var dttable = $('#tblData').DataTable({
+                "paging": true,
+                "scrollCollapse": true,
+                "lengthChange": true,
+                "searching": true,
+                "ordering": true,
+                "info": true,
+                "autoWidth": true,
+                "language": {
+                    "decimal": ".",
+                    "thousands": ",",
+                    "sProcessing": "Đang xử lý...",
+                    "sLengthMenu": "Xem _MENU_ mục",
+                    "sZeroRecords": "Không tìm thấy dòng nào phù hợp",
+                    "sInfo": "Đang xem _START_ đến _END_ trong tổng số _TOTAL_ mục",
+                    "sInfoEmpty": "Đang xem 0 đến 0 trong tổng số 0 mục",
+                    "sInfoFiltered": "(được lọc từ _MAX_ mục)",
+                    "sInfoPostFix": "",
+                    "sSearch": "Lọc dữ liệu:",
+                    "sUrl": "",
+                    "oPaginate": {
+                        "sFirst": "Đầu",
+                        "sPrevious": "Trước",
+                        "sNext": "Tiếp",
+                        "sLast": "Cuối"
+                    }
+                }
+            });
+            $('#tblData' + '_filter input').addClass('input-large')
+        });
+    </script>
+
+    @*<script src="/assets/admin/dist/js/sb-admin-2.js"></script>*@
+    @RenderSection("jsFooter", required: false)
+    <script type="text/javascript">
+        jQuery(function () {
+            jQuery('#AlertBox').removeClass('hide');
+            jQuery('#AlertBox').delay(2000).slideUp(500);
+        });
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            //initialize();
+        });
+        function initialize() {
+            var mapOptions = {
+                center: new google.maps.LatLng(10.771971, 106.697845),
+                zoom: 10,
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+            };
+            var map = new google.maps.Map(document.getElementById("map_canvas"),
+                mapOptions);
+            // create a marker
+            var latlng = new google.maps.LatLng(10.771971, 106.697845);
+            var marker = new google.maps.Marker({
+                position: latlng,
+                map: map,
+                title: 'My Place'
+            });
+        }
+    </script>
+</body>
+</html>

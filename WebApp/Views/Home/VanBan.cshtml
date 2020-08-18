@@ -1,0 +1,57 @@
+﻿@model IEnumerable<WebApp.Core.EF.CMS_Documents_LayTatCa_Result>
+@using WebApp.Common;
+
+<div class="panel panel-default box-news hidden-xs">
+    <div class="panel-heading">
+        <a title="@ViewBag.TITLE" href="@Utilities.UrlContent("van-ban", "", "vb","")">@ViewBag.TITLE</a>
+    </div>
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-xs-12">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Số hiệu</th>
+                            <th>Loại văn bản</th>
+                            <th width="40%">Trích yếu</th>
+                            <th>Người ký</th>
+                            <th>Ngày ban hành</th>
+                            <th>Tải về</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model != null && Model.Count() > 0)
+                        {
+                            int index = 0;
+                            foreach (var item in Model)
+                            {
+                                index++;
+                                <tr>
+                                    <td align="center">@index</td>
+                                    <td>
+                                        <a title="@item.DocumentNumber" href="@Utilities.UrlContent("van-ban", @item.DocumentNumber, "vb", @item.ID.ToString())">
+                                            @item.DocumentNumber
+                                        </a>
+                                    </td>
+                                    <td align="center">@item.LoaiVanBan</td>
+                                    <td style="text-align:justify;">@item.Abstract</td>
+                                    <td align="center">@item.Signer</td>
+                                    <td align="center">@Convert.ToDateTime(item.IssuedDate).ToString("dd/MM/yyyy")</td>
+                                    <td align="center">
+                                        @if (item.FileName != null && item.FileName != "")
+                                        {
+                                            <a href="@Utilities.SiteURL_Resources()@item.FileName" target="_blank">
+                                                <i class="fas fa-download"></i>
+                                            </a>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

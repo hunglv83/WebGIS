@@ -1,0 +1,93 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layouts.cshtml";
+}
+@section header{
+    Quản lý lịch công tác
+}
+
+@model IEnumerable<WebApp.Core.DAO.LichHop>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Danh sách lịch công tác
+            </div>
+            <div class="panel-body">
+                @using (Html.BeginForm("Index", "CMS_Schedules", FormMethod.Get))
+                {
+                    <div class="row form-group">
+                        <div class="col-lg-4">
+                            <div class="input-group">
+                                <span class="input-group-addon">Ngày: </span>
+                                <input type="date" class="form-control text-center" id="date" name="date" value="@ViewBag.DATE" />
+                                <span class="input-group-addon"><i class="far fa-calendar-alt"></i></span>
+                            </div>
+                        </div>
+                        <div class="col-lg-8">
+                            <button id="btnTimKiem" type="submit" class="btn btn-success" title="Tìm kiếm"><span class="glyphicon glyphicon-search"></span></button>
+                            <a class="btn btn-primary" href="@Url.Content("~/Admin/CMS_Schedules/Create")">Thêm mới</a>
+                        </div>
+                    </div>
+                }
+                <div class="table-responsive">
+                    <table class="table table-bordered tbl-lichhop">
+                        <thead>
+                            <tr>
+                                <th>Thứ</th>
+                                <th>Lãnh đạo</th>
+                                <th>Chuyên viên</th>
+                                <th>Lãnh đạo bộ</th>
+                                <th>Giờ</th>
+                                <th>Nội dung công việc</th>
+                                <th>Địa điểm</th>
+                                <th>Thao tác</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                var data = item.data;
+                                <tr>
+                                    @if (data != null && data.Count > 0)
+                                    {
+                                        <td align="center" rowspan="@data.Count()">@item.thu<br />@item.ngay</td>
+                                        foreach (var item1 in data)
+                                        {
+                                            <td data-name="leader">@item1.Leaders</td>
+                                            <td>@item1.Participants</td>
+                                            <td>@item1.Ministry_leaders</td>
+                                            <td align="center">@Convert.ToDateTime(item1.StartDate).ToString("HH:mm")</td>
+                                            <td>@item1.Title</td>
+                                            <td align="center">@item1.Place</td>
+                                            <td align="center">
+                                                <a href="@Url.Content("~/Admin/CMS_Schedules/Edit/")@item1.ID" type="button" title="Sửa"><span class="fa fa-edit text-info"></span></a>
+                                                <a class="text-danger" onclick="del(@item1.ID)" title="Xóa"><span class="fa fa-trash-alt text-danger"></span></a>
+                                            </td>
+                                            @:</tr><tr>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <td align="center">@item.thu<br />@item.ngay</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    }
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section jsFooter{
+    <script src="@Url.Content("~/areas/admin/jscontroller/CMS_Schedules.js")"></script>
+}

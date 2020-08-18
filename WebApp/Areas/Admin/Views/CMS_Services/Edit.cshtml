@@ -1,0 +1,111 @@
+﻿@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Areas/Admin/Views/Shared/_Layouts.cshtml";
+}
+@using WebApp.Core.EF
+@model WebApp.Core.EF.CMS_Services
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card card-primary">
+            <div class="card-header">
+                <h3 class="card-title"><i class="fa fa-users"></i> Thông tin dịch vụ bản đồ</h3>
+            </div>
+            <div class="card-body">
+                @using (Html.BeginForm("Edit", "CMS_Services", FormMethod.Post, new { @id = "dv" }))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="form-group">
+                        @Html.TextBoxFor(model => model.ID, new { style = "width:50%;", @class = "form-control", @type = "hidden" })
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label" })
+                        @Html.TextBoxFor(model => model.Name, new { @class = "form-control" })
+                        <div class="col-md-12">
+                            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.TypeOfMapID, htmlAttributes: new { @class = "control-label" })
+
+                        <select id="@Html.IdFor(model => model.TypeOfMapID)" name="@Html.IdFor(model => model.TypeOfMapID)" class="form-control">
+                            <option value="">Chọn lĩnh vực</option>
+                            @if (TempData["TypeOfMap"] != null)
+                            {
+                                List<CMS_TypeOfMap> lData = (List<CMS_TypeOfMap>)TempData["TypeOfMap"];
+                                for (int i = 0; i < lData.Count; i++)
+                                {
+                                    if (lData[i].ID == Convert.ToInt32(Html.ValueFor(m => m.TypeOfMapID).ToString()))
+                                    {
+                                        <option value="@lData[i].ID" selected>@lData[i].Name</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@lData[i].ID">@lData[i].Name</option>
+                                    }
+                                }
+                            }
+                        </select>
+                        <div class="col-md-12">
+                            @Html.ValidationMessageFor(model => model.TypeOfMapID, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="control-group">
+                            @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label" })
+                            @Html.TextAreaFor(model => model.Description, new { @class = "form-control" })
+                            <div class="col-md-12">
+                                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="control-group">
+                            @Html.LabelFor(model => model.URL, htmlAttributes: new { @class = "control-label" })
+                            @Html.TextBoxFor(model => model.URL, new { @class = "form-control" })
+                            <div class="col-md-12">
+                                @Html.ValidationMessageFor(model => model.URL, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="control-group">
+                            @Html.LabelFor(model => model.Source, htmlAttributes: new { @class = "control-label" })
+                            @Html.TextBoxFor(model => model.Source, new { @class = "form-control" })
+                            <div class="col-md-12">
+                                @Html.ValidationMessageFor(model => model.Source, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="control-group">
+                            @Html.LabelFor(model => model.Publish, htmlAttributes: new { @class = "control-label" })
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" name="@Html.IdFor(model => model.Publish)" value="@Html.ValueFor(m => m.Publish)" @(Convert.ToBoolean(Model.Publish) == true ? "checked" : "") />
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-sm btn-success"><i class="fa fa-save"></i> Cập nhật</button>
+                        <a class="btn btn-sm btn-outline-info" href="@Url.Content("~/Admin/CMS_Services/Index")"><i class="fa fa-reply"></i> Quay lại</a>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+@section jsFooter{
+    <script src="@Url.Content("~/ckeditor/ckeditor.js")" type="text/javascript"></script>
+    <script>
+            @*CKEDITOR.replace(@Html.IdFor(model => model.Description));
+            jQuery('#dv').on('submit', function () {
+                for (instance in CKEDITOR.instances) {
+                    CKEDITOR.instances[instance].updateElement();
+                }
+            });*@
+    </script>
+    <script src="@Url.Content("~/areas/admin/jscontroller/CMS_Services.js")"></script>
+}

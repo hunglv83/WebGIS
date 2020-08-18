@@ -1,0 +1,27 @@
+﻿@model IEnumerable<WebApp.Core.EF.CMS_Notifications_LayTatCa_Result>
+@using WebApp.Common;
+<div class="panel panel-default box-news box-thongbao">
+    <div class="panel-heading">
+        <a title="@ViewBag.TITLE" href="@Utilities.UrlContent("thong-bao", "", "tb","")">@ViewBag.TITLE</a>
+    </div>
+    <div class="panel-body">
+        @if (Model != null && Model.Count() > 0)
+        {
+            <div class="row">
+                <div class="col-xs-12" style="text-align:justify">
+                    <ul>
+                        @foreach (var item in Model)
+                        {
+                            <li><a title="@item.Title" href="@Utilities.UrlContent("thong-bao", @item.Title, "tb", @item.ID.ToString())">@Utilities.ReturnSubString(90, @item.Title)</a></li>
+                        }
+                    </ul>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12 pull-right text-right">
+                    <a title="Xem thêm" href="@Utilities.UrlContent("thong-bao", "", "tb","")">Xem thêm</a>
+                </div>
+            </div>
+        }
+    </div>
+</div>

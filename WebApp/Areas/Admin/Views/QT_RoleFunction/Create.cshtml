@@ -1,0 +1,87 @@
+﻿@model WebApp.Core.EF.CSF_RoleFunction
+@using WebApp.Core.EF
+@{
+    ViewBag.Title = "QUẢN LÝ PHÂN QUYỀN";
+    Layout = "~/Areas/Admin/Views/Shared/_Layouts.cshtml";
+}
+
+<div class="row">
+    <div class="col-md-2">
+        <div class="card">
+            <div class="card-header" style="background: #f5f5f5;">
+                <h3 class="card-title text-left"><i class="fa fa-users"></i> Nhóm người dùng</h3>
+                <div class="card-tools">
+                    <button class="btn btn-sm btn-info" style="display: none">Lưu</button>
+                    <input style="display: none" type="hidden" value="0" id="RoleID" />
+                </div>
+            </div>
+            <div class="card-body p-0" id="tbl-role">
+            </div>
+        </div>
+    </div>
+    <div class="col-md-5">
+        <div class="card">
+            <div class="card-header" style="background: #f5f5f5;">
+                <h3 class="card-title text-left"><i class="fa fa-users"></i> Phân quyền chức năng</h3>
+                <div class="card-tools">
+                    <button class="btn btn-default btn-tool" title="Lưu" onclick="saveFunc()"><i class="fa fa-cloud-download-alt text-primary"></i><b class="text-primary"> Lưu lại</b></button>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="col-md-12">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <div class="col-xs-2">
+                                <label class="control-label">Module</label>
+                            </div>
+                            <div class="col-xs-10">
+                                <select class="form-control select2 select2bs4" id="lmodule"></select>
+                            </div>
+                        </div>
+                        <div class="form-group" id="jsTreeFuncP" style="max-height: 608px; overflow-y: auto;">
+                            <div class="col-xs-12">
+                                <div id="jsTreeFunc"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-5">
+        <div class="card">
+            <div class="card-header" style="background: #f5f5f5;">
+                <h3 class="card-title text-left"><i class="fa fa-users"></i> Phân quyền trang</h3>
+                <div class="card-tools">
+                    <button class="btn btn-default btn-tool" title="Lưu" onclick="savePage()"><i class="fa fa-cloud-download-alt text-primary"></i><b class="text-primary"> Lưu lại</b></button>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="col-md-12">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <div class="col-xs-2">
+                                <label class="control-label">Trang</label>
+                            </div>
+                            <div class="col-xs-10">
+                                <select class="form-control select2 select2bs4" id="lpage">
+                                    <option value="false">Trang chủ</option>
+                                    <option value="true">Trang quản trị</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group" id="jsTreeContentP" style="max-height: 608px; overflow-y: auto;">
+                            <div class="col-xs-12">
+                                <div id="jsTreeContent"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>        
+    </div>
+</div>
+
+@section jsFooter{
+    <script src="@Url.Content("~/areas/admin/jscontroller/QT_RoleFunctions.js")"></script>
+}

@@ -1,0 +1,110 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layouts.cshtml";
+}
+@section header{
+    Thống kế bản đồ
+}
+@model PagedList.IPagedList<WebApp.Core.EF.CMS_Maps_LayTatCa_Result>
+@using PagedList.Mvc;
+@using WebApp.Core.EF
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Danh sách bản đồ
+            </div>
+            <div class="panel-body">
+                @using (Html.BeginForm("ThongKeBanDo", "CMS_ThongKe", FormMethod.Get))
+                {
+                    <div class="row form-group">
+                        <div class="col-lg-2">
+                            <label class="control-label">Tên bản đồ</label>
+                        </div>
+                        <div class="col-lg-4">
+                            <input type="text" id="txtSearch" value="@ViewBag.SearchString" placeholder="...tên" class="form-control" name="keyWord" />
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-lg-2">
+                            <label class="control-label">Loại bản đồ</label>
+                        </div>
+                        <div class="col-lg-4">
+                            <select name="type" class="form-control">
+                                <option value="0">Chọn thể loại</option>
+                                @if (TempData["TypeOfMapID"] != null)
+                                {
+                                    List<CMS_TypeOfMap> lData = (List<CMS_TypeOfMap>)TempData["TypeOfMapID"];
+                                    foreach (var item in lData)
+                                    {
+                                        if (item.ID.ToString() == ViewBag.TYPE)
+                                        {
+                                            <option value="@item.ID" selected>@item.Name</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@item.ID">@item.Name</option>
+                                        }
+                                    }
+                                }
+                            </select>
+                        </div>
+                        <div class="col-lg-6 text-center">
+                            <button id="btnTimKiem" type="submit" class="btn btn-success" title="Tìm kiếm"><span class="glyphicon glyphicon-search"></span> Tìm kiếm</button>
+                        </div>
+                    </div>
+                }
+                <div class="row">
+                    <div class="col-lg-12">
+                        @using (Html.BeginForm("export_excel_bando", "CMS_ThongKe", FormMethod.Post))
+                        {
+                            <input type="hidden" name="key_excel" value="@ViewBag.SearchString" />
+                            <input type="hidden" name="type_excel" value="@ViewBag.TYPE" />
+                            <button class="btn btn-primary pull-right" type="submit" name="export_excel" value="export_excel" style="position: absolute; top: -45px; right: 15px;">Xuất excel</button>
+                        }
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th>STT</th>
+                                <th>Tên</th>
+                                <th>Loại bản đồ</th>
+                                <th>Mô tả</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                var i = 0;
+                                var index = 0;
+                            }
+                            @if (Model != null)
+                            {
+                                foreach (var item in Model)
+                                {
+                                    i++;
+                                    index = (Model.PageNumber - 1) * 10 + i;
+                                    <tr id="row_@item.ID">
+                                        <td align="center">@index</td>
+                                        <td>@item.Name</td>
+                                        <td>@item.LoaiBanDo</td>
+                                        <td>@item.Description</td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                    <div class="col-lg-12" style="text-align: right;">
+                        Tổng số: <b>@Model.TotalItemCount</b> bản ghi.
+                        @Html.PagedListPager(Model, page => Url.Action("Index", new { page, q = ViewBag.q }))
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section jsFooter{
+    <script src="@Url.Content("~/areas/admin/jscontroller/CMS_Maps.js")"></script>
+}

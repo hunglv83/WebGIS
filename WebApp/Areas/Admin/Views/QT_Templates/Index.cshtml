@@ -1,0 +1,157 @@
+﻿@model WebApp.Core.EF.CSF_Templates
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layouts.cshtml";
+}
+
+@{
+    var areaName = HttpContext.Current.Request.RequestContext.RouteData.DataTokens["area"].ToString();
+    var controllerName = this.ViewContext.RouteData.Values["controller"].ToString();
+    var actionName = this.ViewContext.RouteData.Values["action"].ToString();
+}
+<section class="content-header">
+    <h1>
+        QUẢN LÝ GIAO DIỆN
+        <small></small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> @areaName</a></li>
+        <li><a href="#">@controllerName</a></li>
+        <li class="active">@actionName</li>
+    </ol>
+</section>
+<section class="content">
+    <div class="box">
+        <div class="box-header with-border">
+            <h3 class="box-title">THÔNG TIN TRANG WEB</h3>
+            <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
+                        title="Collapse">
+                    <i class="fa fa-minus"></i>
+                </button>
+            </div>
+        </div>
+        <div class="box-body">
+            @using (Html.BeginForm("Index", "QT_Templates", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="row">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <div class="col-lg-2 col-lg-offset-1">
+                                <label class="control-label">Tiêu đề chính</label>
+                                @Html.TextBoxFor(model => model.ID, new { @class = "form-control hidden" })
+                            </div>
+                            <div class="col-lg-6">
+                                @Html.TextBoxFor(model => model.primary_title, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.primary_title, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-lg-2 col-lg-offset-1">
+                                <label class="control-label">Tiêu đề phụ</label>
+                            </div>
+                            <div class="col-lg-6">
+                                @Html.TextBoxFor(model => model.secondary_title, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.secondary_title, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-lg-2 col-lg-offset-1">
+                                <label class="control-label">Logo</label>
+                            </div>
+                            <div class="col-lg-6">
+                                <div style="width: 100px; height: 100px; display: inline-block;">
+                                    <img id="lg_img" style="width: 100%" src="@Url.Content(ViewBag.URLIMAGE + Html.ValueFor(m => m.logo))" alt="Logo" />
+                                </div>
+                                @Html.TextBoxFor(model => model.logo, new { @class = "form-control hidden" })
+                                <input type="button" value="Chọn ảnh" onclick="chooseImg_lg()" class="btn btn-default" />
+                                <button class="btn btn-danger" title="Xóa file" onclick="removeFile_lg()" type="button"><i class="fa fa-minus"></i></button>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-lg-2 col-lg-offset-1">
+                                <label class="control-label">Ảnh nền header</label>
+                            </div>
+                            <div class="col-lg-6">
+                                <div style="width: 80%; height: auto; display: inline-block;">
+                                    <img id="bg_img" style="width: 100%" src="@Url.Content(ViewBag.URLIMAGE + Html.ValueFor(m => m.background_header))" alt="Ảnh nền" />
+                                </div>
+                                @Html.TextBoxFor(model => model.background_header, new { @class = "form-control hidden" })
+                                <input type="button" value="Chọn ảnh" onclick="chooseImg_bg()" class="btn btn-default" />
+                                <button class="btn btn-danger" title="Xóa file" onclick="removeFile_bg()" type="button"><i class="fa fa-minus"></i></button>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-lg-2 col-lg-offset-1">
+                                <label class="control-label">Giao diện</label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-lg-4 col-lg-offset-1 box-style">
+                                <label class="radio-inline">
+                                    <img src="@Url.Content("~/Images/style/cs01.png")" style="width:100%;" alt="style-img" class="style-img" />
+                                    <input type="radio" name="style" value="CS01" @(Model.style == "CS01" ? "checked" : "") /><span>Mẫu giao diện 1</span>
+                                </label>
+                            </div>
+                            <div class="col-lg-4 box-style">
+                                <label class="radio-inline">
+                                    <img src="@Url.Content("~/Images/style/cs02.png")" style="width:100%;" alt="style-img" class="style-img" />
+                                    <input type="radio" name="style" value="CS02" @(Model.style == "CS02" ? "checked" : "") /><span>Mẫu giao diện 2</span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-lg-7  col-lg-offset-1 text-center">
+                                <input type="submit" value="Lưu" class="btn btn-primary" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+@section jsFooter{
+    <script>
+        function chooseImg_lg() {
+            // You can use the "CKFinder" class to render CKFinder in a page:
+            var finder = new CKFinder();
+            finder.basePath = '~/ckfinder';	// The path for the installation of CKFinder (default = "/ckfinder/").
+            finder.selectActionFunction = SetFileField1;
+            finder.popup();
+        }
+        // This is a sample function which is called when a file is selected in CKFinder.
+        function SetFileField1(fileUrl) {
+            document.getElementByID('@Html.IdFor(model => model.logo)').value = fileUrl;
+            jQuery('#lg_img').attr('src', SiteUrlImgCKFinder + fileUrl);
+        }
+
+        function chooseImg_bg() {
+            // You can use the "CKFinder" class to render CKFinder in a page:
+            var finder = new CKFinder();
+            finder.basePath = '~/ckfinder';	// The path for the installation of CKFinder (default = "/ckfinder/").
+            finder.selectActionFunction = SetFileField2;
+            finder.popup();
+        }
+        // This is a sample function which is called when a file is selected in CKFinder.
+        function SetFileField2(fileUrl) {
+            document.getElementByID('@Html.IdFor(model => model.background_header)').value = fileUrl;
+            jQuery('#bg_img').attr('src', SiteUrlImgCKFinder + fileUrl);
+        }
+
+
+        function removeFile_bg() {
+            jQuery('#bg_img').attr('src', '');
+            jQuery('#@Html.IdFor(model => model.background_header)').val('');
+        }
+
+
+        function removeFile_lg() {
+            jQuery('#lg_img').attr('src', '');
+            jQuery('#@Html.IdFor(model => model.logo)').val('');
+        }
+    </script>
+}

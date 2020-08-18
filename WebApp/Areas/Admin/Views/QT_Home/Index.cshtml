@@ -1,0 +1,22 @@
+﻿@{
+    ViewBag.Title = "Bản đồ";
+    Layout = "~/Areas/Admin/Views/Shared/_Layouts.cshtml";
+}
+
+<link rel="stylesheet" type="text/css" href="http://localhost/arcgis_js_api/library/3.32/3.32/esri/css/esri.css">
+<link rel="stylesheet" type="text/css" href="http://localhost/arcgis_js_api/library/3.32/3.32/dijit/themes/claro/claro.css">
+<link href="~/mapjs/css/icons/icomoon/styles.min.css" rel="stylesheet" />
+<link type="text/css" href="~/mapjs/viewer/dijit/css/TOC.css" rel="stylesheet" />
+<link rel="stylesheet" type="text/css" href="~/mapjs/css/mapview.css">
+<link href="~/mapjs/libs/w2ui/w2ui.css" type="text/css" rel="stylesheet" />
+<script src="~/mapjs/libs/jquery/jquery-2.2.4.js"></script>
+<div id="bando" class="map-view"></div>
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            mapapi.init();
+        });
+    </script>
+    <script src="http://localhost/arcgis_js_api/library/3.32/3.32/init.js"></script>
+    <script src="~/mapjs/map.js"></script>
+}

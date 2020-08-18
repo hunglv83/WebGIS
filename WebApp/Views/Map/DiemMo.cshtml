@@ -1,0 +1,365 @@
+﻿<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8" />
+    <link href="~/Leaflet/leaflet.css" rel="stylesheet" />
+    <link href="~/Leaflet/Plugins/Leaflet.Basemaps/L.Control.Basemaps.css" rel="stylesheet" />
+    <link href="~/Leaflet/Plugins/Leaflet.LayerTree/leaflet-layer-tree-control.css" rel="stylesheet" />
+    <link href="~/Leaflet/Plugins/Leaflet.CustomSearchbox/searchbox.css" rel="stylesheet" />
+    <link href="~/Leaflet/Plugins/Leaflet.MousePosition/L.Control.MousePosition.css" rel="stylesheet" />
+    <link href="~/Leaflet/Plugins/Leaflet.Coordinates/Control.Coordinates.css" rel="stylesheet" />
+    <link href="~/Leaflet/Plugins/Leaflet.Coordinates/Control.Coordinates.ie.css" rel="stylesheet" />
+    <link href="~/Leaflet/Plugins/Leaflet.Contextmenu/leaflet.contextmenu.css" rel="stylesheet" />
+    <link href="~/Leaflet/Plugins/Leaflet.label/leaflet.label.css" rel="stylesheet" />
+    <link href="~/Leaflet/Plugins/Leaflet.Groupedlayercontrol/leaflet.groupedlayercontrol.min.css" rel="stylesheet" />
+    <link href="~/Scripts/Spin360/angle.css" rel="stylesheet" />
+</head>
+<body>
+    <script src="~/Scripts/jquery-3.3.1.js"></script>
+    <script src="~/Leaflet/leaflet.js"></script>
+    <script src="~/Leaflet/turf.min.js"></script>
+    <script src="~/Scripts/Spin360/spritespin.min.js" type="text/javascript"></script>
+    <script src="~/Scripts/Spin360/jquery.angle.js" type="text/javascript"></script>
+
+    <script src="~/Leaflet/Plugins/Leaflet.Basemaps/L.Control.Basemaps.js"></script>
+    <script src="~/Leaflet/Plugins/Leaflet.LayerTree/leaflet-layer-tree-control.js"></script>
+    <script src="~/Leaflet/Plugins/Leaflet.LayerTree/leaflet-layer-tree-control-wfs-zoom.js"></script>
+    <script src="~/Leaflet/Plugins/Leaflet.CustomSearchbox/leaflet.customsearchbox.js"></script>
+    <script src="~/Leaflet/Plugins/Leaflet.MousePosition/L.Control.MousePosition.js"></script>
+    <script src="~/Leaflet/Plugins/Leaflet.GeoJSON/leaflet.uGeoJSON.js"></script>
+    <script src="~/Leaflet/Plugins/Leaflet.Coordinates/util/NumberFormatter.js"></script>
+    <script src="~/Leaflet/Plugins/Leaflet.Coordinates/Control.Coordinates.js"></script>
+
+    <script src="~/Leaflet/Plugins/Leaflet.Groupedlayercontrol/leaflet.groupedlayercontrol.min.js"></script>
+    <script src="~/Leaflet/Plugins/Leaflet.label/src/Label.js"></script>
+    <script src="~/Leaflet/Plugins/Leaflet.label/src/BaseMarkerMethods.js"></script>
+    <script src="~/Leaflet/Plugins/Leaflet.label/src/Marker.Label.js"></script>
+    <script src="~/Leaflet/Plugins/Leaflet.label/src/CircleMarker.Label.js"></script>
+    <script src="~/Leaflet/Plugins/Leaflet.label/src/Path.Label.js"></script>
+    <script src="~/Leaflet/Plugins/Leaflet.label/src/Map.Label.js"></script>
+    <script src="~/Leaflet/Plugins/Leaflet.label/src/FeatureGroup.Label.js"></script>
+    <script src="~/Leaflet/Plugins/Leaflet.Contextmenu/leaflet.contextmenu.js"></script>
+    <script src="~/Leaflet/Plugins/Leaflet.kmz/jszip.min.js"></script>
+    <script src="~/Leaflet/Plugins/Leaflet.kmz/togeojsons.min.js"></script>
+    @*<script src="~/Leaflet/Plugins/Leaflet.kmz/leaflet-kmz.js"></script>*@
+    <script src="~/Leaflet/Plugins/Leaflet.kmz/leaflet-kmz-src.js"></script>
+    <link rel="stylesheet" href="https://cdn.pannellum.org/2.4/pannellum.css" />
+    <script type="text/javascript" src="https://cdn.pannellum.org/2.4/pannellum.js"></script>
+
+    <div id="map" style="width: 100%; height: 600px;"></div>
+    <style>
+        #mySpriteSpin {
+            /*width: 300px;*/
+            height: 250px;
+        }
+
+        #angle-view3 {
+            /*width: 300px;*/
+            height: 250px;
+        }
+
+        #info {
+            height: 100px;
+        }
+    </style>
+    <script type="text/javascript">
+        var map; layercontrol = null; layerMarker = null;
+        var startpoint, endpoint;
+        var iconTDQG = L.icon({
+            iconUrl: '/Images/TDQG.png',
+            iconSize: [10, 10],
+            iconAnchor: [10, 10],
+            popupAnchor: [0, 0]
+        });
+        var iconTDCS = L.icon({
+            iconUrl: '/Images/TDCS.png',
+            iconSize: [10, 10],
+            iconAnchor: [10, 10],
+            popupAnchor: [0, 0]
+        });
+        $(document).ready(function () {
+            initMap();
+            initCoordinates();
+            //loadDiemMoKmz();
+            layerMarker = L.layerGroup().addTo(map);
+            initdata();
+            $(".panel-content").click(function () {
+                map.scrollWheelZoom.disable();
+            });
+             $('.leaflet-control-attribution').hide();
+        });
+        $(document).keyup(function (e) {
+            if ($("#searchboxinput:focus") && e.keyCode === 13) {
+                initSearchDiemMo($('#searchboxinput').val());
+            }
+        });
+        var customOptions =
+            { minWidth: 300, maxWidth: 350, minHeight: 350, maxHeight: 400 }
+
+        function initMap() {
+            var southWest = L.latLng(18, 103.900),
+                northEast = L.latLng(20, 106.600),
+                bounds = L.latLngBounds(southWest, northEast);
+            var GOOGLE = L.tileLayer('http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {
+                maxZoom: 20,
+                subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
+            });
+            var GOOGLE_TERRAIN = L.tileLayer('http://{s}.google.com/vt/lyrs=p&x={x}&y={y}&z={z}', {
+                maxZoom: 20,
+                subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
+            });
+            map = L.map("map", {
+                maxBounds: bounds,
+                maxZoom: 15,
+                minZoom: 7,
+                contextmenu: true,
+                layers: [GOOGLE],
+                contextmenuWidth: 140,
+                contextmenuItems: [{
+                    text: 'Phóng to',
+                    icon: 'images/zoom-in.png',
+                    callback: zoomIn
+                }, {
+                    text: 'Thu nhỏ',
+                    icon: 'images/zoom-out.png',
+                    callback: zoomOut
+                }, {
+                    text: 'Xem toàn cảnh',
+                    //icon: 'images/zoom-out.png',
+                    callback: centerMap
+                }]
+            });
+
+            var baseLayers = {
+                "Bản đồ googlmap": GOOGLE,
+                "Bản đồ vệ tinh": GOOGLE_TERRAIN
+            };
+            layercontrol = L.control.layers(baseLayers).addTo(map);
+
+            function getStartPoint(e) {
+                if (!startpoint) {
+                    startpoint = e.latlng;
+                }
+            }
+            function getEndPoint(e) {
+                if (!endpoint) {
+                    endpoint = e.latlng;
+                }
+                if (!!startpoint && !!endpoint) {
+                    let strStart = startpoint.lat + ',' + startpoint.lng;
+                    let strEnd = endpoint.lat + ',' + endpoint.lng;
+                    startpoint = endpoint = null;
+                    let url = 'https://www.google.com/maps/dir/' + strStart + '/' + strEnd;
+                    window.open(url, '_blank');
+                }
+            }
+            function centerMap(e) {
+                map.panTo(e.latlng);
+            }
+            function zoomIn(e) {
+                map.zoomIn();
+            }
+            function zoomOut(e) {
+                map.zoomOut();
+            }
+            map.setView(new L.LatLng(18.6, 106.1), 8);
+            map.zoomControl.setPosition('topright');
+            map.scrollWheelZoom.disable();
+            map.on('focus', function () { map.scrollWheelZoom.enable(); });
+            //map.on('blur', function () { map.scrollWheelZoom.disable(); });
+            //this.map.on('mousemove', () => { this.map.scrollWheelZoom.enable(); });
+            this.map.on('mouseout', () => { this.map.scrollWheelZoom.disable(); });
+            var searchboxControl = createSearchboxControl();
+            var control = new searchboxControl({
+                sidebarTitleText: 'Kết quả tìm kiếm',
+                sidebarMenuItems: {
+                    Items: [
+                    ]
+                }
+            });
+            control._searchfunctionCallBack = function (searchkeywords) {
+                if (!searchkeywords) {
+                    searchkeywords = "Chưa nhập điều kiện tìm kiếm !!"
+                }
+                else {
+                    //Gọi ajax để tra về geojson
+                    initSearchDiemMo(searchkeywords);
+                }
+
+            }
+            map.addControl(control);
+            map.on('click', function (e) {
+                //var popLocation = e.latlng;
+                //var popup = L.popup()
+                //    .setLatLng(popLocation)
+                //    .setContent('<p>Hello world!<br />This is a nice popup.</p>')
+                //    .openOn(map);
+                //map.scrollWheelZoom.enable();
+            });
+        }
+        function loadDiemMoKmz() {
+            var kmzParser = new L.KMZParser({
+                onKMZLoaded: function (layer, name) {
+                    layercontrol.addOverlay(layer, name);
+                    layer.addTo(map);
+                }
+            });
+        };
+        function initCoordinates() {
+            L.control.coordinates({
+                position: "bottomright",
+                useDMS: true,
+                labelTemplateLat: "N {y}",
+                labelTemplateLng: "E {x}",
+                useLatLngOrder: true
+            }).addTo(map);
+        }
+        function initdata() {
+            if (layerMarker != null) {
+                layerMarker.clearLayers();
+            }
+            initDiemMoGeoJSON()
+            //initSearchDiemMo('');
+        }
+        function initDiemMoGeoJSON() {
+            let url = SiteUrl + "/Leaflet/Data/LoadDiemToaDo.ashx";
+            fetch(url)
+                .then(res => res.json())
+                .then(data => {
+                    data.forEach(function (el) {
+                        L.geoJSON(el, {
+                            onEachFeature: function (feature, layer) {
+
+                            },
+                            pointToLayer: function (feature, latlng) {
+                                if (feature.properties.LoaiThanhQua == "tdqg") {
+                                    return L.marker(latlng, { icon: iconTDQG }).bindTooltip(feature.properties.SoHieu,
+                                        {
+                                            permanent: false,
+                                            direction: 'bottom'
+                                        }).bindPopup(setContentPopup(feature.properties), customOptions);
+                                }
+                                else {
+                                    return L.marker(latlng, { icon: iconTDCS }).bindPopup(setContentPopup(feature.properties), customOptions);
+                                }
+                            },
+                        }).addTo(map);
+                    });
+                }).catch(err => console.log(err.message));
+        }
+        function initSearchDiemMo(search) {
+            let url = SiteUrl + "/Leaflet/Data/LoadDiemToaDo.ashx?search=" + search;
+            fetch(url)
+                .then(res => res.json())
+                .then(data => {
+                    if (!!data) {
+                        let htmlContent = generateHtmlContentNew(data);
+                        $(".panel-content").html(htmlContent);
+                    }
+                    $(".panel").show("slide", { direction: "left" }, 100);
+                    $(".panel").focus();
+                }).catch(err => console.log(err.message));
+        }
+        function diemmoshow360(moid) {
+            let url = SiteUrl + "/Leaflet/Data/diemmoanhjson.ashx?moid=" + moid;
+            $.ajax({
+                type: "GET",
+                url: url,
+                content: "application/json; charset=utf-8",
+                success: function (response) {
+                    if (!!response) {
+                        let urlimg = SiteUrl + response;
+                        urlimg = urlimg.replace(/~/g, "");
+                        pannellum.viewer('mySpriteSpin', {
+                            "type": "equirectangular",
+                            "panorama": urlimg,
+                            "autoLoad": true
+                        });
+                    }
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                    // TODO: Show error
+                }
+            });
+        }
+        function diemmoshow3D(moid) {
+            let url = SiteUrl + "/Leaflet/Data/diemmo3djson.ashx?moid=" + moid;
+            $.ajax({
+                type: "GET",
+                url: url,
+                content: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    if (!!response) {
+                        //let arrstr = JSON.parse(response);
+                        var strdiv = '<ul>';
+                        var idx = 0;
+                        response.forEach(function (element) {
+                            idx += 1;
+                            strdiv += '<li><img src="' + SiteUrl + element + '" alt=' + idx + ' /></li>';
+                        });
+                        strdiv += '</ul>';
+                        $('#angle-view3').html(strdiv);
+                        $.getScript("/Scripts/Spin360/jquery.angle.js", function () {
+                            $('#angle-view3').angle({
+                                speed: 3,
+                                drag: true
+                            });
+                        });
+                    }
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                    // TODO: Show error
+                }
+            });
+        }
+        function zoomtodiemmo(item) {
+            L.marker([item.ToaDoX, item.ToaDoY]).addTo(layerMarker).bindPopup(setContentPopup(item), customOptions).openPopup();
+            map.setView([item.ToaDoX, item.ToaDoY], 17);
+        }
+        function popUp(f, l) {
+            var out = [];
+            if (f.properties) {
+                for (key in f.properties) {
+                    out.push(key + ": " + f.properties[key]);
+                }
+                l.bindPopup(out.join("<br />"));
+            }
+        }
+        function setContentPopup(item) {
+            let content = '';
+            content += '<div id="info">';
+            content += '<table style="width:100%;">';
+            content += '<tr class="trline">';
+            content += '<td class="tdname"> Số hiệu</td>';
+            content += '<td>' + item.SoHieu + '</td>';
+            content += '</tr> ';
+            content += '<tr class="trline">';
+            content += '<td class="tdname"> Tên điểm</td>';
+            content += '<td>' + item.TenDiem + '</td>';
+            content += '</tr>';
+            content += '<tr class="trline">';
+            content += '<td class="tdname"> Cấp hạng</td>';
+            content += '<td>' + item.CapHang + '</td>';
+            content += '</tr>';
+            //content+= '<tr class="trline">';
+            //content+= '<td class="tdname"> Loại điểm</td>';
+            //content+= '<td>' + item.LoaiDiem + '</td>';
+            //content+= '</tr>';
+            content += '</table>';
+            content += '</div>';
+            return content;
+        }
+    </script>
+    <style>
+        .tdname {
+            font-weight: bold;
+            width: 40%;
+        }
+
+        .trline {
+            line-height: 2;
+        }
+    </style>
+</body>
+</html>

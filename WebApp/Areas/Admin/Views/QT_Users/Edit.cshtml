@@ -1,0 +1,127 @@
+﻿@model WebApp.Core.EF.CSF_Users
+@{
+    ViewBag.Title = "CẬP NHẬT NGƯỜI DÙNG";
+    Layout = "~/Areas/Admin/Views/Shared/_Layouts.cshtml";
+}
+
+<div class="row">
+    <div class="col-12">
+        <div class="card card-primary">
+            <div class="card-header">
+                <h3 class="card-title"><i class="fa fa-users"></i> Thông tin người dùng</h3>
+            </div>
+            <div class="card-body">
+                <div class="form-group">
+                    @using (Html.BeginForm("Edit", "QT_Users", FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="row">
+                        <div class="col-md-7">
+                            <div class="form-group">
+                                <div class="control-group">
+                                    <div class="controls">
+                                        @Html.LabelFor(model => model.UserName, "Tên đăng nhập", htmlAttributes: new { @class = "control-label col-lg-3" })
+                                        @Html.TextBoxFor(model => model.UserName, new { style = "width:85%;", @readonly = true, @class = "form-control" })
+                                        <div class="col-lg-offset-3 col-lg-9">
+                                            @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
+                                            <p class="help-block"></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="control-group">
+                                    <div class="controls">
+                                        @Html.LabelFor(model => model.Password, "Mật khẩu", htmlAttributes: new { @class = "control-label col-lg-3" })
+                                        @Html.PasswordFor(model => model.Password, new { style = "width:85%;", @class = "form-control", placeholder = "Mật khẩu" })
+                                        <div class="col-lg-offset-3 col-lg-9">
+                                            @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                                            <p class="help-block"></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.FullName, htmlAttributes: new { @class = "control-label col-lg-3" })
+                                @Html.TextBoxFor(model => model.FullName, new { style = "width:85%;", @class = "form-control", placeholder = "Họ và tên" })
+                                <div class="col-lg-offset-3 col-lg-9">
+                                    @Html.ValidationMessageFor(model => model.FullName, "", new { @class = "text-danger" })
+                                    <p class="help-block"></p>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Address, "Địa chỉ", htmlAttributes: new { @class = "control-label col-lg-3" })
+                                @Html.TextBoxFor(model => model.Address, new { style = "width:85%;", @class = "form-control", placeholder = "Địa chỉ" })
+                                @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-lg-3" })
+                                @Html.TextBoxFor(model => model.Email, new { style = "width:85%;", @class = "form-control", placeholder = "Địa chỉ email" })
+                                <div class="col-lg-offset-3 col-lg-9">
+                                    @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                                    <p class="help-block"></p>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Mobile, htmlAttributes: new { @class = "control-label col-lg-3" })
+                                @Html.TextBoxFor(model => model.Mobile, new { style = "width:85%;", @class = "form-control", placeholder = "Điện thoại" })
+                                @Html.ValidationMessageFor(model => model.Mobile, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="col-md-5">
+                            <div class="form-group">
+                                <div class="control-group">
+                                    <div class="controls">
+                                        <label>Nhóm người dùng</label>
+                                        @{
+                                            System.Collections.Generic.List<WebApp.Core.EF.CSF_Roles> lstRole = (System.Collections.Generic.List<WebApp.Core.EF.CSF_Roles>)TempData["Roles"];
+                                            List<WebApp.Core.EF.CSF_UserRole_GetByUser_Result> lstUserRole = (List<WebApp.Core.EF.CSF_UserRole_GetByUser_Result>)TempData["userRole"];
+                                            bool blnBreak = false;
+                                        }
+                                        @if (lstRole != null && lstUserRole != null)
+                                        {
+                                            for (int i = 0; i < lstRole.Count; i++)
+                                            {
+                                                blnBreak = false;
+                                                <div class="checkbox">
+                                                    <label>
+                                                        @for (int k = 0; k < lstUserRole.Count; k++)
+                                                        {
+                                                            if (lstRole[i].ID == lstUserRole[k].RoleID)
+                                                            {
+                                                                blnBreak = true;
+                                                                <input id="chkRole_@lstRole[i].ID" checked="checked" name="chkRole_" value="@lstRole[i].ID" type="checkbox"> @lstRole[i].Name
+                                                                break;
+                                                            }
+                                                        }
+                                                        @if (!blnBreak)
+                                                        {
+                                                            <input id="chkRole_@lstRole[i].ID" name="chkRole_" value="@lstRole[i].ID" type="checkbox"> @lstRole[i].Name
+                                                        }
+                                                    </label>
+                                                </div>
+                                            }
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-sm btn-success"><i class="fa fa-save"></i> Cập nhật</button>
+                                <a class="btn btn-sm btn-outline-info" href="@Url.Content("~/Admin/QT_Users/Index")"><i class="fa fa-reply"></i> Quay lại</a>
+                            </div>
+                        </div>
+                    </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script src="~/Scripts/JSBase/jqBootstrapValidation.js"></script>
+    <script>jQuery(function () { jQuery("input,select,textarea").not("[type=submit]").jqBootstrapValidation(); });</script>
+}

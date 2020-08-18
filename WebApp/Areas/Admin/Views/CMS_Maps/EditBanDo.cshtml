@@ -1,0 +1,109 @@
+﻿@model WebApp.Core.EF.CMS_Maps
+@using WebApp.Core.EF
+
+@{
+    ViewBag.Title = "CẬP NHẬT BẢN ĐỒ";
+    Layout = "~/Areas/Admin/Views/Shared/_Layouts.cshtml";
+}
+
+<div class="row">
+    <div class="col-12">
+        <div class="card card-primary">
+            <div class="card-header">
+                <h3 class="card-title"><i class="fa fa-users"></i> Thông tin bản đồ</h3>
+            </div>
+            <div class="card-body">
+                <div class="form-group">
+                    @using (Html.BeginForm("EditBanDo", "CMS_Maps", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        @Html.TextBoxFor(model => model.ID, new { style = "width:50%;", @class = "form-control", @type = "hidden" })
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label" })
+                            @Html.TextBoxFor(model => model.Name, new { @class = "form-control", @data_validation_required_message = "Không được bỏ trống" })
+                            <div class="col-md-12">
+                                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label" })
+                            @Html.TextBoxFor(model => model.Description, new { @class = "form-control" })
+                            <div class="col-md-12">
+                                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Thumbnail, htmlAttributes: new { @class = "control-label" })
+                            @Html.TextBoxFor(m => m.Thumbnail, new { @class = "inputfile inputfile-6 form-control", type = "file", @accept = "image/*", @style = "display: block; border-color: #ffffff; color: #04c; font-style: italic;" })
+                            <ul class="attachment">
+                                @if (Model != null)
+                                {
+                                    if (!string.IsNullOrEmpty(Model.Thumbnail) && Model.Thumbnail != "NULL")
+                                    {
+                                        var siteUrl = @System.Configuration.ConfigurationManager.AppSettings["SiteUrl"].ToString();
+                                        var pathRoot = @System.Configuration.ConfigurationManager.AppSettings["ThumbnailFileUrl"].ToString().Replace("~", string.Empty);
+                                        <li>
+                                            <img style="width: 30px; height: 30px" src="@string.Format("{0}{1}{2}", @siteUrl, @pathRoot, @Model.Thumbnail)" />
+                                        </li>
+                                    }
+                                }
+                            </ul>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.TypeOfMapID, htmlAttributes: new { @class = "control-label" })
+                            @if (TempData["TypeOfMap"] != null)
+                            {
+                                @Html.DropDownListFor(model => model.TypeOfMapID, (SelectList)TempData["TypeOfMap"], htmlAttributes: new { @class = "form-control select2 select2bs4" })
+                            }
+                        </div>
+
+                        <div class="form-group">
+                            <strong> Dịch vụ </strong>
+                            @{
+                                System.Collections.Generic.List<WebApp.Core.EF.CMS_Services> lstService = (System.Collections.Generic.List<WebApp.Core.EF.CMS_Services>)TempData["Services"];
+                                System.Collections.Generic.List<WebApp.Core.EF.CMS_MapService_ByMapID_Result> lstMapService = (System.Collections.Generic.List<WebApp.Core.EF.CMS_MapService_ByMapID_Result>)TempData["MapServices"];
+                                bool blnBreak = false;
+                            }
+                            <select id="ddlServices" name="ddlServices" class="form-control select2 select2bs4">
+                                @if (lstService != null && lstService.Count > 0 && lstMapService != null && lstMapService.Count > 0)
+                                {
+                                    for (int i = 0; i < lstService.Count; i++)
+                                    {
+                                        blnBreak = false;
+                                        for (int k = 0; k < lstMapService.Count; k++)
+                                        {
+                                            if (lstService[i].ID == lstMapService[k].ServiceID)
+                                            {
+                                                blnBreak = true;
+                                                <option id="ddl_@lstService[i].ID" selected="selected" value="@lstService[i].ID">@lstService[i].Name</option>
+                                                break;
+                                            }
+                                        }
+                                        if (!blnBreak)
+                                        {
+                                            <option id="ddl_@lstService[i].ID" value="@lstService[i].ID">@lstService[i].Name</option>
+                                        }
+                                    }
+                                }
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-sm btn-success"><i class="fa fa-save"></i> Cập nhật</button>
+                            <a class="btn btn-sm btn-outline-info" href="@Url.Content("~/Admin/CMS_Maps/Index")"><i class="fa fa-reply"></i> Quay lại</a>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section jsFooter{
+    <script src="@Url.Content("~/areas/admin/jscontroller/CMS_Maps.js")"></script>
+}

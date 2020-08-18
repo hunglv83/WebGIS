@@ -1,0 +1,31 @@
+﻿@model IEnumerable<WebApp.Core.EF.CMS_News_LayTinBaiCongKhaiTheoCateKey_Result>
+@using WebApp.Common;
+<div class="panel panel-default box-news">
+    <div class="panel-heading">
+        <a title="@ViewBag.TITLE" href="@Utilities.UrlContent("tin-tuc-su-kien", "", "tt","")">@ViewBag.TITLE</a>
+    </div>
+    <div class="panel-body">
+        @if (Model != null && Model.Count() > 0)
+        {
+            <div class="row">
+                <div class="col-md-4 col-xs-12">
+                    <a title="@Model.FirstOrDefault().TITLE" href="@Utilities.UrlContent(@Model.FirstOrDefault().CateKey, @Model.FirstOrDefault().TITLE, "tt", @Model.FirstOrDefault().ID.ToString())">
+                        <img src="@Utilities.SiteURL_Resources()@Model.FirstOrDefault().PICTURE" alt="@Model.FirstOrDefault().TITLE" />
+                    </a>
+                </div>
+                <div class="col-xs-12 col-md-8">
+                    <div class="feature-news">
+                        <p class="title"><a title="@Model.FirstOrDefault().TITLE" href="@Utilities.UrlContent(@Model.FirstOrDefault().CateKey, @Model.FirstOrDefault().TITLE, "tt", @Model.FirstOrDefault().ID.ToString())">@Utilities.ReturnSubString(150, Model.FirstOrDefault().TITLE)</a></p>
+                        <p class="excerpt">@Html.Raw(Model.FirstOrDefault().EXCERPT)</p>
+                    </div>
+                    <ul>
+                        @foreach (var item in Model.Skip(1))
+                        {
+                            <li><a title="@item.TITLE" href="@Utilities.UrlContent(@item.CateKey, @item.TITLE, "tt", @item.ID.ToString())">@Utilities.ReturnSubString(90, @item.TITLE)</a></li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        }
+    </div>
+</div>

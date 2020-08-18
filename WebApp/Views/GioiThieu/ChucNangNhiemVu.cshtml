@@ -1,0 +1,15 @@
+﻿
+<div class="panel panel-default box-news">
+    <div class="panel-heading">
+        @ViewBag.CategoryTitle
+    </div>
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-md-12 text-justify">
+                @*<span class="News_Title">@ViewBag.TITLE</span>*@
+                <div class="NewsBrief">@Html.Raw(@ViewBag.EXCERPT)</div>
+                <div class="News_Content">@Html.Raw(@ViewBag.CONTENTS)</div>
+            </div>
+        </div>
+    </div>
+</div>

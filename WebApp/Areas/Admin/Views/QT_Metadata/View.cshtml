@@ -1,0 +1,310 @@
+﻿@model WebApp.Core.EF.QNI_Metadatas
+@using WebApp.Areas.Admin.Models
+@using WebApp.Common
+@using Newtonsoft.Json
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layouts.cshtml";
+}
+
+@{
+    var areaName = HttpContext.Current.Request.RequestContext.RouteData.DataTokens["area"].ToString();
+    var controllerName = this.ViewContext.RouteData.Values["controller"].ToString();
+    var actionName = this.ViewContext.RouteData.Values["action"].ToString();
+}
+<style>
+    legend .text-primary {
+        color: #337ab7;
+        font-size: 14px;
+    }
+
+    fieldset.scheduler-border {
+        border: 2px groove #6c6c6c !important;
+        padding: 0 1.4em 1.4em 1.4em !important;
+        -webkit-box-shadow: 0px 0px 0px 0px #000;
+        box-shadow: 0px 0px 0px 0px #000;
+    }
+
+    fieldset {
+        display: block;
+        margin-inline-start: 2px;
+        margin-inline-end: 2px;
+        padding-block-start: 0.35em;
+        padding-inline-start: 0.75em;
+        padding-inline-end: 0.75em;
+        padding-block-end: 0.625em;
+        min-inline-size: min-content;
+        border-width: 2px;
+        border-style: groove;
+        border-color: threedface;
+        border-image: initial;
+    }
+
+    legend.scheduler-border {
+        font-size: 1.2em !important;
+        text-align: left !important;
+        width: auto;
+        border-bottom: none;
+        margin-bottom: 0;
+    }
+
+    .table > tbody > tr > td, .table > tbody > tr > th, .table > tfoot > tr > td, .table > tfoot > tr > th, .table > thead > tr > td, .table > thead > tr > th {
+        padding: 3px;
+        line-height: 1.8;
+        vertical-align: middle;
+        border-top: 1px solid #fff;
+    }
+</style>
+
+<section class="content-header">
+    <h1>
+        THÔNG TIN METADATA
+        <small></small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> @areaName</a></li>
+        <li><a href="#">@controllerName</a></li>
+        <li class="active">@actionName</li>
+    </ol>
+</section>
+<section class="content">
+    <div class="box">
+        <div class="box-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <table class="table tblMetadataInfo" style="width:100%">
+                        <tbody>
+                            @if (Model.Metadatas != null)
+                            {
+                                var metadataInfo = JsonConvert.DeserializeObject<MetadataInfo>(Model.Metadatas);
+                                <tr>
+                                    <td colspan="3">
+                                        <fieldset class="scheduler-border">
+                                            <legend class="scheduler-border"><b class="text-primary">Thông tin định danh</b></legend>
+                                            <table width="100%">
+                                                <tbody>
+                                                    @{
+                                                        foreach (var item in metadataInfo.MetadataVM.Where(m => m.AttributeCode.StartsWith(MetaConst.DINHDANH_ATTRIBUTE)).OrderBy(m => m.OrderNumber))
+                                                        {
+                                                            <tr>
+                                                                <th class="md" width="35%" valign="middle">
+                                                                    <span class="content" style="color:#076601;">@item.Attribute</span>&nbsp;
+                                                                </th>
+                                                                <td class="padded" valign="middle">@item.Value</td>
+                                                            </tr>
+                                                        }
+
+                                                        foreach (var item in metadataInfo.DonViLienQuanVM)
+                                                        {
+                                                            <tr>
+                                                                <td colspan="3">
+                                                                    <fieldset class="scheduler-border">
+                                                                        <legend class="scheduler-border"><b class="text-primary">Đơn vị liên quan</b></legend>
+                                                                        <table width="100%">
+                                                                            <tbody>
+                                                                                @{
+                                                                                    foreach (var donviItem in item.OrderBy(m => m.OrderNumber))
+                                                                                    {
+                                                                                        <tr>
+                                                                                            <th class="md" width="35%" valign="middle">
+                                                                                                <span class="content" style="color:#076601;">@donviItem.Attribute</span>&nbsp;
+                                                                                            </th>
+                                                                                            <td class="padded" valign="middle">@donviItem.Value</td>
+                                                                                        </tr>
+                                                                                    }
+                                                                                }
+                                                                            </tbody>
+                                                                        </table>
+                                                                    </fieldset>
+                                                                </td>
+                                                            </tr>
+                                                        }
+                                                    }
+
+                                                    <tr>
+                                                        <td colspan="3">
+                                                            <fieldset class="scheduler-border">
+                                                                <legend class="scheduler-border"><b class="text-primary">Phạm vi</b></legend>
+                                                                <table width="100%">
+                                                                    <tbody>
+                                                                        <tr>
+                                                                            <td colspan="3">
+                                                                                <fieldset class="scheduler-border">
+                                                                                    <legend class="scheduler-border"><b class="text-primary">Vùng bao địa lý</b></legend>
+                                                                                    <table width="100%">
+                                                                                        <tbody>
+                                                                                            <tr>
+                                                                                                <td align="center">
+                                                                                                    <input id="EPSG:4326_d49127e33693" type="radio" class="proj" name="proj_d49127e33693" value="EPSG:4326" checked=""><label for="EPSG:4326_d49127e33693">WGS 84</label> <input id="EPSG:32648_d49127e33693" type="radio" class="proj" name="proj_d49127e33693" value="EPSG:32648"><label for="EPSG:32648_d49127e33693">EPSG:32648</label>
+                                                                                                    <table>
+                                                                                                        <tbody>
+                                                                                                            <tr>
+                                                                                                                <td></td>
+                                                                                                                <td class="padded" align="center"><b><span id="tip.iso19139|gmd:northBoundLatitude|gmd:northBoundLatitude|gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification/gmd:extent/gmd:EX_Extent/gmd:geographicElement/gmd:EX_GeographicBoundingBox/gmd:northBoundLatitude/gco:Decimal|" style="cursor:help;">Vĩ độ Bắc</span></b><br><input class="md" type="text" id="nd49127e33693" value="23.37890625" readonly="" size="8"><input class="md" type="hidden" id="_nd49127e33693" name="_nd49127e33693" value="23.37890625" readonly=""></td>
+                                                                                                                <td></td>
+                                                                                                            </tr>
+                                                                                                            <tr>
+                                                                                                                <td class="padded" style="align:center;vertical-align: middle"><b><span id="tip.iso19139|gmd:westBoundLongitude|gmd:westBoundLongitude|gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification/gmd:extent/gmd:EX_Extent/gmd:geographicElement/gmd:EX_GeographicBoundingBox/gmd:westBoundLongitude/gco:Decimal|" style="cursor:help;">Kinh độ Tây</span></b><br><input class="md" type="text" id="wd49127e33693" value="103.701171875" readonly="" size="8"><input class="md" type="hidden" id="_wd49127e33693" name="_wd49127e33693" value="103.701171875" readonly=""></td>
+                                                                                                                <td class="padded">
+                                                                                                                    <div class="extentViewer" style="width:100%; height:300px;" edit="false" target_polygon="" watched_bbox="wd49127e33693,sd49127e33693,ed49127e33693,nd49127e33693" elt_ref="d49127e33693" mode="bbox" id="ext-gen125">
+                                                                                                                        <div style="display:none;" id="coords_d49127e33693">
+                                                                                                                            Polygon((103.701171875 8.26171875,109.150390625 8.26171875,109.150390625 23.37890625,103.701171875 23.37890625,103.701171875
+                                                                                                                            8.26171875))
+                                                                                                                        </div>
+                                                                                                                        <div id="ext-comp-1014" class="x-panel" style="width: 400px;"><div class="x-panel-bwrap" id="ext-gen126"><div class="x-panel-body x-panel-body-noheader olMap" id="ext-gen127" style="width: 398px; height: 298px;"><div id="OpenLayers.Map_273_OpenLayers_ViewPort" class="olMapViewport olControlDragPanActive olControlZoomBoxActive olControlNavigationActive olControlMousePositionActive" style="position: relative; overflow: hidden; width: 100%; height: 100%;"><div id="OpenLayers.Map_273_OpenLayers_Container" style="position: absolute; z-index: 749; left: 0px; top: 0px;"><div id="OpenLayers.Layer.WMS_308" dir="ltr" class="olLayerDiv" style="position: absolute; width: 100%; height: 100%; z-index: 325;"><div style="overflow: hidden; position: absolute; z-index: 1; left: -185px; top: -36px; width: 256px; height: 256px;"><img id="OpenLayersDiv370" class="olTileImage" src="http://seaportal.vodic.vn:80/geoserver/wms?LAYERS=webgis%3Aprovince_city&amp;TRANSPARENT=true&amp;FORMAT=image%2Fpng&amp;SERVICE=WMS&amp;VERSION=1.1.1&amp;REQUEST=GetMap&amp;STYLES=&amp;EXCEPTIONS=application%2Fvnd.ogc.se_inimage&amp;SRS=EPSG%3A4326&amp;BBOX=45,0,90,45&amp;WIDTH=256&amp;HEIGHT=256" style="width: 256px; height: 256px; position: relative;"></div><div style="overflow: hidden; position: absolute; z-index: 1; left: -185px; top: 220px; width: 256px; height: 256px;"><img id="OpenLayersDiv445" class="olTileImage" src="http://seaportal.vodic.vn:80/geoserver/wms?LAYERS=webgis%3Aprovince_city&amp;TRANSPARENT=true&amp;FORMAT=image%2Fpng&amp;SERVICE=WMS&amp;VERSION=1.1.1&amp;REQUEST=GetMap&amp;STYLES=&amp;EXCEPTIONS=application%2Fvnd.ogc.se_inimage&amp;SRS=EPSG%3A4326&amp;BBOX=45,-45,90,0&amp;WIDTH=256&amp;HEIGHT=256" style="width: 256px; height: 256px; position: relative;"></div><div style="overflow: hidden; position: absolute; z-index: 1; left: 71px; top: 220px; width: 256px; height: 256px;"><img id="OpenLayersDiv447" class="olTileImage" src="http://seaportal.vodic.vn:80/geoserver/wms?LAYERS=webgis%3Aprovince_city&amp;TRANSPARENT=true&amp;FORMAT=image%2Fpng&amp;SERVICE=WMS&amp;VERSION=1.1.1&amp;REQUEST=GetMap&amp;STYLES=&amp;EXCEPTIONS=application%2Fvnd.ogc.se_inimage&amp;SRS=EPSG%3A4326&amp;BBOX=90,-45,135,0&amp;WIDTH=256&amp;HEIGHT=256" style="width: 256px; height: 256px; position: relative;"></div><div style="overflow: hidden; position: absolute; z-index: 1; left: 327px; top: 220px; width: 256px; height: 256px;"><img id="OpenLayersDiv449" class="olTileImage" src="http://seaportal.vodic.vn:80/geoserver/wms?LAYERS=webgis%3Aprovince_city&amp;TRANSPARENT=true&amp;FORMAT=image%2Fpng&amp;SERVICE=WMS&amp;VERSION=1.1.1&amp;REQUEST=GetMap&amp;STYLES=&amp;EXCEPTIONS=application%2Fvnd.ogc.se_inimage&amp;SRS=EPSG%3A4326&amp;BBOX=135,-45,180,0&amp;WIDTH=256&amp;HEIGHT=256" style="width: 256px; height: 256px; position: relative;"></div><div style="overflow: hidden; position: absolute; z-index: 1; left: 327px; top: -36px; width: 256px; height: 256px;"><img id="OpenLayersDiv451" class="olTileImage" src="http://seaportal.vodic.vn:80/geoserver/wms?LAYERS=webgis%3Aprovince_city&amp;TRANSPARENT=true&amp;FORMAT=image%2Fpng&amp;SERVICE=WMS&amp;VERSION=1.1.1&amp;REQUEST=GetMap&amp;STYLES=&amp;EXCEPTIONS=application%2Fvnd.ogc.se_inimage&amp;SRS=EPSG%3A4326&amp;BBOX=135,0,180,45&amp;WIDTH=256&amp;HEIGHT=256" style="width: 256px; height: 256px; position: relative;"></div><div style="overflow: hidden; position: absolute; z-index: 1; left: 71px; top: -36px; width: 256px; height: 256px;"><img id="OpenLayersDiv453" class="olTileImage" src="http://seaportal.vodic.vn:80/geoserver/wms?LAYERS=webgis%3Aprovince_city&amp;TRANSPARENT=true&amp;FORMAT=image%2Fpng&amp;SERVICE=WMS&amp;VERSION=1.1.1&amp;REQUEST=GetMap&amp;STYLES=&amp;EXCEPTIONS=application%2Fvnd.ogc.se_inimage&amp;SRS=EPSG%3A4326&amp;BBOX=90,0,135,45&amp;WIDTH=256&amp;HEIGHT=256" style="width: 256px; height: 256px; position: relative;"></div><div style="overflow: hidden; position: absolute; z-index: 1; left: -441px; top: -36px; width: 256px; height: 256px;"><img id="OpenLayersDiv455" class="olTileImage" src="http://seaportal.vodic.vn:80/geoserver/wms?LAYERS=webgis%3Aprovince_city&amp;TRANSPARENT=true&amp;FORMAT=image%2Fpng&amp;SERVICE=WMS&amp;VERSION=1.1.1&amp;REQUEST=GetMap&amp;STYLES=&amp;EXCEPTIONS=application%2Fvnd.ogc.se_inimage&amp;SRS=EPSG%3A4326&amp;BBOX=0,0,45,45&amp;WIDTH=256&amp;HEIGHT=256" style="width: 256px; height: 256px; position: relative;"></div><div style="overflow: hidden; position: absolute; z-index: 1; left: -441px; top: 220px; width: 256px; height: 256px;"><img id="OpenLayersDiv457" class="olTileImage" src="http://seaportal.vodic.vn:80/geoserver/wms?LAYERS=webgis%3Aprovince_city&amp;TRANSPARENT=true&amp;FORMAT=image%2Fpng&amp;SERVICE=WMS&amp;VERSION=1.1.1&amp;REQUEST=GetMap&amp;STYLES=&amp;EXCEPTIONS=application%2Fvnd.ogc.se_inimage&amp;SRS=EPSG%3A4326&amp;BBOX=0,-45,45,0&amp;WIDTH=256&amp;HEIGHT=256" style="width: 256px; height: 256px; position: relative;"></div><div style="overflow: hidden; position: absolute; z-index: 1; left: -441px; top: 476px; width: 256px; height: 256px;"><img id="OpenLayersDiv459" class="olTileImage" src="http://seaportal.vodic.vn:80/geoserver/wms?LAYERS=webgis%3Aprovince_city&amp;TRANSPARENT=true&amp;FORMAT=image%2Fpng&amp;SERVICE=WMS&amp;VERSION=1.1.1&amp;REQUEST=GetMap&amp;STYLES=&amp;EXCEPTIONS=application%2Fvnd.ogc.se_inimage&amp;SRS=EPSG%3A4326&amp;BBOX=0,-90,45,-45&amp;WIDTH=256&amp;HEIGHT=256" style="width: 256px; height: 256px; position: relative;"></div><div style="overflow: hidden; position: absolute; z-index: 1; left: -185px; top: 476px; width: 256px; height: 256px;"><img id="OpenLayersDiv461" class="olTileImage" src="http://seaportal.vodic.vn:80/geoserver/wms?LAYERS=webgis%3Aprovince_city&amp;TRANSPARENT=true&amp;FORMAT=image%2Fpng&amp;SERVICE=WMS&amp;VERSION=1.1.1&amp;REQUEST=GetMap&amp;STYLES=&amp;EXCEPTIONS=application%2Fvnd.ogc.se_inimage&amp;SRS=EPSG%3A4326&amp;BBOX=45,-90,90,-45&amp;WIDTH=256&amp;HEIGHT=256" style="width: 256px; height: 256px; position: relative;"></div><div style="overflow: hidden; position: absolute; z-index: 1; left: 71px; top: 476px; width: 256px; height: 256px;"><img id="OpenLayersDiv463" class="olTileImage" src="http://seaportal.vodic.vn:80/geoserver/wms?LAYERS=webgis%3Aprovince_city&amp;TRANSPARENT=true&amp;FORMAT=image%2Fpng&amp;SERVICE=WMS&amp;VERSION=1.1.1&amp;REQUEST=GetMap&amp;STYLES=&amp;EXCEPTIONS=application%2Fvnd.ogc.se_inimage&amp;SRS=EPSG%3A4326&amp;BBOX=90,-90,135,-45&amp;WIDTH=256&amp;HEIGHT=256" style="width: 256px; height: 256px; position: relative;"></div><div style="overflow: hidden; position: absolute; z-index: 1; left: 327px; top: 476px; width: 256px; height: 256px;"><img id="OpenLayersDiv465" class="olTileImage" src="http://seaportal.vodic.vn:80/geoserver/wms?LAYERS=webgis%3Aprovince_city&amp;TRANSPARENT=true&amp;FORMAT=image%2Fpng&amp;SERVICE=WMS&amp;VERSION=1.1.1&amp;REQUEST=GetMap&amp;STYLES=&amp;EXCEPTIONS=application%2Fvnd.ogc.se_inimage&amp;SRS=EPSG%3A4326&amp;BBOX=135,-90,180,-45&amp;WIDTH=256&amp;HEIGHT=256" style="width: 256px; height: 256px; position: relative;"></div><div style="overflow: hidden; position: absolute; z-index: 1; left: 327px; top: -292px; width: 256px; height: 256px;"><img id="OpenLayersDiv467" class="olTileImage" src="http://seaportal.vodic.vn:80/geoserver/wms?LAYERS=webgis%3Aprovince_city&amp;TRANSPARENT=true&amp;FORMAT=image%2Fpng&amp;SERVICE=WMS&amp;VERSION=1.1.1&amp;REQUEST=GetMap&amp;STYLES=&amp;EXCEPTIONS=application%2Fvnd.ogc.se_inimage&amp;SRS=EPSG%3A4326&amp;BBOX=135,45,180,90&amp;WIDTH=256&amp;HEIGHT=256" style="width: 256px; height: 256px; position: relative;"></div><div style="overflow: hidden; position: absolute; z-index: 1; left: 71px; top: -292px; width: 256px; height: 256px;"><img id="OpenLayersDiv469" class="olTileImage" src="http://seaportal.vodic.vn:80/geoserver/wms?LAYERS=webgis%3Aprovince_city&amp;TRANSPARENT=true&amp;FORMAT=image%2Fpng&amp;SERVICE=WMS&amp;VERSION=1.1.1&amp;REQUEST=GetMap&amp;STYLES=&amp;EXCEPTIONS=application%2Fvnd.ogc.se_inimage&amp;SRS=EPSG%3A4326&amp;BBOX=90,45,135,90&amp;WIDTH=256&amp;HEIGHT=256" style="width: 256px; height: 256px; position: relative;"></div><div style="overflow: hidden; position: absolute; z-index: 1; left: -185px; top: -292px; width: 256px; height: 256px;"><img id="OpenLayersDiv471" class="olTileImage" src="http://seaportal.vodic.vn:80/geoserver/wms?LAYERS=webgis%3Aprovince_city&amp;TRANSPARENT=true&amp;FORMAT=image%2Fpng&amp;SERVICE=WMS&amp;VERSION=1.1.1&amp;REQUEST=GetMap&amp;STYLES=&amp;EXCEPTIONS=application%2Fvnd.ogc.se_inimage&amp;SRS=EPSG%3A4326&amp;BBOX=45,45,90,90&amp;WIDTH=256&amp;HEIGHT=256" style="width: 256px; height: 256px; position: relative;"></div><div style="overflow: hidden; position: absolute; z-index: 1; left: -441px; top: -292px; width: 256px; height: 256px;"><img id="OpenLayersDiv473" class="olTileImage" src="http://seaportal.vodic.vn:80/geoserver/wms?LAYERS=webgis%3Aprovince_city&amp;TRANSPARENT=true&amp;FORMAT=image%2Fpng&amp;SERVICE=WMS&amp;VERSION=1.1.1&amp;REQUEST=GetMap&amp;STYLES=&amp;EXCEPTIONS=application%2Fvnd.ogc.se_inimage&amp;SRS=EPSG%3A4326&amp;BBOX=0,45,45,90&amp;WIDTH=256&amp;HEIGHT=256" style="width: 256px; height: 256px; position: relative;"></div><div style="overflow: hidden; position: absolute; z-index: 1; left: -697px; top: -292px; width: 256px; height: 256px; display: none;"><img id="OpenLayersDiv475" class="olTileImage" src="../../scripts/openlayers/img/blank.gif" style="width: 256px; height: 256px; position: relative;"></div><div style="overflow: hidden; position: absolute; z-index: 1; left: -697px; top: -36px; width: 256px; height: 256px; display: none;"><img id="OpenLayersDiv477" class="olTileImage" src="../../scripts/openlayers/img/blank.gif" style="width: 256px; height: 256px; position: relative;"></div><div style="overflow: hidden; position: absolute; z-index: 1; left: -697px; top: 220px; width: 256px; height: 256px; display: none;"><img id="OpenLayersDiv479" class="olTileImage" src="../../scripts/openlayers/img/blank.gif" style="width: 256px; height: 256px; position: relative;"></div><div style="overflow: hidden; position: absolute; z-index: 1; left: -697px; top: 476px; width: 256px; height: 256px; display: none;"><img id="OpenLayersDiv481" class="olTileImage" src="../../scripts/openlayers/img/blank.gif" style="width: 256px; height: 256px; position: relative;"></div></div><div id="OpenLayers.Layer.WMS_310" dir="ltr" class="olLayerDiv" style="position: absolute; width: 100%; height: 100%; z-index: 105;"><div style="overflow: hidden; position: absolute; z-index: 1; left: -185px; top: -36px; width: 256px; height: 256px;"><img id="OpenLayersDiv343" class="olTileImage" src="http://vmap0.tiles.osgeo.org/wms/vmap0?LAYERS=basic&amp;FORMAT=image%2Fpng&amp;SERVICE=WMS&amp;VERSION=1.1.1&amp;REQUEST=GetMap&amp;STYLES=&amp;EXCEPTIONS=application%2Fvnd.ogc.se_inimage&amp;SRS=EPSG%3A4326&amp;BBOX=45,0,90,45&amp;WIDTH=256&amp;HEIGHT=256" style="width: 256px; height: 256px; position: relative;"></div><div style="overflow: hidden; position: absolute; z-index: 1; left: -185px; top: 220px; width: 256px; height: 256px;"><img id="OpenLayersDiv401" class="olTileImage" src="http://vmap0.tiles.osgeo.org/wms/vmap0?LAYERS=basic&amp;FORMAT=image%2Fpng&amp;SERVICE=WMS&amp;VERSION=1.1.1&amp;REQUEST=GetMap&amp;STYLES=&amp;EXCEPTIONS=application%2Fvnd.ogc.se_inimage&amp;SRS=EPSG%3A4326&amp;BBOX=45,-45,90,0&amp;WIDTH=256&amp;HEIGHT=256" style="width: 256px; height: 256px; position: relative;"></div><div style="overflow: hidden; position: absolute; z-index: 1; left: 71px; top: 220px; width: 256px; height: 256px;"><img id="OpenLayersDiv403" class="olTileImage" src="http://vmap0.tiles.osgeo.org/wms/vmap0?LAYERS=basic&amp;FORMAT=image%2Fpng&amp;SERVICE=WMS&amp;VERSION=1.1.1&amp;REQUEST=GetMap&amp;STYLES=&amp;EXCEPTIONS=application%2Fvnd.ogc.se_inimage&amp;SRS=EPSG%3A4326&amp;BBOX=90,-45,135,0&amp;WIDTH=256&amp;HEIGHT=256" style="width: 256px; height: 256px; position: relative;"></div><div style="overflow: hidden; position: absolute; z-index: 1; left: 327px; top: 220px; width: 256px; height: 256px;"><img id="OpenLayersDiv405" class="olTileImage" src="http://vmap0.tiles.osgeo.org/wms/vmap0?LAYERS=basic&amp;FORMAT=image%2Fpng&amp;SERVICE=WMS&amp;VERSION=1.1.1&amp;REQUEST=GetMap&amp;STYLES=&amp;EXCEPTIONS=application%2Fvnd.ogc.se_inimage&amp;SRS=EPSG%3A4326&amp;BBOX=135,-45,180,0&amp;WIDTH=256&amp;HEIGHT=256" style="width: 256px; height: 256px; position: relative;"></div><div style="overflow: hidden; position: absolute; z-index: 1; left: 327px; top: -36px; width: 256px; height: 256px;"><img id="OpenLayersDiv407" class="olTileImage" src="http://vmap0.tiles.osgeo.org/wms/vmap0?LAYERS=basic&amp;FORMAT=image%2Fpng&amp;SERVICE=WMS&amp;VERSION=1.1.1&amp;REQUEST=GetMap&amp;STYLES=&amp;EXCEPTIONS=application%2Fvnd.ogc.se_inimage&amp;SRS=EPSG%3A4326&amp;BBOX=135,0,180,45&amp;WIDTH=256&amp;HEIGHT=256" style="width: 256px; height: 256px; position: relative;"></div><div style="overflow: hidden; position: absolute; z-index: 1; left: 71px; top: -36px; width: 256px; height: 256px;"><img id="OpenLayersDiv409" class="olTileImage" src="http://vmap0.tiles.osgeo.org/wms/vmap0?LAYERS=basic&amp;FORMAT=image%2Fpng&amp;SERVICE=WMS&amp;VERSION=1.1.1&amp;REQUEST=GetMap&amp;STYLES=&amp;EXCEPTIONS=application%2Fvnd.ogc.se_inimage&amp;SRS=EPSG%3A4326&amp;BBOX=90,0,135,45&amp;WIDTH=256&amp;HEIGHT=256" style="width: 256px; height: 256px; position: relative;"></div><div style="overflow: hidden; position: absolute; z-index: 1; left: -441px; top: -36px; width: 256px; height: 256px;"><img id="OpenLayersDiv411" class="olTileImage" src="http://vmap0.tiles.osgeo.org/wms/vmap0?LAYERS=basic&amp;FORMAT=image%2Fpng&amp;SERVICE=WMS&amp;VERSION=1.1.1&amp;REQUEST=GetMap&amp;STYLES=&amp;EXCEPTIONS=application%2Fvnd.ogc.se_inimage&amp;SRS=EPSG%3A4326&amp;BBOX=0,0,45,45&amp;WIDTH=256&amp;HEIGHT=256" style="width: 256px; height: 256px; position: relative;"></div><div style="overflow: hidden; position: absolute; z-index: 1; left: -441px; top: 220px; width: 256px; height: 256px;"><img id="OpenLayersDiv413" class="olTileImage" src="http://vmap0.tiles.osgeo.org/wms/vmap0?LAYERS=basic&amp;FORMAT=image%2Fpng&amp;SERVICE=WMS&amp;VERSION=1.1.1&amp;REQUEST=GetMap&amp;STYLES=&amp;EXCEPTIONS=application%2Fvnd.ogc.se_inimage&amp;SRS=EPSG%3A4326&amp;BBOX=0,-45,45,0&amp;WIDTH=256&amp;HEIGHT=256" style="width: 256px; height: 256px; position: relative;"></div><div style="overflow: hidden; position: absolute; z-index: 1; left: -441px; top: 476px; width: 256px; height: 256px;"><img id="OpenLayersDiv415" class="olTileImage" src="http://vmap0.tiles.osgeo.org/wms/vmap0?LAYERS=basic&amp;FORMAT=image%2Fpng&amp;SERVICE=WMS&amp;VERSION=1.1.1&amp;REQUEST=GetMap&amp;STYLES=&amp;EXCEPTIONS=application%2Fvnd.ogc.se_inimage&amp;SRS=EPSG%3A4326&amp;BBOX=0,-90,45,-45&amp;WIDTH=256&amp;HEIGHT=256" style="width: 256px; height: 256px; position: relative;"></div><div style="overflow: hidden; position: absolute; z-index: 1; left: -185px; top: 476px; width: 256px; height: 256px;"><img id="OpenLayersDiv417" class="olTileImage" src="http://vmap0.tiles.osgeo.org/wms/vmap0?LAYERS=basic&amp;FORMAT=image%2Fpng&amp;SERVICE=WMS&amp;VERSION=1.1.1&amp;REQUEST=GetMap&amp;STYLES=&amp;EXCEPTIONS=application%2Fvnd.ogc.se_inimage&amp;SRS=EPSG%3A4326&amp;BBOX=45,-90,90,-45&amp;WIDTH=256&amp;HEIGHT=256" style="width: 256px; height: 256px; position: relative;"></div><div style="overflow: hidden; position: absolute; z-index: 1; left: 71px; top: 476px; width: 256px; height: 256px;"><img id="OpenLayersDiv419" class="olTileImage" src="http://vmap0.tiles.osgeo.org/wms/vmap0?LAYERS=basic&amp;FORMAT=image%2Fpng&amp;SERVICE=WMS&amp;VERSION=1.1.1&amp;REQUEST=GetMap&amp;STYLES=&amp;EXCEPTIONS=application%2Fvnd.ogc.se_inimage&amp;SRS=EPSG%3A4326&amp;BBOX=90,-90,135,-45&amp;WIDTH=256&amp;HEIGHT=256" style="width: 256px; height: 256px; position: relative;"></div><div style="overflow: hidden; position: absolute; z-index: 1; left: 327px; top: 476px; width: 256px; height: 256px;"><img id="OpenLayersDiv421" class="olTileImage" src="http://vmap0.tiles.osgeo.org/wms/vmap0?LAYERS=basic&amp;FORMAT=image%2Fpng&amp;SERVICE=WMS&amp;VERSION=1.1.1&amp;REQUEST=GetMap&amp;STYLES=&amp;EXCEPTIONS=application%2Fvnd.ogc.se_inimage&amp;SRS=EPSG%3A4326&amp;BBOX=135,-90,180,-45&amp;WIDTH=256&amp;HEIGHT=256" style="width: 256px; height: 256px; position: relative;"></div><div style="overflow: hidden; position: absolute; z-index: 1; left: 327px; top: -292px; width: 256px; height: 256px;"><img id="OpenLayersDiv423" class="olTileImage" src="http://vmap0.tiles.osgeo.org/wms/vmap0?LAYERS=basic&amp;FORMAT=image%2Fpng&amp;SERVICE=WMS&amp;VERSION=1.1.1&amp;REQUEST=GetMap&amp;STYLES=&amp;EXCEPTIONS=application%2Fvnd.ogc.se_inimage&amp;SRS=EPSG%3A4326&amp;BBOX=135,45,180,90&amp;WIDTH=256&amp;HEIGHT=256" style="width: 256px; height: 256px; position: relative;"></div><div style="overflow: hidden; position: absolute; z-index: 1; left: 71px; top: -292px; width: 256px; height: 256px;"><img id="OpenLayersDiv425" class="olTileImage" src="http://vmap0.tiles.osgeo.org/wms/vmap0?LAYERS=basic&amp;FORMAT=image%2Fpng&amp;SERVICE=WMS&amp;VERSION=1.1.1&amp;REQUEST=GetMap&amp;STYLES=&amp;EXCEPTIONS=application%2Fvnd.ogc.se_inimage&amp;SRS=EPSG%3A4326&amp;BBOX=90,45,135,90&amp;WIDTH=256&amp;HEIGHT=256" style="width: 256px; height: 256px; position: relative;"></div><div style="overflow: hidden; position: absolute; z-index: 1; left: -185px; top: -292px; width: 256px; height: 256px;"><img id="OpenLayersDiv427" class="olTileImage" src="http://vmap0.tiles.osgeo.org/wms/vmap0?LAYERS=basic&amp;FORMAT=image%2Fpng&amp;SERVICE=WMS&amp;VERSION=1.1.1&amp;REQUEST=GetMap&amp;STYLES=&amp;EXCEPTIONS=application%2Fvnd.ogc.se_inimage&amp;SRS=EPSG%3A4326&amp;BBOX=45,45,90,90&amp;WIDTH=256&amp;HEIGHT=256" style="width: 256px; height: 256px; position: relative;"></div><div style="overflow: hidden; position: absolute; z-index: 1; left: -441px; top: -292px; width: 256px; height: 256px;"><img id="OpenLayersDiv429" class="olTileImage" src="http://vmap0.tiles.osgeo.org/wms/vmap0?LAYERS=basic&amp;FORMAT=image%2Fpng&amp;SERVICE=WMS&amp;VERSION=1.1.1&amp;REQUEST=GetMap&amp;STYLES=&amp;EXCEPTIONS=application%2Fvnd.ogc.se_inimage&amp;SRS=EPSG%3A4326&amp;BBOX=0,45,45,90&amp;WIDTH=256&amp;HEIGHT=256" style="width: 256px; height: 256px; position: relative;"></div><div style="overflow: hidden; position: absolute; z-index: 1; left: -697px; top: -292px; width: 256px; height: 256px; display: none;"><img id="OpenLayersDiv431" class="olTileImage" src="../../scripts/openlayers/img/blank.gif" style="width: 256px; height: 256px; position: relative;"></div><div style="overflow: hidden; position: absolute; z-index: 1; left: -697px; top: -36px; width: 256px; height: 256px; display: none;"><img id="OpenLayersDiv433" class="olTileImage" src="../../scripts/openlayers/img/blank.gif" style="width: 256px; height: 256px; position: relative;"></div><div style="overflow: hidden; position: absolute; z-index: 1; left: -697px; top: 220px; width: 256px; height: 256px; display: none;"><img id="OpenLayersDiv435" class="olTileImage" src="../../scripts/openlayers/img/blank.gif" style="width: 256px; height: 256px; position: relative;"></div><div style="overflow: hidden; position: absolute; z-index: 1; left: -697px; top: 476px; width: 256px; height: 256px; display: none;"><img id="OpenLayersDiv437" class="olTileImage" src="../../scripts/openlayers/img/blank.gif" style="width: 256px; height: 256px; position: relative;"></div></div><div id="OpenLayers.Layer.Vector_312" dir="ltr" class="olLayerDiv" style="position: absolute; width: 100%; height: 100%; z-index: 335; left: 0px; top: 0px;"><svg id="OpenLayers.Layer.Vector_312_svgRoot" width="398" height="298" viewBox="0 0 398 298"><g id="OpenLayers.Layer.Vector_312_root" transform="" style="visibility: visible;"><g id="OpenLayers.Layer.Vector_312_vroot"><path id="OpenLayers.Geometry.Polygon_496" d=" M 148.94444444444446,173.11111111111111 179.94444444444446,173.11111111111111 179.94444444444446,87.11111111111111 148.94444444444446,87.11111111111111 148.94444444444446,173.11111111111111 z" fill-rule="evenodd" fill="#ee9900" fill-opacity="0.4" stroke="#ee9900" stroke-opacity="1" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="none" pointer-events="visiblePainted" cursor="inherit"></path></g><g id="OpenLayers.Layer.Vector_312_troot"></g></g></svg></div></div><div id="OpenLayers.Control.ArgParser_277" class="olControlArgParser olControlNoSelect" unselectable="on" style="position: absolute; z-index: 1004;"></div><div id="OpenLayers.Control.Attribution_278" class="olControlAttribution olControlNoSelect" unselectable="on" style="position: absolute; z-index: 1004;"></div><div id="OpenLayers.Control.MousePosition_307" class="olControlMousePosition olControlNoSelect" unselectable="on" style="position: absolute; z-index: 1004;">134.47266, 25.62500</div></div></div></div></div>
+                                                                                                                    </div>
+                                                                                                                </td>
+                                                                                                                <td class="padded" style="align:center;vertical-align: middle"><b><span id="tip.iso19139|gmd:eastBoundLongitude|gmd:eastBoundLongitude|gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification/gmd:extent/gmd:EX_Extent/gmd:geographicElement/gmd:EX_GeographicBoundingBox/gmd:eastBoundLongitude/gco:Decimal|" style="cursor:help;">Kinh độ Đông</span></b><br><input class="md" type="text" id="ed49127e33693" value="109.150390625" readonly="" size="8"><input class="md" type="hidden" id="_ed49127e33693" name="_ed49127e33693" value="109.150390625" readonly=""></td>
+                                                                                                            </tr>
+                                                                                                            <tr>
+                                                                                                                <td></td>
+                                                                                                                <td class="padded" align="center"><b><span id="tip.iso19139|gmd:southBoundLatitude|gmd:southBoundLatitude|gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification/gmd:extent/gmd:EX_Extent/gmd:geographicElement/gmd:EX_GeographicBoundingBox/gmd:southBoundLatitude/gco:Decimal|" style="cursor:help;">Vĩ độ Nam</span></b><br><input class="md" type="text" id="sd49127e33693" value="8.26171875" readonly="" size="8"><input class="md" type="hidden" id="_sd49127e33693" name="_sd49127e33693" value="8.26171875" readonly=""></td>
+                                                                                                                <td></td>
+                                                                                                            </tr>
+                                                                                                        </tbody>
+                                                                                                    </table>
+                                                                                                </td>
+                                                                                            </tr>
+                                                                                        </tbody>
+                                                                                    </table>
+                                                                                </fieldset>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                            </fieldset>
+                                                        </td>
+                                                    </tr>
+
+                                                </tbody>
+                                            </table>
+                                        </fieldset>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3">
+                                        <fieldset class="scheduler-border">
+                                            <legend class="scheduler-border"><b class="text-primary">Thông tin biểu diễn không gian</b></legend>
+                                            <table width="100%">
+                                                <tbody>
+                                                    @{
+                                                        foreach (var item in metadataInfo.MetadataVM.Where(m => m.AttributeCode.StartsWith(MetaConst.KHONGGIAN_ATTRIBUTE)).OrderBy(m => m.OrderNumber))
+                                                        {
+                                                            <tr>
+                                                                <th class="md" width="35%" valign="middle">
+                                                                    <span class="content" style="color:#076601;">@item.Attribute</span>&nbsp;
+                                                                </th>
+                                                                <td class="padded" valign="middle">@item.Value</td>
+                                                            </tr>
+                                                        }
+                                                    }
+                                                </tbody>
+                                            </table>
+                                        </fieldset>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3">
+                                        <fieldset class="scheduler-border">
+                                            <legend class="scheduler-border"><b class="text-primary">Thông tin hệ quy chiếu</b></legend>
+                                            <table width="100%">
+                                                <tbody>
+                                                    @{
+                                                        foreach (var item in metadataInfo.MetadataVM.Where(m => m.AttributeCode.StartsWith(MetaConst.HEQUYCHIEU_ATTRIBUTE)).OrderBy(m => m.OrderNumber))
+                                                        {
+                                                            <tr>
+                                                                <th class="md" width="35%" valign="middle">
+                                                                    <span class="content" style="color:#076601;">@item.Attribute</span>&nbsp;
+                                                                </th>
+                                                                <td class="padded" valign="middle">@item.Value</td>
+                                                            </tr>
+                                                        }
+                                                    }
+                                                </tbody>
+                                            </table>
+                                        </fieldset>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3">
+                                        <fieldset class="scheduler-border">
+                                            <legend class="scheduler-border"><b class="text-primary">Thông tin chất lượng dữ liệu</b></legend>
+                                            <table width="100%">
+                                                <tbody>
+                                                    @{
+                                                        foreach (var item in metadataInfo.MetadataVM.Where(m => m.AttributeCode.StartsWith(MetaConst.CHATLUONGDL_ATTRIBUTE)).OrderBy(m => m.OrderNumber))
+                                                        {
+                                                            <tr>
+                                                                <th class="md" width="35%" valign="middle">
+                                                                    <span class="content" style="color:#076601;">@item.Attribute</span>&nbsp;
+                                                                </th>
+                                                                <td class="padded" valign="middle">@item.Value</td>
+                                                            </tr>
+                                                        }
+                                                    }
+                                                </tbody>
+                                            </table>
+                                        </fieldset>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3">
+                                        <fieldset class="scheduler-border">
+                                            <legend class="scheduler-border"><b class="text-primary">Metadata</b></legend>
+                                            <table width="100%">
+                                                <tbody>
+                                                    @{
+                                                        foreach (var item in metadataInfo.MetadataVM.Where(m => m.AttributeCode.StartsWith(MetaConst.METADATA_ATTRIBUTE)).OrderBy(m => m.OrderNumber))
+                                                        {
+                                                            <tr>
+                                                                <th class="md" width="35%" valign="middle">
+                                                                    <span class="content" style="color:#076601;">@item.Attribute</span>&nbsp;
+                                                                </th>
+                                                                <td class="padded" valign="middle">@item.Value</td>
+                                                            </tr>
+                                                        }
+                                                        
+                                                        foreach (var item in metadataInfo.DonViXayDungVM)
+                                                        {
+                                                            <tr>
+                                                                <td colspan="3">
+                                                                    <fieldset class="scheduler-border">
+                                                                        <legend class="scheduler-border"><b class="text-primary">Đơn vị xây dựng</b></legend>
+                                                                        <table width="100%">
+                                                                            <tbody>
+                                                                                @{
+                                                                                    foreach (var donviItem in item.OrderBy(m => m.OrderNumber))
+                                                                                    {
+                                                                                        <tr>
+                                                                                            <th class="md" width="35%" valign="middle">
+                                                                                                <span class="content" style="color:#076601;">@donviItem.Attribute</span>&nbsp;
+                                                                                            </th>
+                                                                                            <td class="padded" valign="middle">@donviItem.Value</td>
+                                                                                        </tr>
+                                                                                    }
+                                                                                }
+                                                                            </tbody>
+                                                                        </table>
+                                                                    </fieldset>
+                                                                </td>
+                                                            </tr>
+                                                        }
+                                                    }
+                                                </tbody>
+                                            </table>
+                                        </fieldset>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section jsFooter{
+
+}

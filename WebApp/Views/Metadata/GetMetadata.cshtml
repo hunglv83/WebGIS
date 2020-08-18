@@ -1,0 +1,105 @@
+﻿@using WebApp.Core.EF;
+@using WebApp.Core.DAO;
+@using PagedList.Mvc;
+
+<button id="btnClick" style="display: none"></button>
+<div id="divResultData"></div>
+
+<script src="~/Scripts/JSBase/jquery.min.js"></script>
+<script src="~/Scripts/JSBase/Web.config.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#btnClick').click();
+    });
+
+    $("#btnClick").click(function () {
+        $.ajax({
+            type: 'POST',
+            url: SiteUrlAdmin + "/QNI_Metadata/GetTop10MetadataDesc",
+            data: {},
+            success: function (result) {
+                $('#divResultData').html(result);
+            }
+        });
+    });
+</script>
+<script>
+    function ViewMetadata(autoId) {
+        $.ajax({
+            type: "POST",
+            url: SiteUrlAdmin + "/QNI_Metadata/ViewMetadata",
+            data: {
+                autoId: autoId
+            },
+            success: function (result) {
+                $('#divResultData').html(result);
+            },
+            error: function (errormessage) {
+                alert(errormessage.responseText);
+            }
+        });
+        return false;
+    }
+
+    function ShowMetadata(autoId) {
+        $.ajax({
+            type: "POST",
+            url: SiteUrlAdmin + "/QNI_Metadata/ShowMetadata",
+            data: {
+                autoId: autoId
+            },
+            success: function (result) {
+                $('#divShowMetadata_' + autoId).html(result);
+                $('#btnShowMetadata_' + autoId).css("display", "none");
+                $('#btnHideMetadata_' + autoId).css("display", "block");
+                LoadMap();
+            },
+            error: function (errormessage) {
+                alert(errormessage.responseText);
+            }
+        });
+        return false;
+    }
+
+    function LoadMap() {
+        var vidoBac = jQuery("#spViDoBac").text();
+        var vidoNam = jQuery("#spViDoNam").text();
+        var kinhdoDong = jQuery("#spKinhDoDong").text();
+        var kinhdoTay = jQuery("#spKinhDoTay").text();
+
+        var map = L.map('map', {
+            zoomControl: false,
+            attributionControl: false,
+            maxBounds: [[8.5, 102.14], [23.33, 109.52]]
+        }).setView([15.91600347, 105.82816584], 4)
+        L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+        }).addTo(map);
+
+        var rec = L.rectangle([
+            [vidoBac, kinhdoTay],
+            [vidoNam, kinhdoDong]
+        ]).addTo(map);
+        map.touchZoom.disable();
+        map.doubleClickZoom.disable();
+        map.scrollWheelZoom.disable();
+        jQuery("#leaflet-control-attribution").hide();
+    };
+
+    function ShowMap(ServiceID) {
+        var url = SiteUrl + "/cs/Map/MapView?serviceid=" + ServiceID;
+        window.open(url, '_blank');
+    }
+
+    function HideMetadata(autoId) {
+        $('#divShowMetadata_' + autoId).html("");
+        $('#btnShowMetadata_' + autoId).css("display", "block");
+        $('#btnHideMetadata_' + autoId).css("display", "none");
+    }
+
+    function DownloadXML(autoId) {
+        var url = SiteUrl + "/Admin/QNI_Metadata/DownloadXML?autoId=" + autoId;
+        window.open(url, '_blank');
+    }
+</script>
+
+

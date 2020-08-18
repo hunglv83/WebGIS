@@ -1,0 +1,51 @@
+﻿@model WebApp.Core.EF.CMS_Services
+@using WebApp.Common;
+@using WebApp.Core.EF;
+@if (Model != null)
+{
+    <div class="panel panel-default box-newsdetail">
+        <div class="panel-heading">
+            <span>Thông tin dịch vụ <i class="fa fa-caret-right"></i></span>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-xs-12 new-title">
+                    <h4>@Model.Name</h4>
+                    <span class="new-createdate invisible"><i class="far fa-calendar-alt"></i> @Convert.ToDateTime(Model.CreateDate).ToString("dd/MM/yyyy")</span>
+                </div>
+            </div>
+            <div class="row form-group">
+                <div class="col-lg-4">
+                    <label>Lĩnh vực</label>
+                </div>
+                <div class="col-lg-8">
+                    <p>@Model.CMS_TypeOfMap.Name</p>
+                </div>
+            </div>
+            <div class="row form-group">
+                <div class="col-lg-4">
+                    <label>Nguồn dữ liệu</label>
+                </div>
+                <div class="col-lg-8">
+                    <p>@Model.Source</p>
+                </div>
+            </div>
+            <div class="row form-group">
+                <div class="col-lg-4">
+                    <label>Url</label>
+                </div>
+                <div class="col-lg-8">
+                    <a href="@Model.URL" target="_blank"><p> @Model.URL</p></a>
+                </div>
+            </div>
+            <div class="row form-group">
+                <div class="col-lg-4">
+                    <label>Mô tả</label>
+                </div>
+                <div class="col-lg-8">
+                    @Html.Raw(Model.Description)
+                </div>
+            </div>
+        </div>
+    </div>
+}

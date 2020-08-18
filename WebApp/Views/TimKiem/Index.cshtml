@@ -1,0 +1,460 @@
+﻿@using WebApp.Common;
+@using WebApp.Core.EF;
+@using WebApp.Core.DAO;
+@using PagedList.Mvc;
+<link href="~/Content/CSSBase/select2.min.css" rel="stylesheet" />
+<script src="~/Scripts/jquery-3.3.1.js"></script>
+<script src="~/Scripts/JSBase/select2.full.min.js"></script>
+<style>
+    table#tableHoSo {
+        max-width: 580px;
+    }
+</style>
+<div class="panel panel-default box-news" style="height:100%">
+    <div class="panel-heading">
+        @ViewBag.TITLE
+    </div>
+    <div class="panel-body">
+        @*<form action="@Url.Content(Request.Url.GetLeftPart(UriPartial.Path))" method="get" class="form-horizontal" style="margin-top: 15px;">
+            </form>*@
+        <div class="col-md-12">
+            <div class="form-group">
+                <div class="col-xs-2">
+                    <label class="control-label">Từ khóa</label>
+                </div>
+                <div class="col-xs-6">
+                    <input type="text" id="txtSearch" name="key" class="form-control" placeholder="Hồ sơ, điểm mỏ, khoáng sản, tài liệu ..." value="@ViewBag.KEY" />
+                </div>
+                <div class="col-xs-4">
+                    <div class="col-xs-6">
+                        <input type="radio" id="chkDiemMo" name="chkTimKiem" value="chkTimHoSo" checked />
+                        <label style="font-weight:normal;padding-left: 8px;" for="chkTimHoSo">Hồ sơ</label>
+                    </div>
+                    <div class="col-xs-6">
+                        <input type="radio" id="chkDiemMo" name="chkTimKiem" value="chkTimTaiLieu" />
+                        <label style="font-weight:normal;padding-left: 8px;" for="chkTimTaiLieu">Tài liệu</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="form-group">
+            </div>
+            <div class="form-group">
+                <div class="col-xs-2">
+                    <label class="control-label">Loại hồ sơ</label>
+                </div>
+                <div class="col-xs-4">
+                    <select class="form-control select2" id="selLoaiHoSo" name="selLoaiHoSo">
+                        <option value="0">-- Chọn ---</option>
+                        @if (TempData["LoaiHoSo"] != null)
+                        {
+                            List<TQG_LoaiHoSo> lData = (List<TQG_LoaiHoSo>)TempData["LoaiHoSo"];
+                            foreach (var item in lData)
+                            {
+                                if (item.MaLoaiHoSo == ViewBag.MALOAIHOSO)
+                                {
+                                    <option value="@item.MaLoaiHoSo" selected>@item.TenLoaiHoSo</option>
+                                }
+                                else
+                                {
+                                    <option value="@item.MaLoaiHoSo">@item.TenLoaiHoSo</option>
+                                }
+                            }
+                        }
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-xs-2">
+                    <label class="control-label">Loại khoáng sản</label>
+                </div>
+                <div class="col-xs-4">
+                    <select class="form-control select2" id="selLoaiKhoangSan" name="selLoaiKhoangSan">
+                        <option value="0">-- Chọn ---</option>
+                        @if (TempData["LoaiKhoangSan"] != null)
+                        {
+                            List<TQG_LoaiKhoangSan> lData = (List<TQG_LoaiKhoangSan>)TempData["LoaiKhoangSan"];
+                            foreach (var item in lData)
+                            {
+                                if (item.LoaiKsID.ToString() == ViewBag.LOAIKS)
+                                {
+                                    <option value="@item.LoaiKsID" selected>@item.TenLoaiKS</option>
+                                }
+                                {
+                                    <option value="@item.LoaiKsID">@item.TenLoaiKS</option>
+                                }
+                            }
+                        }
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="form-group">
+            </div>
+            <div class="form-group">
+                <div class="col-xs-2">
+                    <label class="control-label">Điểm mỏ</label>
+                </div>
+                <div class="col-xs-4">
+                    <select class="form-control select2" id="selDiemMo" name="selDiemMo">
+                        <option value="0">-- Chọn ---</option>
+                        @if (TempData["DiemMo"] != null)
+                        {
+                            List<TQG_Mo> lData = (List<TQG_Mo>)TempData["DiemMo"];
+                            foreach (var item in lData)
+                            {
+                                if (item.MoId.ToString().Equals(ViewBag.DIEMMO))
+                                {
+                                    <option value="@item.MoId" selected>@item.TenMo</option>
+                                }
+                                else
+                                {
+                                    <option value="@item.MoId">@item.TenMo</option>
+                                }
+                            }
+                        }
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-xs-2">
+                    <label class="control-label">Đơn vị hành chính</label>
+                </div>
+                <div class="col-xs-4">
+                    <select class="form-control selDVHC" id="selDVHC" name="selDVHC">
+                        <option value="0">-- Tất cả ---</option>
+                        @if (TempData["QuanHuyen"] != null)
+                        {
+                            List<TQG_QuanHuyen> lData = (List<TQG_QuanHuyen>)TempData["QuanHuyen"];
+                            foreach (var item in lData)
+                            {
+                                if (item.MaQuanHuyen == ViewBag.MAQUANHUYEN)
+                                {
+                                    <option value="@item.MaQuanHuyen" selected>@item.TenQuanHuyen</option>
+                                }
+                                else
+                                {
+                                    <option value="@item.MaQuanHuyen">@item.TenQuanHuyen</option>
+                                }
+                            }
+                        }
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-xs-2 col-xs-offset-1">
+                <label></label>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-xs-10 col-xs-offset-1 text-center">
+                <button id="btnTimKiem" type="button" class="btn btn-default btn-xs" title="Tìm kiếm">Tìm kiếm <span class="glyphicon glyphicon-search"></span></button>
+            </div>
+        </div>
+        <div class="form-group search-advanced-result" style="display: none!important;">
+            <div class="row">
+                <div class="col-xs-12">
+                    <hr />
+                    <label class="control-label">Danh sách kết quả</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <table id="tableHoSo" class="display table table-bordered dataTable" cellspacing="0" width="100%" style="border-bottom-color: aliceblue;;display:none!important">
+                        <thead>
+                            <tr style="text-align:left;">
+                                <th>STT</th>
+                                <th>Tổ chức, cá nhân</th>
+                                <th>Loại khoáng sản</th>
+                                <th>Loại hồ sơ</th>
+                                <th>Điểm mỏ</th>
+                                <th>Đơn vị hành chính</th>
+                                <th>Thao tác</th>
+                            </tr>
+                        </thead>
+                    </table>
+                    <table id="tableTaiLieu" class="display table table-bordered dataTable" cellspacing="0" width="100%" style="border-bottom-color: aliceblue;display:none!important">
+                        <thead>
+                            <tr style="text-align:left;">
+                                <th>STT</th>
+                                <th>Tên tài liệu</th>
+                                <th>Loại khoáng sản</th>
+                                <th>Loại hồ sơ</th>
+                                <th>Điểm mỏ</th>
+                                <th>Đơn vị hành chính</th>
+                                <th>Thao tác</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal Danh sách tài liệu -->
+<div class="modal fade" id="modalDsTaiLieu" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color: #00a7d0 !important">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <span class="modal-title" style="color: white; font-size: 13px">Tài liệu đính kèm chi tiết</span>
+            </div>
+            <div class="modal-body" id="modalDsTaiLieuContent">
+
+            </div>
+            <div class="modal-footer" style="background-color: #00a7d0 !important">
+                <button type="button" class="btn btn-outline" data-dismiss="modal"><i class="fa fa-close (alias)"></i> Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Viewfile -->
+<div class="modal fade" id="modalViewTaiLieu" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color: #00a7d0 !important">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <span class="modal-title" style="color: white; font-size: 13px">Nội dung</span>
+            </div>
+            <div class="modal-body" id="modalViewContent">
+
+            </div>
+            <div class="modal-footer" style="background-color: #00a7d0 !important">
+                <button type="button" class="btn btn-outline" data-dismiss="modal"><i class="fa fa-close (alias)"></i> Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    function cachedScript(url, options) {
+        // Allow user to set any option except for dataType, cache, and url
+        options = $.extend(options || {}, {
+            dataType: "script",
+            cache: true,
+            url: url
+        });
+        // Use $.ajax() since it is more flexible than $.getScript
+        // Return the jqXHR object so we can chain callbacks
+        return jQuery.ajax(options);
+    };
+    function FullTextSearch1() {
+        jQuery.ajax({
+            type: "POST",
+            url: SiteUrl + "/cs/TimKiem/FullTextSearch",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (response) {
+                alert("Hello: " + response.Name + " .\nCurrent Date and Time: " + response.DateTime);
+            },
+            failure: function (response) {
+                alert(response.responseText);
+            },
+            error: function (response) {
+                alert(response.responseText);
+            }
+        });
+    }
+    function FullTextSearch() {
+        $('.search-advanced-result').show();
+        jQuery.ajaxSetup({
+            cache: false
+        });
+        //Xử lý datatble ở đây
+        let searchvalue = $('#txtSearch').val();
+        let strloaihoso = $('#selLoaiHoSo').val();
+        let strloaikhoangsan = $('#selLoaiKhoangSan').val();//$("#selLoaiKhoanSan option:selected").text();//
+        let strdiemmo = $('#selDiemMo').val();
+        let strdvhc = $('#selDVHC').val();
+        console.log(strloaihoso + "-" + strloaikhoangsan + "-" + strdiemmo + "-" + strdvhc);
+        let radioValue = $("input[name='chkTimKiem']:checked").val();
+        let urldata = '';
+        if (radioValue == 'chkTimHoSo') {
+            $('#tableTaiLieu').hide();
+            $('#tableHoSo').show();
+            urldata = SiteUrl + "/cs/TimKiem/TimKiemHoSoNew";
+            if ($('#tableTaiLieu').dataTable() != null)$('#tableTaiLieu').dataTable().fnDestroy();
+            $('#tableHoSo').dataTable().fnDestroy();
+            var table = $('#tableHoSo').DataTable({
+                processing: true, // control the processing indicator.
+                //serverSide: true, // recommended to use serverSide when data is more than 10000 rows for performance reasons
+                //info: true,   // control table information display field
+                //stateSave: false,  //restore table state on page reload,
+                pageLength: 10,
+                //ordering: false,
+                responsive: true,
+                autoWidth: false,
+                "ajax": {
+                    url: urldata,
+                    dataSrc: "",
+                    type: 'GET',
+                    data: {
+                        "search": searchvalue,
+                        "strloaikhoangsan": strloaikhoangsan,
+                        "strloaihoso": strloaihoso,
+                        "strdiemmo": strdiemmo,
+                        "strdvhc": strdvhc
+                    }
+                },
+                columns: [
+                    { data: 'STT', name: 'ID', width: '5%', class: 'text-center' },
+                    //{ data: 'NoiDung', width: '10%', class: 'text-left;', visible:'false' },
+                    { data: 'ToChucCaNhan', width: '10%', class: 'text-left' },
+                    { data: 'LoaiKhoangSan', width: '15%', class: 'text-left' },
+                    { data: 'LoaiHoSo', width: '20%', class: 'text-left' },
+                    { data: 'DiemMo', width: '20%', class: 'text-left' },
+                    { data: 'DVHC', class: 'text-left' },
+                    { data: 'ThaoTac', width: '10%', class: 'text-center' }
+                ],
+                columnDefs: [
+                    //{ "visible":false, "targets": 1 }
+                ],
+                language: {
+                    search: "Tìm kiếm: ", //"My search: ",
+                    paginate: {
+                        previous: "Trang trước", //"Prev",
+                        next: "Trang sau", //"Next",
+                        last: "Trang cuối cùng", //"Last",
+                        first: "Trang đầu tiên" //"First",
+                    },
+                    aria: {
+                        sortAscending: ": Sắp xếp theo thứ tự tăng dần",
+                        sortDescending: ": Sắp xếp theo thứ tự giảm dần"
+                    },
+                    searching: false,
+                    emptyTable: "Không có dữ liệu", //"No data available in table",
+                    info: "Bản ghi _START_ đến _END_ / tổng số _TOTAL_ bản ghi", // "Showing _START_ to _END_ of _TOTAL_ entries",
+                    infoEmpty: "Không có dữ liệu", //"No entries found",
+                    infoFiltered: "(filtered1 của _MAX_ tổng số bản đi)",
+                    infoFiltered: "",
+                    lengthMenu: "Hiển thị _MENU_ bản ghi",
+                    search: "Tìm kiếm:", //Search:",
+                    zeroRecords: "Không tìm thấy bản ghi phù hợp", //No matching records found",
+                    processing: "Đang tìm kiếm dữ liệu....."
+                }
+            });
+            table.draw();
+            table.columns.adjust();
+        }
+        else if (radioValue == 'chkTimTaiLieu') {
+            $('#tableHoSo').hide();
+            $('#tableTaiLieu').show();
+            urldata = SiteUrl + "/cs/TimKiem/TimKiemTaiLieuNew";
+            if ($('#tableHoSo').dataTable() != null)$('#tableHoSo').dataTable().fnDestroy();
+            $('#tableTaiLieu').dataTable().fnDestroy();
+            var table = $('#tableTaiLieu').DataTable({
+                processing: true, // control the processing indicator.
+                //serverSide: true, // recommended to use serverSide when data is more than 10000 rows for performance reasons
+                //info: true,   // control table information display field
+                //stateSave: false,  //restore table state on page reload,
+                pageLength: 10,
+                //ordering: false,
+                responsive: true,
+                autoWidth: false,
+                "ajax": {
+                    url: urldata,
+                    dataSrc: "",
+                    type: 'GET',
+                    data: {
+                        "search": searchvalue,
+                        "strloaikhoangsan": strloaikhoangsan,
+                        "strloaihoso": strloaihoso,
+                        "strdiemmo": strdiemmo,
+                        "strdvhc": strdvhc
+                    }
+                },
+                columns: [
+                    { data: 'STT', name: 'ID', width: '5%', class: 'text-center' },
+                    { data: 'NoiDung', width: '10%', class: 'text-left;', visible:'false' },
+                    //{ data: 'ToChucCaNhan', width: '10%', class: 'text-left' },
+                    { data: 'LoaiKhoangSan', width: '15%', class: 'text-left' },
+                    { data: 'LoaiHoSo', width: '20%', class: 'text-left' },
+                    { data: 'DiemMo', width: '20%', class: 'text-left' },
+                    { data: 'DVHC', class: 'text-left' },
+                    { data: 'ThaoTac', width: '10%', class: 'text-center' }
+                ],
+                columnDefs: [
+                    //{ "visible":false, "targets": 2 }
+                ],
+                language: {
+                    search: "Tìm kiếm: ", //"My search: ",
+                    paginate: {
+                        previous: "Trang trước", //"Prev",
+                        next: "Trang sau", //"Next",
+                        last: "Trang cuối cùng", //"Last",
+                        first: "Trang đầu tiên" //"First",
+                    },
+                    aria: {
+                        sortAscending: ": Sắp xếp theo thứ tự tăng dần",
+                        sortDescending: ": Sắp xếp theo thứ tự giảm dần"
+                    },
+                    searching: false,
+                    emptyTable: "Không có dữ liệu", //"No data available in table",
+                    info: "Bản ghi _START_ đến _END_ / tổng số _TOTAL_ bản ghi", // "Showing _START_ to _END_ of _TOTAL_ entries",
+                    infoEmpty: "Không có dữ liệu", //"No entries found",
+                    infoFiltered: "(filtered1 của _MAX_ tổng số bản đi)",
+                    infoFiltered: "",
+                    lengthMenu: "Hiển thị _MENU_ bản ghi",
+                    search: "Tìm kiếm:", //Search:",
+                    zeroRecords: "Không tìm thấy bản ghi phù hợp", //No matching records found",
+                    processing: "Đang tìm kiếm dữ liệu....."
+                }
+            });
+            table.draw();
+            table.columns.adjust();
+        }
+        $(".dataTables_filter").hide();
+    }
+    jQuery(document).ready(function () {
+        jQuery("#btnTimKiem").click(function () {
+            FullTextSearch();
+        });
+        cachedScript( "/Scripts/JSBase/select2.full.min.js" ).done(function( script, textStatus ) {
+            jQuery('.selDVHC').select2({
+            });
+            jQuery('#selLoaiKhoangSan').select2({
+            });
+            jQuery('#selDiemMo').select2({
+            });
+            jQuery('#selLoaiHoSo').select2({
+            });
+        });
+    });
+    function XemChiTiet(id) {
+            jQuery.ajax({
+                type: "POST",
+                url: '@Url.Action("XemChiTiet", "ThongKe")',
+                data: {
+                    hosoID: id
+                },
+                success: function (result) {
+                    jQuery('#modalDsTaiLieuContent').html(result);
+                    jQuery('#modalDsTaiLieu').modal('show');
+                },
+                error: function (errormessage) {
+                    alert(errormessage.responseText);
+                }
+            });
+            return false;
+        }
+    function ViewFile(guiId) {
+            jQuery.ajax({
+                type: "POST",
+                url: '@Url.Action("ViewPDF", "ThongKe")',
+                data: {
+                    guiId: guiId
+                },
+                success: function (result) {
+                    jQuery('#modalViewContent').html(result);
+                    jQuery('#modalViewTaiLieu').modal('show');
+                },
+                error: function (errormessage) {
+                    alert(errormessage.responseText);
+                }
+            });
+            return false;
+        }
+</script>

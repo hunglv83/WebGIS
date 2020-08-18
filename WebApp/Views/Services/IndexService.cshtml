@@ -1,0 +1,83 @@
+﻿@model PagedList.IPagedList<WebApp.Core.EF.CMS_Services>
+@using WebApp.Common;
+@using WebApp.Core.EF;
+@using PagedList.Mvc;
+
+<div class="panel panel-default box-news">
+    <div class="panel-heading">
+        DANH SÁCH DỊCH VỤ
+    </div>
+    <div class="panel-body">
+        <form action="@Url.Content(Request.Url.GetLeftPart(UriPartial.Path))" method="post" class="form-horizontal" style="margin-top: 15px;">
+            <div class="form-group">
+                <div class="col-md-4 col-md-offset-1 col-xs-12">
+                    <label class="control-label">Tên</label>
+                </div>
+                <div class="col-md-6 col-xs-12">
+                    <input type="text" name="q" value="@ViewBag.Q" class="form-control"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-4 col-md-offset-1 col-xs-12">
+                    <label class="control-label">Lĩnh vực</label>
+                </div>
+                <div class="col-md-6 col-xs-12">
+                    <select class="form-control" name="lv">
+                        <option value="0">-- Chọn lĩnh vực</option>
+                        @if (TempData["LV"] != null)
+                        {
+                            List<CMS_TypeOfMap> lData = (List<CMS_TypeOfMap>)TempData["LV"];
+                            foreach (var item in lData)
+                            {
+                                if (item.ID == Convert.ToInt32(ViewBag.LV))
+                                {
+                                    <option value="@item.ID" selected>@item.Name</option>
+                                }
+                                else
+                                {
+                                    <option value="@item.ID">@item.Name</option>
+                                }
+                            }
+                        }
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-10 col-md-offset-1 text-center col-xs-12">
+                    <button id="btnTimKiem" type="submit" class="btn btn-primary" title="Tìm kiếm">Tìm kiếm <span class="glyphicon glyphicon-search"></span></button>
+                </div>
+            </div>
+        </form>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Tên</th>
+                    <th>Lĩnh vực</th>
+                    <th>Nguồn dữ liệu</th>
+                    <th>Mô tả</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{ int i = 0;}
+                @foreach (var item in Model)
+                {
+                    i++;
+                    <tr>
+                        <td align="center">@i</td>
+                        <td><a title="@item.Name" href="@Utilities.UrlContent("dich-vu", @item.Name, "dv", @item.ID.ToString())">@item.Name</a></td>
+                        <td>@item.CMS_TypeOfMap.Name</td>
+                        <td>@item.Source</td>
+                        <td align="left">@Html.Raw(item.Description)</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <div class="row">
+            <div class="col-lg-12" style="text-align: right;">
+                Tổng số: <b>@Model.TotalItemCount</b> bản ghi.
+                @Html.PagedListPager(Model, page => Url.Content(@Request.Url.GetLeftPart(UriPartial.Path) + "?page=" + page))
+            </div>
+        </div>
+    </div>
+</div>

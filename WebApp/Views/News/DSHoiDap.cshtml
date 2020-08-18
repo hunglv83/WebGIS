@@ -1,0 +1,172 @@
+﻿@model PagedList.IPagedList<WebApp.Core.EF.CMS_Questions_LayTatCa_Result>
+@using WebApp.Common;
+@
+@using PagedList.Mvc;
+
+<div class="panel panel-default box-news">
+    <div class="panel-heading">
+        @ViewBag.TITLE
+    </div>
+    <div class="panel-body">
+        <form action="@Url.Content(Request.Url.GetLeftPart(UriPartial.Path))" method="post" class="form-horizontal" style="margin-top: 15px;">
+            <div class="form-group">
+                <div class="col-xs-4 col-xs-offset-1">
+                    <label class="control-label">Tiêu đề</label>
+                </div>
+                <div class="col-xs-6">
+                    <input type="text" name="key" class="form-control" placeholder="Nhập tiêu đề" value="@ViewBag.KEY" />
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-xs-4 col-xs-offset-1">
+                    <label class="control-label">Loại câu hỏi</label>
+                </div>
+                <div class="col-xs-6">
+                    <select class="form-control" name="type">
+                        <option value="0">-- Chọn loại câu hỏi</option>
+                        @if (TempData["LoaiCauHoi"] != null)
+                        {
+                            List<CMS_TypeOfQuestion> lData1 = (List<CMS_TypeOfQuestion>)TempData["LoaiCauHoi"];
+                            foreach (var item in lData1)
+                            {
+                                if (item.ID == ViewBag.TYPE)
+                                {
+                                    <option value="@item.ID" selected>@item.Name</option>
+                                }
+                                else
+                                {
+                                    <option value="@item.ID">@item.Name</option>
+                                }
+                            }
+                        }
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-xs-10 col-xs-offset-1 text-center">
+                    <button id="btnTimKiem" type="submit" class="btn btn-default btn-xs" title="Tìm kiếm">Tìm kiếm <span class="glyphicon glyphicon-search"></span></button>
+                </div>
+            </div>
+        </form>
+        <div class="row">
+            <div class="col-xs-12">
+                <hr />
+                <label class="control-label">Danh sách câu hỏi</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Tiêu đề</th>
+                            <th>Thể loại</th>
+                            <th>Ngày tạo</th>
+                            <th>Chi tiết</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model != null && Model.Count() > 0)
+                        {
+                            int index = 0;
+                            foreach (var item in Model)
+                            {
+                                index++;
+                                <tr>
+                                    <td align="center">@index</td>
+                                    <td>
+                                        @item.Title
+                                    </td>
+                                    <td align="center">@item.LoaiCauHoi</td>
+                                    <td align="center">@Convert.ToDateTime(item.CreateDate).ToString("dd/MM/yyyy")</td>
+                                    <td align="center">
+                                        <button class="btn btn-default btn-xs" onclick="view(@item.ID)" title="Xem nội dung"><i class="fas fa-eye"></i></button>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12" style="text-align: right;">
+                Tổng số: <b>@Model.TotalItemCount</b> bản ghi.
+                @Html.PagedListPager(Model, page => Url.Content(@Request.Url.GetLeftPart(UriPartial.Path) + "?page=" + page))
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="qModal" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title" id="modal-title">Modal Header</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <div class="col-lg-12">
+                            <label>Câu hỏi:</label>
+                        </div>
+                        <div class="col-lg-offset-1 col-lg-11" id="q" style="background: #f2f2f2;"></div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-lg-12">
+                            <label>Câu trả lời:</label>
+                        </div>
+                        <div class="col-lg-offset-1 col-lg-11" id="a" style="background: #f2f2f2;"></div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-lg-12">
+                            <label>File đính kèm:</label>
+                            <span id="f"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script type="text/javascript">
+    function view(idquestion) {
+        var pJson = { 'idquestion': idquestion };
+        jQuery.ajax({
+            url: SiteUrlAdmin + "/CMS_Questions/Detail",
+            contentType: 'application/json',
+            dataType: 'json',
+            data: JSON.stringify(pJson),
+            type: "POST",
+            success: function (r) {
+                console.log(r);
+                if (r.state == true) {
+                    var Q = r.objQ;
+                    jQuery('#modal-title').text(Q.Title);
+                    jQuery('#q').html(Q.Contents);
+                    jQuery('#a').html(Q.Answer);
+                    if (Q.FileName != null && Q.FileName != '') {
+                        var sName = Q.FileName.split('/');
+                        var content = '<span style="color:brown;">' + sName[sName.length - 1] + '</span> <a href="' + SiteUrlImgCKFinder + Q.FileName + '" target="blank" title="tải về"><i class="fas fa-download"></i></a>';
+                        jQuery('#f').html(content);
+                    }
+                    else {
+                        jQuery('#f').html('');
+                    }
+                    jQuery('#qModal').modal('show');
+                }
+                else {
+                    alert(r.mess);
+                }
+            }
+        });
+    }
+</script>

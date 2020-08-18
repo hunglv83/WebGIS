@@ -1,0 +1,95 @@
+﻿@model WebApp.Core.EF.CMS_Maps
+@using WebApp.Core.EF
+
+@{
+    ViewBag.Title = "THÊM MỚI BẢN ĐỒ";
+    Layout = "~/Areas/Admin/Views/Shared/_Layouts.cshtml";
+}
+
+<div class="row">
+    <div class="col-12">
+        <div class="card card-primary">
+            <div class="card-header">
+                <h3 class="card-title"><i class="fa fa-users"></i> Thông tin bản đồ</h3>
+            </div>
+            <div class="card-body">
+                <div class="form-group">
+                    @using (Html.BeginForm("CreateBanDo", "CMS_Maps", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label" })
+                            @Html.TextBoxFor(model => model.Name, new { @class = "form-control", @data_validation_required_message = "Không được bỏ trống" })
+                            <div class="col-md-12">
+                                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-md-8">
+                                    @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label" })
+                                    @Html.TextAreaFor(model => model.Description, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="col-md-4">
+                                    @Html.LabelFor(model => model.Thumbnail, htmlAttributes: new { @class = "control-label" })
+                                    @Html.TextBoxFor(m => m.Thumbnail, new { @class = "inputfile inputfile-6 form-control", type = "file", @accept = "image/*", @style = "display: block; border-color: #ffffff; color: #04c; font-style: italic;" })
+                                    @Html.ValidationMessageFor(model => model.Thumbnail, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.TypeOfMapID, htmlAttributes: new { @class = "control-label" })
+                            <select id="@Html.IdFor(model => model.TypeOfMapID)" name="@Html.IdFor(model => model.TypeOfMapID)" class="form-control select2 select2bs4">
+                                <option value="">Chọn loại bản đồ</option>
+                                @if (TempData["TypeOfMap"] != null)
+                                {
+                                    List<CMS_TypeOfMap> lData = (List<CMS_TypeOfMap>)TempData["TypeOfMap"];
+                                    for (int i = 0; i < lData.Count; i++)
+                                    {
+                                        <option value="@lData[i].ID">@lData[i].Name</option>
+                                    }
+                                }
+                            </select>
+                            <div class="col-md-12">
+                                @Html.ValidationMessageFor(model => model.TypeOfMapID, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <strong> Dịch vụ </strong>
+                            @{
+                                System.Collections.Generic.List<WebApp.Core.EF.CMS_Services> lstRoles = (System.Collections.Generic.List<WebApp.Core.EF.CMS_Services>)TempData["Services"];
+                                TempData.Keep("Services");
+                            }
+                            <select id="ddlServices" name="ddlServices" class="form-control select2 select2bs4">
+                                <option id="ddl_0" value="0" selected="selected">-- Chọn services --</option>
+                                @if (lstRoles != null && lstRoles.Count > 0)
+                                {
+                                    for (int i = 0; i < lstRoles.Count; i++)
+                                    {
+                                        <option id="ddl_@lstRoles[i].ID" value="@lstRoles[i].ID">@lstRoles[i].Name</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-sm btn-success"><i class="fa fa-save"></i> Lưu lại</button>
+                            <a class="btn btn-sm btn-outline-info" href="@Url.Content("~/Admin/CMS_Maps/Index")"><i class="fa fa-reply"></i> Quay lại</a>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script src="@Url.Content("~/Scripts/JSBase/jqBootstrapValidation.js")"></script>
+    <script src="@Url.Content("~/areas/admin/jscontroller/CMS_Maps.js")"></script>
+    <script>jQuery(function () { jQuery("input,select,textarea").not("[type=submit]").jqBootstrapValidation(); });</script>
+}

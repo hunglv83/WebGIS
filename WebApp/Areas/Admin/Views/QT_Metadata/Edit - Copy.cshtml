@@ -1,0 +1,624 @@
+﻿@model WebApp.Core.EF.QNI_Metadatas
+@using WebApp.Areas.Admin.Models
+@using WebApp.Common
+@using Newtonsoft.Json
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layouts.cshtml";
+}
+
+@{
+    var areaName = HttpContext.Current.Request.RequestContext.RouteData.DataTokens["area"].ToString();
+    var controllerName = this.ViewContext.RouteData.Values["controller"].ToString();
+    var actionName = this.ViewContext.RouteData.Values["action"].ToString();
+}
+<section class="content-header">
+    <h1>
+        THÔNG TIN METADATA
+        <small></small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> @areaName</a></li>
+        <li><a href="#">@controllerName</a></li>
+        <li class="active">@actionName</li>
+    </ol>
+</section>
+<section class="content">
+    <div class="box">
+        <div class="box-header with-border">
+            <h3 class="box-title">CẬP NHẬT</h3>
+        </div>
+        <div class="box-body">
+            @using (Html.BeginForm("Edit", "QT_Metadata", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.HiddenFor(m => m.AutoId)
+                @Html.Hidden("DonViLienQuan")
+                @Html.Hidden("DonViXayDung")
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="box box-primary">
+                            <div class="box-header with-border">
+                                <h3 class="box-title"><i class="fa fa-user"></i> Thông tin định danh</h3>
+                                <div class="box-tools pull-right">
+                                    <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="" data-original-title="Collapse">
+                                        <i class="fa fa-minus"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="box-body">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <table class="table tblMetadataInfo" style="width:100%">
+                                            <tbody>
+                                                @if (Model.Metadatas != null)
+                                                {
+                                                    var metadataInfo = JsonConvert.DeserializeObject<MetadataInfo>(Model.Metadatas);
+                                                    foreach (var item in metadataInfo.MetadataVM.Where(m => m.AttributeCode.StartsWith(MetaConst.DINHDANH_ATTRIBUTE)).OrderBy(m => m.OrderNumber))
+                                                    {
+                                                        <tr>
+                                                            <td style="vertical-align: middle" class="col-sm-4">
+                                                                <input style="width: 100%; font-weight: bold" class="form-control" name="@item.AttributeCode" type="text" value="@item.Attribute">
+                                                            </td>
+                                                            <td style="vertical-align: middle" class="col-sm-7">
+                                                                <input style="width: 100%; font-style: italic;" class="form-control" name="@item.ValueCode" type="text" value="@item.Value">
+                                                            </td>
+                                                            <td style="vertical-align: middle; text-align: center" class="col-sm-1">
+                                                                <button type="button" class="btnDelDinhDanh btn btn-xs btn-danger"><i class="fa fa-remove"></i></button>
+                                                            </td>
+                                                        </tr>
+                                                    }
+                                                    foreach (var item in metadataInfo.MetadataVM.Where(m => m.AttributeCode.StartsWith(MetaConst.KHONGGIAN_ATTRIBUTE)).OrderBy(m => m.OrderNumber))
+                                                    {
+                                                        <tr>
+                                                            <td style="vertical-align: middle" class="col-sm-4">
+                                                                <input style="width: 100%; font-weight: bold" class="form-control" name="@item.AttributeCode" type="text" value="@item.Attribute">
+                                                            </td>
+                                                            <td style="vertical-align: middle" class="col-sm-7">
+                                                                <input style="width: 100%; font-style: italic;" class="form-control" name="@item.ValueCode" type="text" value="@item.Value">
+                                                            </td>
+                                                            <td style="vertical-align: middle; text-align: center" class="col-sm-1">
+                                                                <button type="button" class="btnDelDinhDanh btn btn-xs btn-danger"><i class="fa fa-remove"></i></button>
+                                                            </td>
+                                                        </tr>
+                                                    }
+                                                    foreach (var item in metadataInfo.MetadataVM.Where(m => m.AttributeCode.StartsWith(MetaConst.HEQUYCHIEU_ATTRIBUTE)).OrderBy(m => m.OrderNumber))
+                                                    {
+                                                        <tr>
+                                                            <td style="vertical-align: middle" class="col-sm-4">
+                                                                <input style="width: 100%; font-weight: bold" class="form-control" name="@item.AttributeCode" type="text" value="@item.Attribute">
+                                                            </td>
+                                                            <td style="vertical-align: middle" class="col-sm-7">
+                                                                <input style="width: 100%; font-style: italic;" class="form-control" name="@item.ValueCode" type="text" value="@item.Value">
+                                                            </td>
+                                                            <td style="vertical-align: middle; text-align: center" class="col-sm-1">
+                                                                <button type="button" class="btnDelDinhDanh btn btn-xs btn-danger"><i class="fa fa-remove"></i></button>
+                                                            </td>
+                                                        </tr>
+                                                    }
+                                                    foreach (var item in metadataInfo.MetadataVM.Where(m => m.AttributeCode.StartsWith(MetaConst.CHATLUONGDL_ATTRIBUTE)).OrderBy(m => m.OrderNumber))
+                                                    {
+                                                        <tr>
+                                                            <td style="vertical-align: middle" class="col-sm-4">
+                                                                <input style="width: 100%; font-weight: bold" class="form-control" name="@item.AttributeCode" type="text" value="@item.Attribute">
+                                                            </td>
+                                                            <td style="vertical-align: middle" class="col-sm-7">
+                                                                <input style="width: 100%; font-style: italic;" class="form-control" name="@item.ValueCode" type="text" value="@item.Value">
+                                                            </td>
+                                                            <td style="vertical-align: middle; text-align: center" class="col-sm-1">
+                                                                <button type="button" class="btnDelDinhDanh btn btn-xs btn-danger"><i class="fa fa-remove"></i></button>
+                                                            </td>
+                                                        </tr>
+                                                    }
+                                                    foreach (var item in metadataInfo.MetadataVM.Where(m => m.AttributeCode.StartsWith(MetaConst.METADATA_ATTRIBUTE)).OrderBy(m => m.OrderNumber))
+                                                    {
+                                                        <tr>
+                                                            <td style="vertical-align: middle" class="col-sm-4">
+                                                                <input style="width: 100%; font-weight: bold" class="form-control" name="@item.AttributeCode" type="text" value="@item.Attribute">
+                                                            </td>
+                                                            <td style="vertical-align: middle" class="col-sm-7">
+                                                                <input style="width: 100%; font-style: italic;" class="form-control" name="@item.ValueCode" type="text" value="@item.Value">
+                                                            </td>
+                                                            <td style="vertical-align: middle; text-align: center" class="col-sm-1">
+                                                                <button type="button" class="btnDelDinhDanh btn btn-xs btn-danger"><i class="fa fa-remove"></i></button>
+                                                            </td>
+                                                        </tr>
+                                                    }
+                                                }
+                                            </tbody>
+                                            <tfoot>
+                                                <tr>
+                                                    <td colspan="2" style="text-align: left;">
+                                                        <button type="button" class="btn btn-sm btn-default btn-block" id="btnAddMetadataInfo"><i class="fa fa-plus-circle"></i> Thêm thuộc tính</button>
+                                                    </td>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="box box-default">
+                                            <div class="box-header with-border">
+                                                <h3 class="box-title"><i class="fa fa-user"></i> Đơn vị liên quan</h3>
+                                                <div class="box-tools pull-right">
+                                                    <a id="btnNewDonViLienQuan" class="btn btn-xs btn-default"><i class="fa fa-plus-square-o"></i> Thêm đơn vị</a>
+                                                    <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="" data-original-title="Collapse">
+                                                        <i class="fa fa-minus"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <div class="box-body">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <table class="table tblDonViLienQuan" style="width:100%">
+                                                            <tbody id="tbodyDonViLienQuan">
+                                                                @if (!string.IsNullOrEmpty(Model.Metadatas))
+                                                                {
+                                                                    var metadataInfo = JsonConvert.DeserializeObject<MetadataInfo>(Model.Metadatas);
+                                                                    int count = 1;
+                                                                    foreach (var item in metadataInfo.DonViLienQuanVM)
+                                                                    {
+                                                                        <tr>
+                                                                            <td colspan="3">
+                                                                                <div class="box box-info">
+                                                                                    <div class="box-header with-border">
+                                                                                        <h3 class="box-title"><i class="fa fa-info"></i> Thông tin đơn vị liên quan</h3>
+                                                                                        <div class="box-tools pull-right">
+                                                                                            <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="" data-original-title="Collapse">
+                                                                                                <i class="fa fa-minus"></i>
+                                                                                            </button>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="box-body">
+                                                                                        <table id="tblInfoDonViLienQuan_@count" class="table tblInfoDonViLienQuan" style="width:100%">
+                                                                                            <tbody>
+                                                                                                @if (item != null)
+                                                                                                {
+                                                                                                    foreach (var donviItem in item.OrderBy(m => m.OrderNumber))
+                                                                                                    {
+                                                                                                        <tr>
+                                                                                                            <td style="vertical-align: middle" class="col-sm-4">
+                                                                                                                <input style="width: 100%; font-weight: bold" class="form-control" name="@donviItem.AttributeCode" type="text" value="@donviItem.Attribute">
+                                                                                                            </td>
+                                                                                                            <td style="vertical-align: middle" class="col-sm-7">
+                                                                                                                <input style="width: 100%; font-style: italic;" class="form-control" name="@donviItem.ValueCode" type="text" value="@donviItem.Value">
+                                                                                                            </td>
+                                                                                                            <td style="vertical-align: middle; text-align: center" class="col-sm-1">
+                                                                                                                <button type="button" class="btnDelInfoDonViLienQuan btn btn-xs btn-danger"><i class="fa fa-remove"></i></button>
+                                                                                                            </td>
+                                                                                                        </tr>
+                                                                                                    }
+                                                                                                }
+                                                                                            </tbody>
+                                                                                            <tfoot>
+                                                                                                <tr>
+                                                                                                    <td colspan="2" style="text-align: left;">
+                                                                                                        <button type="button" id="btnAddInfoDonViLienQuan_@count" class="btn btn-sm btn-default btn-block btnAddInfoDonViLienQuan"><i class="fa fa-plus-circle"></i> Thêm thuộc tính</button>
+                                                                                                    </td>
+                                                                                                </tr>
+                                                                                            </tfoot>
+                                                                                        </table>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </td>
+                                                                        </tr>
+                                                                        count++;
+                                                                    }
+                                                                }
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="box box-default">
+                                            <div class="box-header with-border">
+                                                <h3 class="box-title"><i class="fa fa-user"></i> Đơn vị xây dựng</h3>
+                                                <div class="box-tools pull-right">
+                                                    <a id="btnNewDonViXayDung" class="btn btn-xs btn-default"><i class="fa fa-plus-square-o"></i> Thêm đơn vị</a>
+                                                    <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="" data-original-title="Collapse">
+                                                        <i class="fa fa-minus"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <div class="box-body">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <table class="table tblDonViXayDung" style="width:100%">
+                                                            <tbody id="tbodyDonViXayDung">
+                                                                @if (!string.IsNullOrEmpty(Model.Metadatas))
+                                                                {
+                                                                    var metadataInfo = JsonConvert.DeserializeObject<MetadataInfo>(Model.Metadatas);
+                                                                    int count = 1;
+                                                                    foreach (var item in metadataInfo.DonViXayDungVM)
+                                                                    {
+                                                                        <tr>
+                                                                            <td colspan="3">
+                                                                                <div class="box box-info">
+                                                                                    <div class="box-header with-border">
+                                                                                        <h3 class="box-title"><i class="fa fa-info"></i> Thông tin đơn vị xây dựng</h3>
+                                                                                        <div class="box-tools pull-right">
+                                                                                            <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="" data-original-title="Collapse">
+                                                                                                <i class="fa fa-minus"></i>
+                                                                                            </button>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="box-body">
+                                                                                        <table id="tblInfoDonViXayDung_@count" class="table tblInfoDonViXayDung" style="width:100%">
+                                                                                            <tbody>
+                                                                                                @if (item != null)
+                                                                                                {
+                                                                                                    foreach (var donviItem in item.OrderBy(m => m.OrderNumber))
+                                                                                                    {
+                                                                                                        <tr>
+                                                                                                            <td style="vertical-align: middle" class="col-sm-4">
+                                                                                                                <input style="width: 100%; font-weight: bold" class="form-control" name="@donviItem.AttributeCode" type="text" value="@donviItem.Attribute">
+                                                                                                            </td>
+                                                                                                            <td style="vertical-align: middle" class="col-sm-7">
+                                                                                                                <input style="width: 100%; font-style: italic;" class="form-control" name="@donviItem.ValueCode" type="text" value="@donviItem.Value">
+                                                                                                            </td>
+                                                                                                            <td style="vertical-align: middle; text-align: center" class="col-sm-1">
+                                                                                                                <button type="button" class="btnDelDonViXayDung btn btn-xs btn-danger"><i class="fa fa-remove"></i></button>
+                                                                                                            </td>
+                                                                                                        </tr>
+                                                                                                    }
+                                                                                                }
+                                                                                            </tbody>
+                                                                                            <tfoot>
+                                                                                                <tr>
+                                                                                                    <td colspan="2" style="text-align: left;">
+                                                                                                        <button type="button" id="btnAddInfoDonViXayDung_@count" class="btn btn-sm btn-default btn-block btnAddInfoDonViXayDung"><i class="fa fa-plus-circle"></i> Thêm thuộc tính</button>
+                                                                                                    </td>
+                                                                                                </tr>
+                                                                                            </tfoot>
+                                                                                        </table>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </td>
+                                                                        </tr>
+                                                                        count++;
+                                                                    }
+                                                                }
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="col-md-12 text-right">
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-success" onclick="return processBeforeSubmit();"><i class="fa fa-save"></i> Lưu lại</button>
+                                <a type="button" class="btn btn-warning" href="@Url.Content("~/Admin/QT_Metadata/Index")"><i class="fa fa-reply"></i> Trở lại danh sách</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+
+@section jsFooter{
+    <script>
+        function processBeforeSubmit() {
+            var countDonViLienQuan = jQuery('.tblInfoDonViLienQuan').length;
+            var countDonViXayDung = jQuery('.tblInfoDonViXayDung').length;
+            jQuery('#DonViLienQuan').val(countDonViLienQuan);
+            jQuery('#DonViXayDung').val(countDonViXayDung);
+        }
+
+        // Thêm Đơn vị liên quan
+        $("#btnNewDonViLienQuan").on("click", function () {
+            var orderNumber = $('table.tblInfoDonViLienQuan').length;
+            orderNumber++;
+            var newRow = $("<tr>");
+            var cols = "";
+            cols += '<td colspan="3">';
+            cols += '<div class="box box-info">';
+            cols += '<div class="box-header with-border">';
+            cols += '<h3 class="box-title"><i class="fa fa-info"></i> Thông tin đơn vị liên quan</h3>';
+            cols += '<div class="box-tools pull-right">';
+            cols += '<button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="" data-original-title="Collapse"><i class="fa fa-minus"></i></button>';
+            cols += '</div>';
+            cols += '</div>';
+            cols += '<div class="box-body">';
+            cols += '<table id="tblInfoDonViLienQuan' + orderNumber + '" class="table tblInfoDonViLienQuan" style="width:100%">';
+            cols += '<tbody>';
+            cols += '<td style="vertical-align: middle" class="col-sm-4">';
+            cols += '<input style="width: 100%; font-weight: bold" class="form-control" name="DonViLienQuan.Attribute.TenNguoiDaiDien.G' + orderNumber + '" type="text" value="Tên người đại diện">';
+            cols += '</td>';
+            cols += '<td style="vertical-align: middle" class="col-sm-7">';
+            cols += '<input style="width: 100%; font-style: italic;" class="form-control" name="DonViLienQuan.Value.TenNguoiDaiDien.G' + orderNumber + '" type="text" value="Trần Hồng Lam">';
+            cols += '</td>';
+            cols += '</tr>';
+            cols += '<tr>';
+            cols += '<td style="vertical-align: middle" class="col-sm-4">';
+            cols += '<input style="width: 100%; font-weight: bold" class="form-control" name="DonViLienQuan.Attribute.TenToChuc.G' + orderNumber + '" type="text" value="Tên tổ chức">';
+            cols += '</td>';
+            cols += '<td style="vertical-align: middle" class="col-sm-7">';
+            cols += '<input style="width: 100%; font-style: italic;" class="form-control" name="DonViLienQuan.Value.TenToChuc.G' + orderNumber + '" type="text" value="Trung tâm Hải Văn">';
+            cols += '</td>';
+            cols += '</tr>';
+            cols += '<tr>';
+            cols += '<td style="vertical-align: middle" class="col-sm-4">';
+            cols += '<input style="width: 100%; font-weight: bold" class="form-control" name="DonViLienQuan.Attribute.ChucDanh.G' + orderNumber + '" type="text" value="Chức danh">';
+            cols += '</td>';
+            cols += '<td style="vertical-align: middle" class="col-sm-7">';
+            cols += '<input style="width: 100%; font-style: italic;" class="form-control" name="DonViLienQuan.Value.ChucDanh.G' + orderNumber + '" type="text" value="Giám đốc">';
+            cols += '</td>';
+            cols += '</tr>';
+            cols += '<tr>';
+            cols += '<td style="vertical-align: middle" class="col-sm-4">';
+            cols += '<input style="width: 100%; font-weight: bold" class="form-control" name="DonViLienQuan.Attribute.VaiTro.G' + orderNumber + '" type="text" value="Vai trò">';
+            cols += '</td>';
+            cols += '<td style="vertical-align: middle" class="col-sm-7">';
+            cols += '<input style="width: 100%; font-style: italic;" class="form-control" name="DonViLienQuan.Value.VaiTro.G' + orderNumber + '" type="text" value="Đơn vị xây dựng">';
+            cols += '</td>';
+            cols += '</tr>';
+            cols += '<tr>';
+            cols += '<td style="vertical-align: middle" class="col-sm-4">';
+            cols += '<input style="width: 100%; font-weight: bold" class="form-control" name="DonViLienQuan.Attribute.DienThoai.G' + orderNumber + '" type="text" value="Điện thoại">';
+            cols += '</td>';
+            cols += '<td style="vertical-align: middle" class="col-sm-7">';
+            cols += '<input style="width: 100%; font-style: italic;" class="form-control" name="DonViLienQuan.Value.DienThoai.G' + orderNumber + '" type="text" value="048343794">';
+            cols += '</td>';
+            cols += '</tr>';
+            cols += '<tr>';
+            cols += '<td style="vertical-align: middle" class="col-sm-4">';
+            cols += '<input style="width: 100%; font-weight: bold" class="form-control" name="DonViLienQuan.Attribute.Fax.G' + orderNumber + '" type="text" value="Fax">';
+            cols += '</td>';
+            cols += '<td style="vertical-align: middle" class="col-sm-7">';
+            cols += '<input style="width: 100%; font-style: italic;" class="form-control" name="DonViLienQuan.Value.Fax.G' + orderNumber + '" type="text" value="048350606">';
+            cols += '</td>';
+            cols += '</tr>';
+            cols += '<tr>';
+            cols += '<td style="vertical-align: middle" class="col-sm-4">';
+            cols += '<input style="width: 100%; font-weight: bold" class="form-control" name="DonViLienQuan.Attribute.DiaChi.G' + orderNumber + '" type="text" value="Địa chỉ">';
+            cols += '</td>';
+            cols += '<td style="vertical-align: middle" class="col-sm-7">';
+            cols += '<input style="width: 100%; font-style: italic;" class="form-control" name="DonViLienQuan.Value.DiaChi.G' + orderNumber + '" type="text" value="Số 8 Pháo Đài Láng, Phường Láng Thượng">';
+            cols += '</td>';
+            cols += '</tr>';
+            cols += '<tr>';
+            cols += '<td style="vertical-align: middle" class="col-sm-4">';
+            cols += '<input style="width: 100%; font-weight: bold" class="form-control" name="DonViLienQuan.Attribute.TinhTP.G' + orderNumber + '" type="text" value="Tỉnh/Thành phố">';
+            cols += '</td>';
+            cols += '<td style="vertical-align: middle" class="col-sm-7">';
+            cols += '<input style="width: 100%; font-style: italic;" class="form-control" name="DonViLienQuan.Value.TinhTP.G' + orderNumber + '" type="text" value="Thành phố Hà Nội">';
+            cols += '</td>';
+            cols += '</tr>';
+            cols += '<tr>';
+            cols += '<td style="vertical-align: middle" class="col-sm-4">';
+            cols += '<input style="width: 100%; font-weight: bold" class="form-control" name="DonViLienQuan.Attribute.QuanHuyen.G' + orderNumber + '" type="text" value="Quận/Huyện ">';
+            cols += '</td>';
+            cols += '<td style="vertical-align: middle" class="col-sm-7">';
+            cols += '<input style="width: 100%; font-style: italic;" class="form-control" name="DonViLienQuan.Value.QuanHuyen.G' + orderNumber + '" type="text" value="Quận Đống Đa">';
+            cols += '</td>';
+            cols += '</tr>';
+            cols += '<tr>';
+            cols += '<td style="vertical-align: middle" class="col-sm-4">';
+            cols += '<input style="width: 100%; font-weight: bold" class="form-control" name="DonViLienQuan.Attribute.QuocGia.G' + orderNumber + '" type="text" value="Quốc gia">';
+            cols += '</td>';
+            cols += '<td style="vertical-align: middle" class="col-sm-7">';
+            cols += '<input style="width: 100%; font-style: italic;" class="form-control" name="DonViLienQuan.Value.QuocGia.G' + orderNumber + '" type="text" value="Việt Nam">';
+            cols += '</td>';
+            cols += '</tr>';
+            cols += '<tr>';
+            cols += '<td style="vertical-align: middle" class="col-sm-4">';
+            cols += '<input style="width: 100%; font-weight: bold" class="form-control" name="DonViLienQuan.Attribute.Email.G' + orderNumber + '" type="text" value="Email">';
+            cols += '</td>';
+            cols += '<td style="vertical-align: middle" class="col-sm-7">';
+            cols += '<input style="width: 100%; font-style: italic;" class="form-control" name="DonViLienQuan.Value.Email.G' + orderNumber + '" type="text" value="hongnhung12_9@yahoo.com;thlamt">';
+            cols += '</td>';
+            cols += '</tr>';
+            cols += '</tbody>';
+            cols += '<tfoot>';
+            cols += '<tr>';
+            cols += '<td colspan="2" style="text-align: left;">';
+            cols += '<button type="button" class="btn btn-sm btn-default btn-block btnAddInfoDonViLienQuan" id="btnAddInfoDonViLienQuan' + orderNumber + '"><i class="fa fa-plus-circle"></i> Thêm thuộc tính</button>';
+            cols += '</td>';
+            cols += '</tr>';
+            cols += '</tfoot>';
+            cols += '</table>';
+            cols += '</div>';
+            cols += '</div>';
+            cols += '</td>';
+            newRow.append(cols);
+            $("table.tblDonViLienQuan").append(newRow);
+        });
+        $("table.tblDonViLienQuan").on("click", ".btnDelDonViLienQuan", function (event) {
+            $(this).closest("tr").remove();
+        });
+
+        // Thêm Đơn vị xây dựng
+        $("#btnNewDonViXayDung").on("click", function () {
+            var orderNumber = $('table.tblInfoDonViXayDung').length;
+            orderNumber++;
+            var newRow = $("<tr>");
+            var cols = "";
+            cols += '<td colspan="3">';
+            cols += '<div class="box box-info">';
+            cols += '<div class="box-header with-border">';
+            cols += '<h3 class="box-title"><i class="fa fa-info"></i> Thông tin đơn vị xây dựng</h3>';
+            cols += '<div class="box-tools pull-right">';
+            cols += '<button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="" data-original-title="Collapse"><i class="fa fa-minus"></i></button>';
+            cols += '</div>';
+            cols += '</div>';
+            cols += '<div class="box-body">';
+            cols += '<table id="tblInfoDonViXayDung' + orderNumber + '" class="table tblInfoDonViXayDung" style="width:100%">';
+            cols += '<tbody>';
+            cols += '<td style="vertical-align: middle" class="col-sm-4">';
+            cols += '<input style="width: 100%; font-weight: bold" class="form-control" name="DonViXayDung.Attribute.TenNguoiDaiDien.G' + orderNumber + '" type="text" value="Tên người đại diện">';
+            cols += '</td>';
+            cols += '<td style="vertical-align: middle" class="col-sm-7">';
+            cols += '<input style="width: 100%; font-style: italic;" class="form-control" name="DonViXayDung.Value.TenNguoiDaiDien.G' + orderNumber + '" type="text" value="Trần Hồng Lam">';
+            cols += '</td>';
+            cols += '</tr>';
+            cols += '<tr>';
+            cols += '<td style="vertical-align: middle" class="col-sm-4">';
+            cols += '<input style="width: 100%; font-weight: bold" class="form-control" name="DonViXayDung.Attribute.TenToChuc.G' + orderNumber + '" type="text" value="Tên tổ chức">';
+            cols += '</td>';
+            cols += '<td style="vertical-align: middle" class="col-sm-7">';
+            cols += '<input style="width: 100%; font-style: italic;" class="form-control" name="DonViXayDung.Value.TenToChuc.G' + orderNumber + '" type="text" value="Trung tâm Hải Văn">';
+            cols += '</td>';
+            cols += '</tr>';
+            cols += '<tr>';
+            cols += '<td style="vertical-align: middle" class="col-sm-4">';
+            cols += '<input style="width: 100%; font-weight: bold" class="form-control" name="DonViXayDung.Attribute.ChucDanh.G' + orderNumber + '" type="text" value="Chức danh">';
+            cols += '</td>';
+            cols += '<td style="vertical-align: middle" class="col-sm-7">';
+            cols += '<input style="width: 100%; font-style: italic;" class="form-control" name="DonViXayDung.Value.ChucDanh.G' + orderNumber + '" type="text" value="Giám đốc">';
+            cols += '</td>';
+            cols += '</tr>';
+            cols += '<tr>';
+            cols += '<td style="vertical-align: middle" class="col-sm-4">';
+            cols += '<input style="width: 100%; font-weight: bold" class="form-control" name="DonViXayDung.Attribute.VaiTro.G' + orderNumber + '" type="text" value="Vai trò">';
+            cols += '</td>';
+            cols += '<td style="vertical-align: middle" class="col-sm-7">';
+            cols += '<input style="width: 100%; font-style: italic;" class="form-control" name="DonViXayDung.Value.VaiTro.G' + orderNumber + '" type="text" value="Đơn vị xây dựng">';
+            cols += '</td>';
+            cols += '</tr>';
+            cols += '<tr>';
+            cols += '<td style="vertical-align: middle" class="col-sm-4">';
+            cols += '<input style="width: 100%; font-weight: bold" class="form-control" name="DonViXayDung.Attribute.DienThoai.G' + orderNumber + '" type="text" value="Điện thoại">';
+            cols += '</td>';
+            cols += '<td style="vertical-align: middle" class="col-sm-7">';
+            cols += '<input style="width: 100%; font-style: italic;" class="form-control" name="DonViXayDung.Value.DienThoai.G' + orderNumber + '" type="text" value="048343794">';
+            cols += '</td>';
+            cols += '</tr>';
+            cols += '<tr>';
+            cols += '<td style="vertical-align: middle" class="col-sm-4">';
+            cols += '<input style="width: 100%; font-weight: bold" class="form-control" name="DonViXayDung.Attribute.Fax.G' + orderNumber + '" type="text" value="Fax">';
+            cols += '</td>';
+            cols += '<td style="vertical-align: middle" class="col-sm-7">';
+            cols += '<input style="width: 100%; font-style: italic;" class="form-control" name="DonViXayDung.Value.Fax.G' + orderNumber + '" type="text" value="048350606">';
+            cols += '</td>';
+            cols += '</tr>';
+            cols += '<tr>';
+            cols += '<td style="vertical-align: middle" class="col-sm-4">';
+            cols += '<input style="width: 100%; font-weight: bold" class="form-control" name="DonViXayDung.Attribute.DiaChi.G' + orderNumber + '" type="text" value="Địa chỉ">';
+            cols += '</td>';
+            cols += '<td style="vertical-align: middle" class="col-sm-7">';
+            cols += '<input style="width: 100%; font-style: italic;" class="form-control" name="DonViXayDung.Value.DiaChi.G' + orderNumber + '" type="text" value="Số 8 Pháo Đài Láng, Phường Láng Thượng">';
+            cols += '</td>';
+            cols += '</tr>';
+            cols += '<tr>';
+            cols += '<td style="vertical-align: middle" class="col-sm-4">';
+            cols += '<input style="width: 100%; font-weight: bold" class="form-control" name="DonViXayDung.Attribute.TinhTP.G' + orderNumber + '" type="text" value="Tỉnh/Thành phố">';
+            cols += '</td>';
+            cols += '<td style="vertical-align: middle" class="col-sm-7">';
+            cols += '<input style="width: 100%; font-style: italic;" class="form-control" name="DonViXayDung.Value.TinhTP.G' + orderNumber + '" type="text" value="Thành phố Hà Nội">';
+            cols += '</td>';
+            cols += '</tr>';
+            cols += '<tr>';
+            cols += '<td style="vertical-align: middle" class="col-sm-4">';
+            cols += '<input style="width: 100%; font-weight: bold" class="form-control" name="DonViXayDung.Attribute.QuanHuyen.G' + orderNumber + '" type="text" value="Quận/Huyện ">';
+            cols += '</td>';
+            cols += '<td style="vertical-align: middle" class="col-sm-7">';
+            cols += '<input style="width: 100%; font-style: italic;" class="form-control" name="DonViXayDung.Value.QuanHuyen.G' + orderNumber + '" type="text" value="Quận Đống Đa">';
+            cols += '</td>';
+            cols += '</tr>';
+            cols += '<tr>';
+            cols += '<td style="vertical-align: middle" class="col-sm-4">';
+            cols += '<input style="width: 100%; font-weight: bold" class="form-control" name="DonViXayDung.Attribute.QuocGia.G' + orderNumber + '" type="text" value="Quốc gia">';
+            cols += '</td>';
+            cols += '<td style="vertical-align: middle" class="col-sm-7">';
+            cols += '<input style="width: 100%; font-style: italic;" class="form-control" name="DonViXayDung.Value.QuocGia.G' + orderNumber + '" type="text" value="Việt Nam">';
+            cols += '</td>';
+            cols += '</tr>';
+            cols += '<tr>';
+            cols += '<td style="vertical-align: middle" class="col-sm-4">';
+            cols += '<input style="width: 100%; font-weight: bold" class="form-control" name="DonViXayDung.Attribute.Email.G' + orderNumber + '" type="text" value="Email">';
+            cols += '</td>';
+            cols += '<td style="vertical-align: middle" class="col-sm-7">';
+            cols += '<input style="width: 100%; font-style: italic;" class="form-control" name="DonViXayDung.Value.Email.G' + orderNumber + '" type="text" value="hongnhung12_9@yahoo.com;thlamt">';
+            cols += '</td>';
+            cols += '</tr>';
+            cols += '</tbody>';
+            cols += '<tfoot>';
+            cols += '<tr>';
+            cols += '<td colspan="2" style="text-align: left;">';
+            cols += '<button type="button" class="btn btn-sm btn-default btn-block btnAddInfoDonViXayDung" id="btnAddInfoDonViXayDung' + orderNumber + '"><i class="fa fa-plus-circle"></i> Thêm thuộc tính</button>';
+            cols += '</td>';
+            cols += '</tr>';
+            cols += '</tfoot>';
+            cols += '</table>';
+            cols += '</div>';
+            cols += '</div>';
+            cols += '</td>';
+            newRow.append(cols);
+            $("table.tblDonViXayDung").append(newRow);
+        });
+        $("table.tblDonViXayDung").on("click", ".btnDelDonViXayDung", function (event) {
+            $(this).closest("tr").remove();
+        });
+
+        // Thêm thuộc tính đơn vị (liên quan)
+        $("table.tblDonViLienQuan").on("click", ".btnAddInfoDonViLienQuan", function (event) {
+            var controlTable = '#tblInfoDonViLienQuan' + $(this).attr("id").replace("btnAddInfoDonViLienQuan", "") + '';
+            var orderNumber = $('' + controlTable + ' >tbody >tr').length;
+            orderNumber++;
+            var newRow = $("<tr>");
+            var cols = "";
+            cols += '<td class="col-sm-4"><input style="width: 100%; font-weight: bold" type="text" name="DonViLienQuan.Attribute.Other.G' + $(this).attr("id").replace("btnAddInfoDonViLienQuan_", "") + '.' + orderNumber + 'DVLQ" class="form-control" /></td>';
+            cols += '<td class="col-sm-7"><input style="width: 100%; font-style: italic;" type="text" name="DonViLienQuan.Value.Other.G' + $(this).attr("id").replace("btnAddInfoDonViLienQuan_", "") + '.' + orderNumber + 'DVLQ" class="form-control toadoXY" /></td>';
+            cols += '<td class="col-sm-1 text-center" style="vertical-align: middle"><a class="btnDelInfoDonViLienQuan' + orderNumber + ' btn btn-xs btn-default"><i class="fa fa-remove text-red"></i></button></td>';
+            newRow.append(cols);
+            $(controlTable).append(newRow);
+        });
+        $("table.tblDonViLienQuan").on("click", ".btnDelDonViLienQuan", function (event) {
+            $(this).closest("tr").remove();
+        });
+
+        // Thông tin Đơn vị xây dựng
+        $("table.tblDonViXayDung").on("click", ".btnAddInfoDonViXayDung", function (event) {
+            var controlTable = '#tblInfoDonViXayDung' + $(this).attr("id").replace("btnAddInfoDonViXayDung", "") + '';
+            var orderNumber = $('' + controlTable + ' >tbody >tr').length;
+            orderNumber++;
+            var newRow = $("<tr>");
+            var cols = "";
+            cols += '<td class="col-sm-4"><input style="width: 100%; font-weight: bold" type="text" name="DonViXayDung.Attribute.Other.G' + $(this).attr("id").replace("btnAddInfoDonViXayDung_", "") + '.' + orderNumber + 'DVXD" class="form-control" /></td>';
+            cols += '<td class="col-sm-7"><input style="width: 100%; font-style: italic;" type="text" name="DonViXayDung.Value.Other.G' + $(this).attr("id").replace("btnAddInfoDonViXayDung_", "") + '.' + orderNumber + 'DVXD" class="form-control toadoXY" /></td>';
+            cols += '<td class="col-sm-1 text-center" style="vertical-align: middle"><a class="btnDelDonViXD btn btn-xs btn-default"><i class="fa fa-remove text-red"></i></button></td>';
+            newRow.append(cols);
+            $(controlTable).append(newRow);
+        });
+
+        $("table.tblDonViXayDung").on("click", ".btnDelDonViXD", function (event) {
+            $(this).closest("tr").remove();
+        });
+
+        // tblMetadataInfo
+        var orderNumber = $('table.tblMetadataInfo >tbody >tr').length;
+        $("#btnAddMetadataInfo").on("click", function () {
+            orderNumber++;
+            var newRow = $("<tr>");
+            var cols = "";
+            cols += '<td class="col-sm-4"><input style="width: 100%; font-weight: bold" type="text" name="Metadata.Attribute.Other' + orderNumber + '" class="form-control" /></td>';
+            cols += '<td class="col-sm-7"><input style="width: 100%; font-style: italic;" type="text" name="Metadata.Value.Other' + orderNumber + '" class="form-control toadoXY" /></td>';
+            cols += '<td class="col-sm-1 text-center" style="vertical-align: middle"><a class="btnDelMetadata btn btn-xs btn-default"><i class="fa fa-remove text-red"></i></button></td>';
+            newRow.append(cols);
+            $("table.tblMetadataInfo").append(newRow);
+        });
+
+        $("table.tblMetadataInfo").on("click", ".btnDelMetadata", function (event) {
+            $(this).closest("tr").remove();
+        });
+    </script>
+}

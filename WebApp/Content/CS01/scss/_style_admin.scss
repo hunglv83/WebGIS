@@ -1,0 +1,38 @@
+.administrator {
+	.checkboxpage {
+	background: #e6e6e6;
+    display: table-cell;
+    padding: 7px;
+    border-radius: 5px;
+	}
+
+	#side-menu {
+		ul li a.active {
+			background: #000;
+			color: #fff;
+		}
+	}
+
+	.page-template {
+		.box-style {
+			margin-bottom: 40px;
+			.radio-inline {
+				position: relative;
+				img {
+					max-width: 600px;
+					width: 100%;
+				}
+				input {
+					position: absolute;
+					bottom: -30px;
+					left: 40px;
+				}
+				span {
+					position: absolute;
+					bottom: -33px;
+					left: 45px;
+				}
+			}
+		}		
+	}
+}

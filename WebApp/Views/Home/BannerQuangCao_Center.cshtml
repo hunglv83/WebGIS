@@ -1,0 +1,13 @@
+﻿@using WebApp.Common;
+@model IEnumerable<WebApp.Core.EF.CMS_AdImages>
+
+
+@if (Model != null && Model.Count() > 0)
+{
+    foreach (var item in Model)
+    {
+        <a href="@item.Url" title="@item.Name" target="_blank">
+            <img src="@Utilities.SiteURL_Resources()@item.FileName" alt="@item.Name" style="width: 100%; margin-bottom: 10px;" />
+        </a>
+    }
+}

@@ -1,0 +1,50 @@
+.navbar {
+	min-height: 20px;
+	margin-bottom: 0;
+	.navbar-nav {
+		&>li {
+			&>a {
+				padding-top: 7px;
+				padding-bottom: 7px;
+				color: #fff;
+			}
+			&:hover {
+				background: #0268e3;
+			}
+		}
+		.dropdown-menu {
+			background: #0250b2;
+			li a {
+				color: #fff;
+				&:focus, &:hover {
+					background: #0268e3;
+				}
+			}
+		}
+	}	
+}
+
+@include xs {
+	.navbar {
+		
+	}
+}
+
+@include xxs {
+	.navbar {
+		.navbar-toggle {
+			background: transparent;
+			border-color: #0250b2;
+			&:focus, &:active {
+				background: transparent;
+			}
+			.icon-bar {
+				background: #0250b2;
+			}
+		}
+		.navbar-header {
+		    background: url('../../images/banner/banner.jpg');
+    		background-size: 160% 100%;
+    	}
+	}
+}

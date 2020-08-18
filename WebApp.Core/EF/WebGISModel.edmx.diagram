@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="05d3b12f45c84c498a829704cf52bccc" Name="Diagram1">
+        <EntityTypeShape EntityType="WebGISModel.CMS_AdImages" Width="1.5" PointX="12.75" PointY="7.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="WebGISModel.CMS_Approves" Width="1.5" PointX="5.25" PointY="8.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="WebGISModel.CMS_AreaOfDocument" Width="1.5" PointX="7.75" PointY="10.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="WebGISModel.CMS_Categories" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="WebGISModel.CMS_Contact" Width="1.5" PointX="0.75" PointY="19.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="WebGISModel.CMS_Documents" Width="1.5" PointX="10" PointY="8.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="WebGISModel.CMS_Fields" Width="1.5" PointX="5.75" PointY="2.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="WebGISModel.CMS_Leader" Width="1.5" PointX="0.75" PointY="12.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="WebGISModel.CMS_Links" Width="1.5" PointX="2.75" PointY="19.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="WebGISModel.CMS_Maps" Width="1.5" PointX="15" PointY="16.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="WebGISModel.CMS_MapService" Width="1.5" PointX="17.25" PointY="19.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="WebGISModel.CMS_News" Width="1.5" PointX="3" PointY="4.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="WebGISModel.CMS_News_Status" Width="1.5" PointX="0.75" PointY="9.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="WebGISModel.CMS_Notifications" Width="1.5" PointX="4.75" PointY="19.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="WebGISModel.CMS_Organization" Width="1.5" PointX="7.75" PointY="13.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="WebGISModel.CMS_Photos" Width="1.5" PointX="18" PointY="12.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="WebGISModel.CMS_Questions" Width="1.5" PointX="18" PointY="8.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="WebGISModel.CMS_Schedules" Width="1.5" PointX="9.75" PointY="20.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="WebGISModel.CMS_Services" Width="1.5" PointX="15" PointY="20.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="WebGISModel.CMS_TypeOfDocument" Width="1.5" PointX="7.75" PointY="17" IsExpanded="true" />
+        <EntityTypeShape EntityType="WebGISModel.CMS_TypeOfMap" Width="1.5" PointX="12.75" PointY="19.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="WebGISModel.CMS_TypeOfPhoto" Width="1.5" PointX="15.75" PointY="13.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="WebGISModel.CMS_TypeOfQuestion" Width="1.5" PointX="15.75" PointY="9.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="WebGISModel.CMS_TypeOfVideo" Width="1.5" PointX="0.75" PointY="16.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="WebGISModel.CMS_Videos" Width="1.5" PointX="3" PointY="15.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="WebGISModel.CSF_Functions" Width="1.5" PointX="7.75" PointY="26" IsExpanded="true" />
+        <EntityTypeShape EntityType="WebGISModel.CSF_HCHuyen" Width="1.5" PointX="16" PointY="2.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="WebGISModel.CSF_HCTinh" Width="1.5" PointX="13.75" PointY="3.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="WebGISModel.CSF_HCXa" Width="1.5" PointX="18.25" PointY="2.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="WebGISModel.CSF_Logs" Width="1.5" PointX="17.75" PointY="16.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="WebGISModel.CSF_Modules" Width="1.5" PointX="8.75" PointY="3.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="WebGISModel.CSF_PagePartial" Width="1.5" PointX="13.25" PointY="11.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="WebGISModel.CSF_PageRole" Width="1.5" PointX="10" PointY="14.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="WebGISModel.CSF_Pages" Width="1.5" PointX="7.75" PointY="20.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="WebGISModel.CSF_Partials" Width="1.5" PointX="11" PointY="3.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="WebGISModel.CSF_RoleFunction" Width="1.5" PointX="10" PointY="17.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="WebGISModel.CSF_Roles" Width="1.5" PointX="3.75" PointY="12.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="WebGISModel.CSF_Templates" Width="1.5" PointX="19.75" PointY="16.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="WebGISModel.CSF_UserRole" Width="1.5" PointX="6" PointY="5.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="WebGISModel.CSF_Users" Width="1.5" PointX="0.75" PointY="4.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="WebGISModel.sysdiagram" Width="1.5" PointX="19.75" PointY="19.5" IsExpanded="true" />
+        <AssociationConnector Association="WebGISModel.FK_CSF_Approves_CSF_News" ManuallyRouted="false" />
+        <AssociationConnector Association="WebGISModel.FK_CSF_Documents_CSF_AreaOfDocument" ManuallyRouted="false" />
+        <AssociationConnector Association="WebGISModel.FK_CSF_News_CSF_Categories" ManuallyRouted="false" />
+        <AssociationConnector Association="WebGISModel.FK_CSF_Documents_CSF_Organization" ManuallyRouted="false" />
+        <AssociationConnector Association="WebGISModel.FK_CSF_Documents_CSF_TypeOfDocument" ManuallyRouted="false" />
+        <AssociationConnector Association="WebGISModel.FK_CMS_Maps_CMS_TypeOfMap" ManuallyRouted="false" />
+        <AssociationConnector Association="WebGISModel.FK_CMS_MapService_CMS_Maps" ManuallyRouted="false" />
+        <AssociationConnector Association="WebGISModel.FK_CMS_MapService_CMS_Services" ManuallyRouted="false" />
+        <AssociationConnector Association="WebGISModel.FK_CSF_News_CSF_News_Status" ManuallyRouted="false" />
+        <AssociationConnector Association="WebGISModel.FK_CSF_News_CSF_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="WebGISModel.FK_CSF_Photos_CSF_TypeOfPhoto" ManuallyRouted="false" />
+        <AssociationConnector Association="WebGISModel.FK_CSF_Questions_CSF_TypeOfQuestion" ManuallyRouted="false" />
+        <AssociationConnector Association="WebGISModel.FK_CMS_Services_CMS_TypeOfMap" ManuallyRouted="false" />
+        <AssociationConnector Association="WebGISModel.FK_CSF_Videos_CSF_TypeOfVideo" ManuallyRouted="false" />
+        <AssociationConnector Association="WebGISModel.FK_CSF_RoleFunction_CSF_Functions" ManuallyRouted="false" />
+        <AssociationConnector Association="WebGISModel.FK_CSF_HCHuyen_CSF_HCTinh" ManuallyRouted="false" />
+        <AssociationConnector Association="WebGISModel.FK_CSF_HCXa_CSF_HCHuyen" ManuallyRouted="false" />
+        <AssociationConnector Association="WebGISModel.FK_CSF_Partials_CSF_Modules" ManuallyRouted="false" />
+        <AssociationConnector Association="WebGISModel.FK_CSF_PagePartial_CSF_Pages" ManuallyRouted="false" />
+        <AssociationConnector Association="WebGISModel.FK_CSF_PagePartial_CSF_Partials" ManuallyRouted="false" />
+        <AssociationConnector Association="WebGISModel.FK_CSF_PageRole_CSF_Pages" ManuallyRouted="false" />
+        <AssociationConnector Association="WebGISModel.FK_CSF_PageRole_CSF_Roles" ManuallyRouted="false" />
+        <AssociationConnector Association="WebGISModel.FK_CSF_RoleFunction_CSF_Roles" ManuallyRouted="false" />
+        <AssociationConnector Association="WebGISModel.FK_CSF_UserRole_CSF_Roles" ManuallyRouted="false" />
+        <AssociationConnector Association="WebGISModel.FK_CSF_UserRole_CSF_Users" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="WebGISModel.DT_KhuVuc" Width="1.5" PointX="20.375" PointY="0.75" />
+        <EntityTypeShape EntityType="WebGISModel.DT_ThoiDiem" Width="1.5" PointX="20.375" PointY="4.75" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

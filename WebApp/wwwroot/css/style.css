@@ -1,0 +1,64 @@
+﻿[class*=sidebar-light-] .nav-treeview > .nav-item > .nav-link.active, [class*=sidebar-light-] .nav-treeview > .nav-item > .nav-link.active:hover {
+    background-color: #3d9970;
+    color: #ffffff;
+}
+
+.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+    color: #fff;
+    /*background-color: #bbbcbb;*/
+    background-color: #007bff;
+}
+
+body {
+    margin: 0;
+    font-family: "Roboto", Arial, sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #212529;
+    text-align: left;
+    background-color: #fff;
+}
+
+a.nav-link {
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.card-title {
+    float: left;
+    font-size: 1rem;
+    font-weight: 400;
+    margin: 0;
+}
+
+.select2 {
+    max-width: 100%;
+}
+
+#tblData tr td {
+    vertical-align: middle;
+}
+
+/*span.fa {
+    font-size: 1.5em;
+}*/
+
+/*div.e-treegrid{
+    font-size: 13px;
+}*/
+
+.e-treegrid .e-treegridrowexpand, .e-treegrid .e-treegridrowcollapse .e-rowcell {
+    font-weight: 600;
+}
+
+.navbar-nav > .user-menu > .dropdown-menu {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    padding: 0;
+    border-top-width: 0;
+    min-width: 300px;
+}
+.e-content {
+    height: 100%;
+}

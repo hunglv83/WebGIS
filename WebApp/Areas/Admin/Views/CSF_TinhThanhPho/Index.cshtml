@@ -1,0 +1,68 @@
+﻿@model IEnumerable<WebApp.Core.EF.CSF_HCTinh>
+@{
+    ViewBag.Title = "DANH MỤC TỈNH/THÀNH PHỐ";
+    Layout = "~/Areas/Admin/Views/Shared/_Layouts.cshtml";
+}
+
+<div class="row">
+    <div class="col-12">
+        <div class="card card-primary">
+            <div class="card-header">
+                <h3 class="card-title"><i class="fa fa-users"></i> Danh sách tỉnh/thành phố</h3>
+            </div>
+            <div class="card-body">
+                <div class="form-group">
+                    <div class="col-md-12">
+                        <a class="btn btn-sm btn-success" title="Thêm mới" href="@Url.Content("~/Admin/CSF_HCTinh/Create")"><i class="fa fa-plus-square"></i> Thêm mới</a>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-12">
+                        <table id="tblData" class="table table-striped table-bordered table-hover nowrap" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">STT</th>
+                                    <th class="text-center">Mã</th>
+                                    <th class="text-center">Tên</th>
+                                    <th class="text-center">Tên tiếng anhs</th>
+                                    <th class="text-center">Thứ tự sắp xếp</th>
+                                    <th class="text-center">Người tạo</th>
+                                    <th class="text-center">Ngày tạo</th>
+                                    <th class="text-center" width="11%">Thao tác</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{
+                                    var i = 0;
+                                    var index = 0;
+                                }
+                                @foreach (var item in Model)
+                                {
+                                    i++;
+                                    index++;
+                                    <tr id="row_@item.ID">
+                                        <td align="center">@index</td>
+                                        <td align="center" id="td_@item.Ma">@item.Ma</td>
+                                        <td id="td_@item.Ten">@item.Ten</td>
+                                        <td id="td_@item.Ten">@item.TenTiengAnh</td>
+                                        <td align="center">@item.SortOrder</td>
+                                        <td>@item.CreatedBy</td>
+                                        <td align="center">@item.CreatedDate.ToString("dd/MM/yyyy HH:mm")</td>
+                                        <td align="center">
+                                            <a href="@Url.Content("~/Admin/CSF_HCTinh/Edit/")@item.ID" type="button" title="Sửa"><span class="fa fa-edit text-info"></span></a>
+                                            <a style="cursor: pointer" onclick="del(@item.Ma, '/CSF_HCTinh/Delete')" title="Xóa"><span class="fa fa-trash-alt text-danger"></span></a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script src="@Url.Content("~/areas/admin/jscontroller/TQGCommon.js")"></script>
+}

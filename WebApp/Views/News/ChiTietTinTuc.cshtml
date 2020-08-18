@@ -1,0 +1,43 @@
+﻿@model WebApp.Core.EF.CMS_News
+@using WebApp.Common;
+@
+@if (Model != null)
+{
+    <div class="panel panel-default box-newsdetail">
+        <div class="panel-heading">
+            <span>@ViewBag.CateName</span>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-xs-12 new-title">
+                    <h4>@Model.TITLE</h4>
+                    <span class="new-createdate"><i class="far fa-calendar-alt"></i> @Convert.ToDateTime(Model.CREATEDATE).ToString("dd/MM/yyyy") | <i class="fas fa-eye"></i> @Model.NUMBEROFVIEW</span>
+                </div>
+                <div class="col-xs-12 new-excerpt">
+                    @Html.Raw(Model.EXCERPT)
+                </div>
+                <div class="col-xs-12 new-content">
+                    @Html.Raw(Model.CONTENTS)
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <hr />
+                </div>
+                <div class="col-xs-12">
+                    <h5>Các tin liên quan</h5>
+                    @if (TempData["tinbaikhac"] != null)
+                    {
+                        List<CMS_News_LayTinBaiCongKhaiTheoCateKey_Result> listData = (List<CMS_News_LayTinBaiCongKhaiTheoCateKey_Result>)TempData["tinbaikhac"];
+                        <ul>
+                        @foreach (var item in listData)
+                        {
+                            <li><a title="@item.TITLE" href="@Utilities.UrlContent(@item.CateKey, @item.TITLE, "tt", @item.ID.ToString())">@item.TITLE</a></li>
+                        }
+                    </ul>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+}

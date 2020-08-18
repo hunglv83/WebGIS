@@ -1,0 +1,276 @@
+22/07/2020 05:13:10,152 6 - System.IO.FileNotFoundException: Could not find file 'D:\04.Workings\09.Ho_Van_Dich\02.De_tai_NKCH\04.SourceCode\QNI_KS2020\WebApp\SoLanTruyCap.xml'.
+File name: 'D:\04.Workings\09.Ho_Van_Dich\02.De_tai_NKCH\04.SourceCode\QNI_KS2020\WebApp\SoLanTruyCap.xml'
+   at System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)
+   at System.IO.FileStream.Init(String path, FileMode mode, FileAccess access, Int32 rights, Boolean useRights, FileShare share, Int32 bufferSize, FileOptions options, SECURITY_ATTRIBUTES secAttrs, String msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
+   at System.IO.FileStream..ctor(String path, FileMode mode, FileAccess access, FileShare share, Int32 bufferSize)
+   at System.Xml.XmlDownloadManager.GetStream(Uri uri, ICredentials credentials, IWebProxy proxy, RequestCachePolicy cachePolicy)
+   at System.Xml.XmlUrlResolver.GetEntity(Uri absoluteUri, String role, Type ofObjectToReturn)
+   at System.Xml.XmlTextReaderImpl.OpenUrlDelegate(Object xmlResolver)
+   at System.Threading.CompressedStack.runTryCode(Object userData)
+   at System.Runtime.CompilerServices.RuntimeHelpers.ExecuteCodeWithGuaranteedCleanup(TryCode code, CleanupCode backoutCode, Object userData)
+   at System.Threading.CompressedStack.Run(CompressedStack compressedStack, ContextCallback callback, Object state)
+   at System.Xml.XmlTextReaderImpl.OpenUrl()
+   at System.Xml.XmlTextReaderImpl.Read()
+   at System.Xml.XmlTextReader.Read()
+   at System.Xml.XmlReader.MoveToContent()
+   at System.Data.DataSet.ReadXml(XmlReader reader, Boolean denyResolving)
+   at System.Data.DataSet.ReadXml(String fileName)
+   at WebApp.MvcApplication.Session_Start() in D:\04.Workings\09.Ho_Van_Dich\02.De_tai_NKCH\04.SourceCode\QNI_KS2020\WebApp\Global.asax.cs:line 62
+22/07/2020 05:13:10,446 6 - System.InvalidOperationException: No connection string named 'WebGISEntities' could be found in the application config file.
+   at System.Data.Entity.Internal.LazyInternalConnection.get_ConnectionHasModel()
+   at System.Data.Entity.Internal.LazyInternalContext.InitializeContext()
+   at System.Data.Entity.Internal.InternalContext.GetEntitySetAndBaseTypeForType(Type entityType)
+   at System.Data.Entity.Internal.Linq.InternalSet`1.Initialize()
+   at System.Data.Entity.Internal.Linq.InternalSet`1.get_InternalContext()
+   at System.Data.Entity.Infrastructure.DbQuery`1.System.Linq.IQueryable.get_Provider()
+   at System.Linq.Queryable.FirstOrDefault[TSource](IQueryable`1 source)
+   at WebApp.Controllers.HomeController.Index(String pagekey, String category, String pagename, String pagetype, String ticket, String id) in D:\04.Workings\09.Ho_Van_Dich\02.De_tai_NKCH\04.SourceCode\QNI_KS2020\WebApp\Controllers\HomeController.cs:line 42
+22/07/2020 05:13:13,343 6 - System.InvalidOperationException: No connection string named 'WebGISEntities' could be found in the application config file.
+   at System.Data.Entity.Internal.LazyInternalConnection.get_ConnectionHasModel()
+   at System.Data.Entity.Internal.LazyInternalContext.InitializeContext()
+   at System.Data.Entity.Internal.InternalContext.GetEntitySetAndBaseTypeForType(Type entityType)
+   at System.Data.Entity.Internal.Linq.InternalSet`1.Initialize()
+   at System.Data.Entity.Internal.Linq.InternalSet`1.get_InternalContext()
+   at System.Data.Entity.Infrastructure.DbQuery`1.System.Linq.IQueryable.get_Provider()
+   at System.Linq.Queryable.SingleOrDefault[TSource](IQueryable`1 source, Expression`1 predicate)
+   at WebApp.Core.DAO.CSF_Users_DAO.GetRoleIDByUserName(String userName, Int32 intIDGuestGroup) in D:\04.Workings\09.Ho_Van_Dich\02.De_tai_NKCH\04.SourceCode\QNI_KS2020\WebApp.Core\DAO\CSF_Users_DAO.cs:line 117
+22/07/2020 05:13:13,394 6 - System.InvalidOperationException: No connection string named 'WebGISEntities' could be found in the application config file.
+   at System.Data.Entity.Internal.LazyInternalConnection.get_ConnectionHasModel()
+   at System.Data.Entity.Internal.LazyInternalContext.InitializeContext()
+   at System.Data.Entity.Internal.InternalContext.GetEntitySetAndBaseTypeForType(Type entityType)
+   at System.Data.Entity.Internal.Linq.InternalSet`1.Initialize()
+   at System.Data.Entity.Internal.Linq.InternalSet`1.get_InternalContext()
+   at System.Data.Entity.Infrastructure.DbQuery`1.System.Linq.IQueryable.get_Provider()
+   at System.Linq.Queryable.SingleOrDefault[TSource](IQueryable`1 source, Expression`1 predicate)
+   at WebApp.Core.DAO.CSF_Users_DAO.GetRoleIDByUserName(String userName, Int32 intIDGuestGroup) in D:\04.Workings\09.Ho_Van_Dich\02.De_tai_NKCH\04.SourceCode\QNI_KS2020\WebApp.Core\DAO\CSF_Users_DAO.cs:line 131
+   at WebApp.Controllers.SystemController.MainMenu() in D:\04.Workings\09.Ho_Van_Dich\02.De_tai_NKCH\04.SourceCode\QNI_KS2020\WebApp\Controllers\SystemController.cs:line 31
+22/07/2020 05:13:26,152 8 - System.InvalidOperationException: No connection string named 'WebGISEntities' could be found in the application config file.
+   at System.Data.Entity.Internal.LazyInternalConnection.get_ConnectionHasModel()
+   at System.Data.Entity.Internal.LazyInternalContext.InitializeContext()
+   at System.Data.Entity.Internal.InternalContext.GetEntitySetAndBaseTypeForType(Type entityType)
+   at System.Data.Entity.Internal.Linq.InternalSet`1.Initialize()
+   at System.Data.Entity.Internal.Linq.InternalSet`1.get_InternalContext()
+   at System.Data.Entity.Infrastructure.DbQuery`1.System.Linq.IQueryable.get_Provider()
+   at System.Linq.Queryable.FirstOrDefault[TSource](IQueryable`1 source)
+   at WebApp.Controllers.HomeController.Index(String pagekey, String category, String pagename, String pagetype, String ticket, String id) in D:\04.Workings\09.Ho_Van_Dich\02.De_tai_NKCH\04.SourceCode\QNI_KS2020\WebApp\Controllers\HomeController.cs:line 42
+22/07/2020 05:13:26,223 8 - System.InvalidOperationException: No connection string named 'WebGISEntities' could be found in the application config file.
+   at System.Data.Entity.Internal.LazyInternalConnection.get_ConnectionHasModel()
+   at System.Data.Entity.Internal.LazyInternalContext.InitializeContext()
+   at System.Data.Entity.Internal.InternalContext.GetEntitySetAndBaseTypeForType(Type entityType)
+   at System.Data.Entity.Internal.Linq.InternalSet`1.Initialize()
+   at System.Data.Entity.Internal.Linq.InternalSet`1.get_InternalContext()
+   at System.Data.Entity.Infrastructure.DbQuery`1.System.Linq.IQueryable.get_Provider()
+   at System.Linq.Queryable.SingleOrDefault[TSource](IQueryable`1 source, Expression`1 predicate)
+   at WebApp.Core.DAO.CSF_Users_DAO.GetRoleIDByUserName(String userName, Int32 intIDGuestGroup) in D:\04.Workings\09.Ho_Van_Dich\02.De_tai_NKCH\04.SourceCode\QNI_KS2020\WebApp.Core\DAO\CSF_Users_DAO.cs:line 117
+22/07/2020 05:13:26,276 8 - System.InvalidOperationException: No connection string named 'WebGISEntities' could be found in the application config file.
+   at System.Data.Entity.Internal.LazyInternalConnection.get_ConnectionHasModel()
+   at System.Data.Entity.Internal.LazyInternalContext.InitializeContext()
+   at System.Data.Entity.Internal.InternalContext.GetEntitySetAndBaseTypeForType(Type entityType)
+   at System.Data.Entity.Internal.Linq.InternalSet`1.Initialize()
+   at System.Data.Entity.Internal.Linq.InternalSet`1.get_InternalContext()
+   at System.Data.Entity.Infrastructure.DbQuery`1.System.Linq.IQueryable.get_Provider()
+   at System.Linq.Queryable.SingleOrDefault[TSource](IQueryable`1 source, Expression`1 predicate)
+   at WebApp.Core.DAO.CSF_Users_DAO.GetRoleIDByUserName(String userName, Int32 intIDGuestGroup) in D:\04.Workings\09.Ho_Van_Dich\02.De_tai_NKCH\04.SourceCode\QNI_KS2020\WebApp.Core\DAO\CSF_Users_DAO.cs:line 131
+   at WebApp.Controllers.SystemController.MainMenu() in D:\04.Workings\09.Ho_Van_Dich\02.De_tai_NKCH\04.SourceCode\QNI_KS2020\WebApp\Controllers\SystemController.cs:line 31
+22/07/2020 05:26:11,039 6 - System.IO.FileNotFoundException: Could not find file 'D:\04.Workings\09.Ho_Van_Dich\02.De_tai_NKCH\04.SourceCode\QNI_KS2020\WebApp\SoLanTruyCap.xml'.
+File name: 'D:\04.Workings\09.Ho_Van_Dich\02.De_tai_NKCH\04.SourceCode\QNI_KS2020\WebApp\SoLanTruyCap.xml'
+   at System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)
+   at System.IO.FileStream.Init(String path, FileMode mode, FileAccess access, Int32 rights, Boolean useRights, FileShare share, Int32 bufferSize, FileOptions options, SECURITY_ATTRIBUTES secAttrs, String msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
+   at System.IO.FileStream..ctor(String path, FileMode mode, FileAccess access, FileShare share, Int32 bufferSize)
+   at System.Xml.XmlDownloadManager.GetStream(Uri uri, ICredentials credentials, IWebProxy proxy, RequestCachePolicy cachePolicy)
+   at System.Xml.XmlUrlResolver.GetEntity(Uri absoluteUri, String role, Type ofObjectToReturn)
+   at System.Xml.XmlTextReaderImpl.OpenUrlDelegate(Object xmlResolver)
+   at System.Threading.CompressedStack.runTryCode(Object userData)
+   at System.Runtime.CompilerServices.RuntimeHelpers.ExecuteCodeWithGuaranteedCleanup(TryCode code, CleanupCode backoutCode, Object userData)
+   at System.Threading.CompressedStack.Run(CompressedStack compressedStack, ContextCallback callback, Object state)
+   at System.Xml.XmlTextReaderImpl.OpenUrl()
+   at System.Xml.XmlTextReaderImpl.Read()
+   at System.Xml.XmlTextReader.Read()
+   at System.Xml.XmlReader.MoveToContent()
+   at System.Data.DataSet.ReadXml(XmlReader reader, Boolean denyResolving)
+   at System.Data.DataSet.ReadXml(String fileName)
+   at WebApp.MvcApplication.Session_Start() in D:\04.Workings\09.Ho_Van_Dich\02.De_tai_NKCH\04.SourceCode\QNI_KS2020\WebApp\Global.asax.cs:line 62
+22/07/2020 05:26:11,679 6 - System.InvalidOperationException: No connection string named 'WebGISEntities' could be found in the application config file.
+   at System.Data.Entity.Internal.LazyInternalConnection.get_ConnectionHasModel()
+   at System.Data.Entity.Internal.LazyInternalContext.InitializeContext()
+   at System.Data.Entity.Internal.InternalContext.GetEntitySetAndBaseTypeForType(Type entityType)
+   at System.Data.Entity.Internal.Linq.InternalSet`1.Initialize()
+   at System.Data.Entity.Internal.Linq.InternalSet`1.get_InternalContext()
+   at System.Data.Entity.Infrastructure.DbQuery`1.System.Linq.IQueryable.get_Provider()
+   at System.Linq.Queryable.FirstOrDefault[TSource](IQueryable`1 source)
+   at WebApp.Controllers.HomeController.Index(String pagekey, String category, String pagename, String pagetype, String ticket, String id) in D:\04.Workings\09.Ho_Van_Dich\02.De_tai_NKCH\04.SourceCode\QNI_KS2020\WebApp\Controllers\HomeController.cs:line 42
+22/07/2020 05:26:11,926 6 - System.InvalidOperationException: No connection string named 'WebGISEntities' could be found in the application config file.
+   at System.Data.Entity.Internal.LazyInternalConnection.get_ConnectionHasModel()
+   at System.Data.Entity.Internal.LazyInternalContext.InitializeContext()
+   at System.Data.Entity.Internal.InternalContext.GetEntitySetAndBaseTypeForType(Type entityType)
+   at System.Data.Entity.Internal.Linq.InternalSet`1.Initialize()
+   at System.Data.Entity.Internal.Linq.InternalSet`1.get_InternalContext()
+   at System.Data.Entity.Infrastructure.DbQuery`1.System.Linq.IQueryable.get_Provider()
+   at System.Linq.Queryable.SingleOrDefault[TSource](IQueryable`1 source, Expression`1 predicate)
+   at WebApp.Core.DAO.CSF_Users_DAO.GetRoleIDByUserName(String userName, Int32 intIDGuestGroup) in D:\04.Workings\09.Ho_Van_Dich\02.De_tai_NKCH\04.SourceCode\QNI_KS2020\WebApp.Core\DAO\CSF_Users_DAO.cs:line 117
+22/07/2020 05:26:11,971 6 - System.InvalidOperationException: No connection string named 'WebGISEntities' could be found in the application config file.
+   at System.Data.Entity.Internal.LazyInternalConnection.get_ConnectionHasModel()
+   at System.Data.Entity.Internal.LazyInternalContext.InitializeContext()
+   at System.Data.Entity.Internal.InternalContext.GetEntitySetAndBaseTypeForType(Type entityType)
+   at System.Data.Entity.Internal.Linq.InternalSet`1.Initialize()
+   at System.Data.Entity.Internal.Linq.InternalSet`1.get_InternalContext()
+   at System.Data.Entity.Infrastructure.DbQuery`1.System.Linq.IQueryable.get_Provider()
+   at System.Linq.Queryable.SingleOrDefault[TSource](IQueryable`1 source, Expression`1 predicate)
+   at WebApp.Core.DAO.CSF_Users_DAO.GetRoleIDByUserName(String userName, Int32 intIDGuestGroup) in D:\04.Workings\09.Ho_Van_Dich\02.De_tai_NKCH\04.SourceCode\QNI_KS2020\WebApp.Core\DAO\CSF_Users_DAO.cs:line 131
+   at WebApp.Controllers.SystemController.MainMenu() in D:\04.Workings\09.Ho_Van_Dich\02.De_tai_NKCH\04.SourceCode\QNI_KS2020\WebApp\Controllers\SystemController.cs:line 31
+22/07/2020 05:27:08,886 6 - System.IO.FileNotFoundException: Could not find file 'D:\04.Workings\09.Ho_Van_Dich\02.De_tai_NKCH\04.SourceCode\QNI_KS2020\WebApp\SoLanTruyCap.xml'.
+File name: 'D:\04.Workings\09.Ho_Van_Dich\02.De_tai_NKCH\04.SourceCode\QNI_KS2020\WebApp\SoLanTruyCap.xml'
+   at System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)
+   at System.IO.FileStream.Init(String path, FileMode mode, FileAccess access, Int32 rights, Boolean useRights, FileShare share, Int32 bufferSize, FileOptions options, SECURITY_ATTRIBUTES secAttrs, String msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
+   at System.IO.FileStream..ctor(String path, FileMode mode, FileAccess access, FileShare share, Int32 bufferSize)
+   at System.Xml.XmlDownloadManager.GetStream(Uri uri, ICredentials credentials, IWebProxy proxy, RequestCachePolicy cachePolicy)
+   at System.Xml.XmlUrlResolver.GetEntity(Uri absoluteUri, String role, Type ofObjectToReturn)
+   at System.Xml.XmlTextReaderImpl.OpenUrlDelegate(Object xmlResolver)
+   at System.Threading.CompressedStack.runTryCode(Object userData)
+   at System.Runtime.CompilerServices.RuntimeHelpers.ExecuteCodeWithGuaranteedCleanup(TryCode code, CleanupCode backoutCode, Object userData)
+   at System.Threading.CompressedStack.Run(CompressedStack compressedStack, ContextCallback callback, Object state)
+   at System.Xml.XmlTextReaderImpl.OpenUrl()
+   at System.Xml.XmlTextReaderImpl.Read()
+   at System.Xml.XmlTextReader.Read()
+   at System.Xml.XmlReader.MoveToContent()
+   at System.Data.DataSet.ReadXml(XmlReader reader, Boolean denyResolving)
+   at System.Data.DataSet.ReadXml(String fileName)
+   at WebApp.MvcApplication.Session_Start() in D:\04.Workings\09.Ho_Van_Dich\02.De_tai_NKCH\04.SourceCode\QNI_KS2020\WebApp\Global.asax.cs:line 62
+22/07/2020 05:27:09,465 6 - System.InvalidOperationException: No connection string named 'WebGISEntities' could be found in the application config file.
+   at System.Data.Entity.Internal.LazyInternalConnection.get_ConnectionHasModel()
+   at System.Data.Entity.Internal.LazyInternalContext.InitializeContext()
+   at System.Data.Entity.Internal.InternalContext.GetEntitySetAndBaseTypeForType(Type entityType)
+   at System.Data.Entity.Internal.Linq.InternalSet`1.Initialize()
+   at System.Data.Entity.Internal.Linq.InternalSet`1.get_InternalContext()
+   at System.Data.Entity.Infrastructure.DbQuery`1.System.Linq.IQueryable.get_Provider()
+   at System.Linq.Queryable.FirstOrDefault[TSource](IQueryable`1 source)
+   at WebApp.Controllers.HomeController.Index(String pagekey, String category, String pagename, String pagetype, String ticket, String id) in D:\04.Workings\09.Ho_Van_Dich\02.De_tai_NKCH\04.SourceCode\QNI_KS2020\WebApp\Controllers\HomeController.cs:line 42
+22/07/2020 05:27:09,730 6 - System.InvalidOperationException: No connection string named 'WebGISEntities' could be found in the application config file.
+   at System.Data.Entity.Internal.LazyInternalConnection.get_ConnectionHasModel()
+   at System.Data.Entity.Internal.LazyInternalContext.InitializeContext()
+   at System.Data.Entity.Internal.InternalContext.GetEntitySetAndBaseTypeForType(Type entityType)
+   at System.Data.Entity.Internal.Linq.InternalSet`1.Initialize()
+   at System.Data.Entity.Internal.Linq.InternalSet`1.get_InternalContext()
+   at System.Data.Entity.Infrastructure.DbQuery`1.System.Linq.IQueryable.get_Provider()
+   at System.Linq.Queryable.SingleOrDefault[TSource](IQueryable`1 source, Expression`1 predicate)
+   at WebApp.Core.DAO.CSF_Users_DAO.GetRoleIDByUserName(String userName, Int32 intIDGuestGroup) in D:\04.Workings\09.Ho_Van_Dich\02.De_tai_NKCH\04.SourceCode\QNI_KS2020\WebApp.Core\DAO\CSF_Users_DAO.cs:line 117
+22/07/2020 05:27:09,786 6 - System.InvalidOperationException: No connection string named 'WebGISEntities' could be found in the application config file.
+   at System.Data.Entity.Internal.LazyInternalConnection.get_ConnectionHasModel()
+   at System.Data.Entity.Internal.LazyInternalContext.InitializeContext()
+   at System.Data.Entity.Internal.InternalContext.GetEntitySetAndBaseTypeForType(Type entityType)
+   at System.Data.Entity.Internal.Linq.InternalSet`1.Initialize()
+   at System.Data.Entity.Internal.Linq.InternalSet`1.get_InternalContext()
+   at System.Data.Entity.Infrastructure.DbQuery`1.System.Linq.IQueryable.get_Provider()
+   at System.Linq.Queryable.SingleOrDefault[TSource](IQueryable`1 source, Expression`1 predicate)
+   at WebApp.Core.DAO.CSF_Users_DAO.GetRoleIDByUserName(String userName, Int32 intIDGuestGroup) in D:\04.Workings\09.Ho_Van_Dich\02.De_tai_NKCH\04.SourceCode\QNI_KS2020\WebApp.Core\DAO\CSF_Users_DAO.cs:line 131
+   at WebApp.Controllers.SystemController.MainMenu() in D:\04.Workings\09.Ho_Van_Dich\02.De_tai_NKCH\04.SourceCode\QNI_KS2020\WebApp\Controllers\SystemController.cs:line 31
+22/07/2020 05:27:32,617 8 - System.InvalidOperationException: No connection string named 'WebGISEntities' could be found in the application config file.
+   at System.Data.Entity.Internal.LazyInternalConnection.get_ConnectionHasModel()
+   at System.Data.Entity.Internal.LazyInternalContext.InitializeContext()
+   at System.Data.Entity.Internal.InternalContext.GetEntitySetAndBaseTypeForType(Type entityType)
+   at System.Data.Entity.Internal.Linq.InternalSet`1.Initialize()
+   at System.Data.Entity.Internal.Linq.InternalSet`1.get_InternalContext()
+   at System.Data.Entity.Infrastructure.DbQuery`1.System.Linq.IQueryable.get_Provider()
+   at System.Linq.Queryable.FirstOrDefault[TSource](IQueryable`1 source)
+   at WebApp.Controllers.HomeController.Index(String pagekey, String category, String pagename, String pagetype, String ticket, String id) in D:\04.Workings\09.Ho_Van_Dich\02.De_tai_NKCH\04.SourceCode\QNI_KS2020\WebApp\Controllers\HomeController.cs:line 42
+22/07/2020 05:27:32,678 8 - System.InvalidOperationException: No connection string named 'WebGISEntities' could be found in the application config file.
+   at System.Data.Entity.Internal.LazyInternalConnection.get_ConnectionHasModel()
+   at System.Data.Entity.Internal.LazyInternalContext.InitializeContext()
+   at System.Data.Entity.Internal.InternalContext.GetEntitySetAndBaseTypeForType(Type entityType)
+   at System.Data.Entity.Internal.Linq.InternalSet`1.Initialize()
+   at System.Data.Entity.Internal.Linq.InternalSet`1.get_InternalContext()
+   at System.Data.Entity.Infrastructure.DbQuery`1.System.Linq.IQueryable.get_Provider()
+   at System.Linq.Queryable.SingleOrDefault[TSource](IQueryable`1 source, Expression`1 predicate)
+   at WebApp.Core.DAO.CSF_Users_DAO.GetRoleIDByUserName(String userName, Int32 intIDGuestGroup) in D:\04.Workings\09.Ho_Van_Dich\02.De_tai_NKCH\04.SourceCode\QNI_KS2020\WebApp.Core\DAO\CSF_Users_DAO.cs:line 117
+22/07/2020 05:27:32,735 8 - System.InvalidOperationException: No connection string named 'WebGISEntities' could be found in the application config file.
+   at System.Data.Entity.Internal.LazyInternalConnection.get_ConnectionHasModel()
+   at System.Data.Entity.Internal.LazyInternalContext.InitializeContext()
+   at System.Data.Entity.Internal.InternalContext.GetEntitySetAndBaseTypeForType(Type entityType)
+   at System.Data.Entity.Internal.Linq.InternalSet`1.Initialize()
+   at System.Data.Entity.Internal.Linq.InternalSet`1.get_InternalContext()
+   at System.Data.Entity.Infrastructure.DbQuery`1.System.Linq.IQueryable.get_Provider()
+   at System.Linq.Queryable.SingleOrDefault[TSource](IQueryable`1 source, Expression`1 predicate)
+   at WebApp.Core.DAO.CSF_Users_DAO.GetRoleIDByUserName(String userName, Int32 intIDGuestGroup) in D:\04.Workings\09.Ho_Van_Dich\02.De_tai_NKCH\04.SourceCode\QNI_KS2020\WebApp.Core\DAO\CSF_Users_DAO.cs:line 131
+   at WebApp.Controllers.SystemController.MainMenu() in D:\04.Workings\09.Ho_Van_Dich\02.De_tai_NKCH\04.SourceCode\QNI_KS2020\WebApp\Controllers\SystemController.cs:line 31
+22/07/2020 05:29:19,289 6 - System.InvalidOperationException: No connection string named 'WebGISEntities' could be found in the application config file.
+   at System.Data.Entity.Internal.LazyInternalConnection.get_ConnectionHasModel()
+   at System.Data.Entity.Internal.LazyInternalContext.InitializeContext()
+   at System.Data.Entity.Internal.InternalContext.GetEntitySetAndBaseTypeForType(Type entityType)
+   at System.Data.Entity.Internal.Linq.InternalSet`1.Initialize()
+   at System.Data.Entity.Internal.Linq.InternalSet`1.get_InternalContext()
+   at System.Data.Entity.Infrastructure.DbQuery`1.System.Linq.IQueryable.get_Provider()
+   at System.Linq.Queryable.FirstOrDefault[TSource](IQueryable`1 source)
+   at WebApp.Controllers.HomeController.Index(String pagekey, String category, String pagename, String pagetype, String ticket, String id) in D:\04.Workings\09.Ho_Van_Dich\02.De_tai_NKCH\04.SourceCode\QNI_KS2020\WebApp\Controllers\HomeController.cs:line 42
+22/07/2020 05:29:19,334 6 - System.InvalidOperationException: No connection string named 'WebGISEntities' could be found in the application config file.
+   at System.Data.Entity.Internal.LazyInternalConnection.get_ConnectionHasModel()
+   at System.Data.Entity.Internal.LazyInternalContext.InitializeContext()
+   at System.Data.Entity.Internal.InternalContext.GetEntitySetAndBaseTypeForType(Type entityType)
+   at System.Data.Entity.Internal.Linq.InternalSet`1.Initialize()
+   at System.Data.Entity.Internal.Linq.InternalSet`1.get_InternalContext()
+   at System.Data.Entity.Infrastructure.DbQuery`1.System.Linq.IQueryable.get_Provider()
+   at System.Linq.Queryable.SingleOrDefault[TSource](IQueryable`1 source, Expression`1 predicate)
+   at WebApp.Core.DAO.CSF_Users_DAO.GetRoleIDByUserName(String userName, Int32 intIDGuestGroup) in D:\04.Workings\09.Ho_Van_Dich\02.De_tai_NKCH\04.SourceCode\QNI_KS2020\WebApp.Core\DAO\CSF_Users_DAO.cs:line 117
+22/07/2020 05:29:19,374 6 - System.InvalidOperationException: No connection string named 'WebGISEntities' could be found in the application config file.
+   at System.Data.Entity.Internal.LazyInternalConnection.get_ConnectionHasModel()
+   at System.Data.Entity.Internal.LazyInternalContext.InitializeContext()
+   at System.Data.Entity.Internal.InternalContext.GetEntitySetAndBaseTypeForType(Type entityType)
+   at System.Data.Entity.Internal.Linq.InternalSet`1.Initialize()
+   at System.Data.Entity.Internal.Linq.InternalSet`1.get_InternalContext()
+   at System.Data.Entity.Infrastructure.DbQuery`1.System.Linq.IQueryable.get_Provider()
+   at System.Linq.Queryable.SingleOrDefault[TSource](IQueryable`1 source, Expression`1 predicate)
+   at WebApp.Core.DAO.CSF_Users_DAO.GetRoleIDByUserName(String userName, Int32 intIDGuestGroup) in D:\04.Workings\09.Ho_Van_Dich\02.De_tai_NKCH\04.SourceCode\QNI_KS2020\WebApp.Core\DAO\CSF_Users_DAO.cs:line 131
+   at WebApp.Controllers.SystemController.MainMenu() in D:\04.Workings\09.Ho_Van_Dich\02.De_tai_NKCH\04.SourceCode\QNI_KS2020\WebApp\Controllers\SystemController.cs:line 31
+22/07/2020 05:33:33,502 6 - System.IO.FileNotFoundException: Could not find file 'D:\04.Workings\09.Ho_Van_Dich\02.De_tai_NKCH\04.SourceCode\QNI_KS2020\WebApp\SoLanTruyCap.xml'.
+File name: 'D:\04.Workings\09.Ho_Van_Dich\02.De_tai_NKCH\04.SourceCode\QNI_KS2020\WebApp\SoLanTruyCap.xml'
+   at System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)
+   at System.IO.FileStream.Init(String path, FileMode mode, FileAccess access, Int32 rights, Boolean useRights, FileShare share, Int32 bufferSize, FileOptions options, SECURITY_ATTRIBUTES secAttrs, String msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
+   at System.IO.FileStream..ctor(String path, FileMode mode, FileAccess access, FileShare share, Int32 bufferSize)
+   at System.Xml.XmlDownloadManager.GetStream(Uri uri, ICredentials credentials, IWebProxy proxy, RequestCachePolicy cachePolicy)
+   at System.Xml.XmlUrlResolver.GetEntity(Uri absoluteUri, String role, Type ofObjectToReturn)
+   at System.Xml.XmlTextReaderImpl.OpenUrlDelegate(Object xmlResolver)
+   at System.Threading.CompressedStack.runTryCode(Object userData)
+   at System.Runtime.CompilerServices.RuntimeHelpers.ExecuteCodeWithGuaranteedCleanup(TryCode code, CleanupCode backoutCode, Object userData)
+   at System.Threading.CompressedStack.Run(CompressedStack compressedStack, ContextCallback callback, Object state)
+   at System.Xml.XmlTextReaderImpl.OpenUrl()
+   at System.Xml.XmlTextReaderImpl.Read()
+   at System.Xml.XmlTextReader.Read()
+   at System.Xml.XmlReader.MoveToContent()
+   at System.Data.DataSet.ReadXml(XmlReader reader, Boolean denyResolving)
+   at System.Data.DataSet.ReadXml(String fileName)
+   at WebApp.MvcApplication.Session_Start() in D:\04.Workings\09.Ho_Van_Dich\02.De_tai_NKCH\04.SourceCode\QNI_KS2020\WebApp\Global.asax.cs:line 62
+22/07/2020 05:35:08,542 5 - System.IO.FileNotFoundException: Could not find file 'D:\04.Workings\09.Ho_Van_Dich\02.De_tai_NKCH\04.SourceCode\QNI_KS2020\WebApp\SoLanTruyCap.xml'.
+File name: 'D:\04.Workings\09.Ho_Van_Dich\02.De_tai_NKCH\04.SourceCode\QNI_KS2020\WebApp\SoLanTruyCap.xml'
+   at System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)
+   at System.IO.FileStream.Init(String path, FileMode mode, FileAccess access, Int32 rights, Boolean useRights, FileShare share, Int32 bufferSize, FileOptions options, SECURITY_ATTRIBUTES secAttrs, String msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
+   at System.IO.FileStream..ctor(String path, FileMode mode, FileAccess access, FileShare share, Int32 bufferSize)
+   at System.Xml.XmlDownloadManager.GetStream(Uri uri, ICredentials credentials, IWebProxy proxy, RequestCachePolicy cachePolicy)
+   at System.Xml.XmlUrlResolver.GetEntity(Uri absoluteUri, String role, Type ofObjectToReturn)
+   at System.Xml.XmlTextReaderImpl.OpenUrlDelegate(Object xmlResolver)
+   at System.Threading.CompressedStack.runTryCode(Object userData)
+   at System.Runtime.CompilerServices.RuntimeHelpers.ExecuteCodeWithGuaranteedCleanup(TryCode code, CleanupCode backoutCode, Object userData)
+   at System.Threading.CompressedStack.Run(CompressedStack compressedStack, ContextCallback callback, Object state)
+   at System.Xml.XmlTextReaderImpl.OpenUrl()
+   at System.Xml.XmlTextReaderImpl.Read()
+   at System.Xml.XmlTextReader.Read()
+   at System.Xml.XmlReader.MoveToContent()
+   at System.Data.DataSet.ReadXml(XmlReader reader, Boolean denyResolving)
+   at System.Data.DataSet.ReadXml(String fileName)
+   at WebApp.MvcApplication.Session_Start() in D:\04.Workings\09.Ho_Van_Dich\02.De_tai_NKCH\04.SourceCode\QNI_KS2020\WebApp\Global.asax.cs:line 62
+22/07/2020 05:37:09,678 6 - System.IO.FileNotFoundException: Could not find file 'D:\04.Workings\09.Ho_Van_Dich\02.De_tai_NKCH\04.SourceCode\QNI_KS2020\WebApp\SoLanTruyCap.xml'.
+File name: 'D:\04.Workings\09.Ho_Van_Dich\02.De_tai_NKCH\04.SourceCode\QNI_KS2020\WebApp\SoLanTruyCap.xml'
+   at System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)
+   at System.IO.FileStream.Init(String path, FileMode mode, FileAccess access, Int32 rights, Boolean useRights, FileShare share, Int32 bufferSize, FileOptions options, SECURITY_ATTRIBUTES secAttrs, String msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
+   at System.IO.FileStream..ctor(String path, FileMode mode, FileAccess access, FileShare share, Int32 bufferSize)
+   at System.Xml.XmlDownloadManager.GetStream(Uri uri, ICredentials credentials, IWebProxy proxy, RequestCachePolicy cachePolicy)
+   at System.Xml.XmlUrlResolver.GetEntity(Uri absoluteUri, String role, Type ofObjectToReturn)
+   at System.Xml.XmlTextReaderImpl.OpenUrlDelegate(Object xmlResolver)
+   at System.Threading.CompressedStack.runTryCode(Object userData)
+   at System.Runtime.CompilerServices.RuntimeHelpers.ExecuteCodeWithGuaranteedCleanup(TryCode code, CleanupCode backoutCode, Object userData)
+   at System.Threading.CompressedStack.Run(CompressedStack compressedStack, ContextCallback callback, Object state)
+   at System.Xml.XmlTextReaderImpl.OpenUrl()
+   at System.Xml.XmlTextReaderImpl.Read()
+   at System.Xml.XmlTextReader.Read()
+   at System.Xml.XmlReader.MoveToContent()
+   at System.Data.DataSet.ReadXml(XmlReader reader, Boolean denyResolving)
+   at System.Data.DataSet.ReadXml(String fileName)
+   at WebApp.MvcApplication.Session_Start() in D:\04.Workings\09.Ho_Van_Dich\02.De_tai_NKCH\04.SourceCode\QNI_KS2020\WebApp\Global.asax.cs:line 62

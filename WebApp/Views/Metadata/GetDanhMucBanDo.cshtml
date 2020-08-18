@@ -1,0 +1,36 @@
+﻿@using WebApp.Core.EF;
+@using WebApp.Core.DAO;
+@using PagedList.Mvc;
+
+<div id="divResultBanDo"></div>
+
+<script src="~/Scripts/JSBase/jquery.min.js"></script>
+<script src="~/Scripts/JSBase/Web.config.js"></script><script>
+    $.ajax({
+        type: 'POST',
+        url: SiteUrlAdmin + "/QNI_Metadata/GetMapTypes",
+        data: {},
+        success: function (result) {
+            $('#divResultBanDo').html(result);
+        }
+    });
+</script>
+<script>
+    function XemChiTietMapType(id, name) {
+        $.ajax({
+            type: "POST",
+            url: SiteUrlAdmin + "/QNI_Metadata/GetDataByMapType",
+            data: {
+                mapTypeId: id
+            },
+            success: function (result) {
+                $('#divResultData').html(result);
+                $('#divTitle').html("THÔNG TIN " + name);
+            },
+            error: function (errormessage) {
+                alert(errormessage.responseText);
+            }
+        });
+        return false;
+    }
+</script>

@@ -1,0 +1,149 @@
+﻿<div class="panel panel-default box-news">
+    <div class="panel-heading">
+        @ViewBag.TITLE
+    </div>
+    <div class="panel-body">
+        <form action="@Url.Content(Request.Url.GetLeftPart(UriPartial.Path))" method="get" class="form-horizontal" style="margin-top: 15px;">
+            <div class="form-group">
+                <div class="col-xs-2 col-xs-offset-1">
+                    <label class="control-label">Từ khóa</label>
+                </div>
+                <div class="col-xs-8">
+                    <input type="text" name="key" class="form-control" placeholder="Điểm mỏ, hồ sơ, tài liệu ..." value="@ViewBag.KEY" />
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-xs-2 col-xs-offset-1">
+                    <label class="control-label">Tìm theo</label>
+                </div>
+                <div class="col-xs-8">
+                    <div class="col-xs-2">
+                        <input type="radio" id="chkDiemMo" name="chkTimKiem" value="chkDiemMo" checked /><label style="font-weight:normal;padding-left: 8px;" for="chkDiemMo">Điểm mỏ</label>
+                    </div>
+                    <div class="col-xs-2">
+                        <input type="radio" id="chkHoSo" name="chkTimKiem" value="chkHoSo" /><label style="font-weight:normal;padding-left: 8px;" for="chkHoSo">Hồ sơ</label>
+                    </div>
+                    <div class="col-xs-2">
+                        <input type="radio" id="chkTaiLieu" name="chkTimKiem" value="chkTaiLieu" /><label style="font-weight:normal;padding-left: 8px;" for="chkTaiLieu">Tài liệu</label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-xs-10 col-xs-offset-1 text-center">
+                    <button id="btnTimKiem" type="button" class="btn btn-default btn-xs" title="Tìm kiếm">Tìm kiếm <span class="glyphicon glyphicon-search"></span></button>
+                </div>
+            </div>
+        </form>
+        <div class="row">
+            <div class="col-xs-12">
+                <hr />
+                <label class="control-label">Danh sách kết quả</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="form-group search-advanced-result" style="display: none!important">
+                    <table id="tableHoSo" style="width: 100%; border-bottom-color: aliceblue;" class="table table-bordered dataTable no-footer">
+                        <thead class="headingtable">
+                            <tr style="text-align:left;">
+                                <th>Name</th>
+                                <th>Age</th>
+                                <th>DoB</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        jQuery("#btnTimKiem").click(function () {
+            $.ajaxSetup({
+                cache: false
+            });
+            let tableid = jQuery("#tableHoSo");
+            let url = SiteUrlAdmin + "/TimKiem/DiemMo";
+            //Xử lý datatble ở đây
+            jQuery(tableid).dataTable({
+                destroy: true,
+                processing: true, // control the processing indicator.
+                serverSide: true, // recommended to use serverSide when data is more than 10000 rows for performance reasons
+                info: true,   // control table information display field
+                stateSave: false,  //restore table state on page reload,
+                pageLength: (pagelength != null) ? pagelength : 20,
+                ordering: false,
+                responsive: true,
+                autoWidth: false,
+                lengthMenu: [
+                    [5, 10, 20, 25, 50],
+                    [5, 10, 20, 25, 50]
+                ],
+                dom: '<"top"lf>rt<"bottom"lpi><"clear">',
+                pagingType: "bootstrap_full_number",
+                ajax: {
+                    url: url,
+                    contentType: "application/json; charset=utf-8",
+                    dataType: 'json',
+                    type: "GET"
+                },
+                success: function (data) {
+                    //do stuff here
+                    console("1; " + data);
+                },
+                drawCallback: function (settings) {
+                    //console.log("2; " + settings.json);
+                    //do whatever
+                },
+                initComplete: function (settings, json) {
+                    //console.log("3; " + json);
+                    // call your function here
+                },
+                columns: [
+                    //{
+                    //    data: "STT",
+                    //    width: "5%",
+                    //},
+                    //{
+                    //    data: "Ten",
+                    //    width: "50%"
+                    //},
+                    //{
+                    //    data: "MoTa",
+                    //    width: "30%"
+                    //},
+                    //{
+                    //    data: (thaotac != null) ? thaotac : "ThaoTac",
+                    //    width: "15%"
+                    //}
+                ],
+                language: {
+                    search: "Tìm kiếm: ", //"My search: ",
+                    paginate: {
+                        previous: "Trang trước", //"Prev",
+                        next: "Trang sau", //"Next",
+                        last: "Trang cuối cùng", //"Last",
+                        first: "Trang đầu tiên" //"First",
+                    },
+                    aria: {
+                        sortAscending: ": Sắp xếp theo thứ tự tăng dần",
+                        sortDescending: ": Sắp xếp theo thứ tự giảm dần"
+                    },
+                    searching: (search != null) ? search : false,
+                    emptyTable: "Không có dữ liệu", //"No data available in table",
+                    info: "Bản ghi _START_ đến _END_ / tổng số _TOTAL_ bản ghi", // "Showing _START_ to _END_ of _TOTAL_ entries",
+                    infoEmpty: "Không có dữ liệu", //"No entries found",
+                    infoFiltered: "(filtered1 của _MAX_ tổng số bản đi)",
+                    infoFiltered: "",
+                    lengthMenu: "Hiển thị _MENU_ bản ghi",
+                    search: "Tìm kiếm:", //Search:",
+                    zeroRecords: "Không tìm thấy bản ghi phù hợp", //No matching records found",
+                    processing: "Đang xử lý dữ liệu"
+                }
+            });
+            $(tableid + '_filter input').addClass('input-large')
+        });
+    });
+</script>

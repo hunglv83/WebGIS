@@ -1,0 +1,33 @@
+﻿@using WebApp.Common;
+@model IEnumerable<WebApp.Core.EF.CMS_Links>
+
+<div class="panel panel-default box-news" style="min-height: auto;">
+    <div class="panel-heading">
+        <a href="#">@ViewBag.TITLE</a>
+    </div>
+    <div class="panel-body">
+        @if (Model != null && Model.Count() > 0)
+        {
+            <select class="form-control" id="lienketwebsite">
+                <option value="#">-- Chọn website --</option>
+                @foreach (var item in Model)
+                {
+                    <option value="@item.Url">@item.Name</option>
+                }
+            </select>
+        }
+    </div>
+</div>
+<script type="text/javascript">
+    window.onload = function () {
+        jQuery("#lienketwebsite").change(function () {
+            var url = jQuery("#lienketwebsite").val();
+            if (url !== '#') {
+                var win = window.open(url, '_blank');
+                if (win) {
+                    win.focus();
+                }
+            }
+        });
+    };
+</script>

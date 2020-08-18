@@ -1,0 +1,61 @@
+.nav-parent {
+	background: #EEEEEE;
+}
+.navbar {
+	min-height: 20px;
+	margin-bottom: 0;
+	.navbar-nav {
+		&>li {
+			&>a {
+				padding-top: 7px;
+				padding-bottom: 7px;
+				color: $color-test;
+			}
+			&:hover {
+				background: $navbar-hover;
+				a {
+					color: #fff;
+				}
+			}
+		}
+		.dropdown-menu {
+			background: #fff;
+			li a {
+				color: #000;
+				&:focus, &:hover {
+					background: $navbar-hover;
+					color: #fff;
+				}
+			}
+			li.active a {
+				background: $color-test;
+				color: #fff;
+			}
+		}
+	}	
+}
+
+@include xs {
+	.navbar {
+		
+	}
+}
+
+@include xxs {
+	.navbar {
+		.navbar-toggle {
+			background: transparent;
+			border-color: $primary-color;
+			&:focus, &:active {
+				background: transparent;
+			}
+			.icon-bar {
+				background: $primary-color;
+			}
+		}
+		.navbar-header {
+		    background: url('../../images/banner/banner.jpg');
+    		background-size: 160% 100%;
+    	}
+	}
+}

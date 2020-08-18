@@ -1,0 +1,36 @@
+﻿@using WebApp.Core.DAO
+@model MainMenu
+<nav class="navbar navbar-inverse">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+        @Html.Raw(Model.stringMenu)
+
+        <ul class="nav navbar-nav navbar-right">
+            @*<li><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+                <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>*@
+        </ul>
+    </div>
+    <div id="roleMenu" class="hidden" data-model="@Json.Encode(Model.roleMenu)"></div>
+</nav>
+@*js hover menu dropdown -> webconfig.js*@
+<script>
+    @*var rolePageIDs = '@Json.Encode(Model.roleMenu)';
+    var data = JSON.parse(rolePageIDs);
+    var interval_obj = setInterval(function () {
+        if (window.jQuery) {
+            for (var i = 0; i < data.length; i++) {
+                jQuery('#page-' + data[i]).remove();
+            }
+            clearInterval(interval_obj);
+        }
+        else {
+            console.log('wait');
+        }
+    }, 0);*@
+</script>

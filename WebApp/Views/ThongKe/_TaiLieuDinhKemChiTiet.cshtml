@@ -1,0 +1,62 @@
+﻿@model IEnumerable<WebApp.Core.EF.TQG_TaiLieuDinhKem>
+@using WebApp.Common;
+
+<span style="font-size: 13px" class="text-primary"><i class="fa fa-cubes"></i> Thông tin chi tiết hồ sơ @Model.FirstOrDefault().TQG_HoSo.TQG_Mo.TenMo</span>
+<hr />
+<div style="max-height: 500px; overflow-y: auto;">
+    <table class="table tblDataSimple3 dataTable table-striped table-bordered table-hover nowrap" style="width:100%">
+        <thead>
+            <tr>
+                <th>STT</th>
+                <th>Loại hồ sơ</th>
+                <th>Mô tả</th>
+                <th>Tên tài liệu</th>
+                <th>Người tải lên</th>
+                <th>Ngày tải lên</th>
+                <td>Xem</td>
+                <td>Tải xuống</td>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                var i = 0;
+                var index = 0;
+            }
+            @foreach (var item in Model)
+            {
+                i++;
+                index = i;
+                <tr id="row_@item.GuiID">
+                    <td align="center">@index</td>
+                    <td>@item.TQG_HoSo.TQG_LoaiHoSo.TenLoaiHoSo</td>
+                    <td>@item.Description</td>
+                    <td>
+                        @{
+                            if (@item.FileName.Length > 30)
+                            {
+                                var sortName = item.FileName.Substring(0, 29) + "...";
+                                <span title="@item.FileName">@sortName</span>
+                            }
+                            else
+                            {
+                                <span title="@item.FileName">@item.FileName</span>
+                            }
+                        }
+                    </td>
+                    <td>@item.CreatedBy</td>
+                    <td align="right">@item.CreatedDate</td>
+                    <td align="center">
+                        <a href="@Url.Action("ShowFile", "ThongKe", new { guiId = item.GuiID})" target="_blank" title="Xem chi tiết tài liệu"><i class="fa fa-tv (alias)"></i></a>
+                    </td>
+                    <td align="center">
+                        <a class="title" href="@Url.Action("Download")?mahoso=@item.MaHoSo&file=@item.FileName&display=@item.FileName" title="Tải xuống"><i class="fa fa-cloud-download"></i></a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@section jsFooter{
+    <script src="@Url.Content("~/areas/admin/jscontroller/TQGCommon.js")"></script>
+}

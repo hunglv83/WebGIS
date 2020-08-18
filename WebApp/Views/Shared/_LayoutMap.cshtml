@@ -1,0 +1,177 @@
+﻿<!--A Design by W3layouts
+Author: W3layout
+Author URL: http://w3layouts.com
+License: Creative Commons Attribution 3.0 Unported
+License URL: http://creativecommons.org/licenses/by/3.0/
+-->
+@using System.Web.Security
+@using WebApp.Core.EF
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Thông tin Cơ sở dữ liệu Địa chất khoáng sản tỉnh Tuyên Quang</title>
+    <link rel="shortcut icon" href="@Url.Content("~/Images/monre1.png")" type="image/x-icon">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href="@Url.Content("~/Content/CSSBase/jquery-ui.css")" rel="stylesheet" />
+    <!-- Latest compiled and minified JavaScript -->
+    <link href="@Url.Content("~/Content/CSSBase/bootstrap.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/CSSBase/font-awesome.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/CSSBase/fontawesome-all.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/CSSBase/bootstrap-select.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/CSSBase/jsTree/style.min.css")" rel="stylesheet" />
+    @*jstree*@
+    <link rel="stylesheet" href="@Url.Content("~/Content/CSSBase/bootstrap-datetimepicker.css")" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+
+    <!-- DataTable -->
+    <link href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap.min.css" rel="stylesheet" />
+
+    <!-- Font Awesome -->
+    <link href="@Url.Content("~/Content/LTE/font-awesome.min.css")" rel="stylesheet" />
+    <!-- Ionicons -->
+    <link href="@Url.Content("~/Content/LTE/ionicons.min.css")" rel="stylesheet" />
+
+    <link href="@Url.Content("~/Content/CS02/Style.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/CS02/main.css")" rel="stylesheet" />
+</head>
+<body>
+    <header id="header">
+        <div class="container">
+            <div class="">
+                <div class="row header-social">
+                    <div class="col-lg-12 text-right">
+                        @*<span class="hidden-xs"><a href="@Url.Content("~/rss")">RSS <i class="fa fa-rss"></i></a></span>*@
+                        @*<span class="hidden-xs"><a href="@Url.Content("~/so-do-trang")">Sơ đồ trang <i class="glyphicon glyphicon-equalizer"></i></a></span>*@
+                        @if (Context.User.Identity.IsAuthenticated)
+                        {
+                            <span><a href="@Url.Content("~/admin/qt_home")" target="_blank">Xin chào: @Context.User.Identity.Name <i class="fa fa-angle-double-right"></i></a></span>
+                            <span><a href="@Url.Content("~/cs/home/logout")">Đăng xuất <i class="fa fa-sign-out-alt"></i></a></span>
+                        }
+                        else
+                        {
+                            string urlLoginSSO = System.Configuration.ConfigurationManager.AppSettings["casLoginURL"] + "?service=" + System.Configuration.ConfigurationManager.AppSettings["SiteUrl"];
+                            <a href="@Url.Content("~/cs/home/login")" class="btn btn-success btn-xs">Đăng nhập</a>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <div class="container content" style="background: #fff;">
+        @RenderBody()
+    </div>
+
+    <!-- jQuery -->
+    <script src="@Url.Content("~/Scripts/JSBase/jquery.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/JSBase/jquery-ui.js")" type="text/javascript"></script>
+    <script type="text/javascript">
+        //$.noConflict();
+    </script>
+    <!--Validate-->
+    <script src="@Url.Content("~/Scripts/JSBase/jquery.validate.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/JSBase/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+    <!--Confirm-->
+    <script src="@Url.Content("~/Scripts/JSBase/jquery.unobtrusive-ajax.min.js")" type="text/javascript"></script>
+    <!-- Bootstrap Core JavaScript -->
+    <script src="@Url.Content("~/Scripts/JSBase/moment.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/JSBase/bootstrap.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/JSBase/bootstrap-datetimepicker.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/JSBase/jstree.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/ckfinder/ckfinder.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/JSBase/bootstrap-select.js")"></script>
+    <!-- Custom Theme JavaScript -->
+    <script src="@Url.Content("~/Scripts/JSBase/Web.config.js")" type="text/javascript"></script>
+
+    <!-- DataTable -->
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js" type="text/javascript"></script>
+    <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap.min.js" type="text/javascript"></script>
+
+    <!-- HoldOn -->
+    <link href="~/Scripts/HoldOn/HoldOn.min.css" rel="stylesheet" />
+    <script src="~/Scripts/HoldOn/HoldOn.min.js"></script>
+
+    <script>
+        function ajaxLoading(themeName) {
+            HoldOn.open({
+                theme: themeName,
+                message: "<h4>" + " Đang thực hiện. Vui lòng đợi!</h4>"
+            });
+        }
+
+        function ajaxStop() {
+            HoldOn.close();
+        }
+
+        $(document)
+            .ajaxStart(function () {
+                ajaxLoading('sk-fading-circle');
+            })
+            .ajaxStop(function () {
+                ajaxStop();
+            });
+
+        $(document).ready(function () {
+            $('#tblData').DataTable({
+                "paging": true,
+                "scrollCollapse": true,
+                "lengthChange": true,
+                "searching": true,
+                "ordering": true,
+                "info": true,
+                "autoWidth": true,
+                "language": {
+                    "decimal": ".",
+                    "thousands": ",",
+                    "sProcessing": "Đang xử lý...",
+                    "sLengthMenu": "Xem _MENU_ mục",
+                    "sZeroRecords": "Không tìm thấy dòng nào phù hợp",
+                    "sInfo": "Đang xem _START_ đến _END_ trong tổng số _TOTAL_ mục",
+                    "sInfoEmpty": "Đang xem 0 đến 0 trong tổng số 0 mục",
+                    "sInfoFiltered": "(được lọc từ _MAX_ mục)",
+                    "sInfoPostFix": "",
+                    "sSearch": "Lọc dữ liệu:",
+                    "sUrl": "",
+                    "oPaginate": {
+                        "sFirst": "Đầu",
+                        "sPrevious": "Trước",
+                        "sNext": "Tiếp",
+                        "sLast": "Cuối"
+                    }
+                }
+            });
+        });
+    </script>
+
+    @*<script src="/assets/admin/dist/js/sb-admin-2.js"></script>*@
+    @RenderSection("jsFooter", required: false)
+    <script type="text/javascript">
+        jQuery(function () {
+            jQuery('#AlertBox').removeClass('hide');
+            jQuery('#AlertBox').delay(2000).slideUp(500);
+        });
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            //initialize();
+        });
+        function initialize() {
+            var mapOptions = {
+                center: new google.maps.LatLng(10.771971, 106.697845),
+                zoom: 10,
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+            };
+            var map = new google.maps.Map(document.getElementById("map_canvas"),
+                mapOptions);
+            // create a marker
+            var latlng = new google.maps.LatLng(10.771971, 106.697845);
+            var marker = new google.maps.Marker({
+                position: latlng,
+                map: map,
+                title: 'My Place'
+            });
+        }
+    </script>
+</body>
+</html>

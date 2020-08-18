@@ -1,0 +1,27 @@
+﻿@model WebApp.Core.EF.CMS_Videos
+@using WebApp.Common;
+@
+@if (Model != null)
+{
+    <div class="panel panel-default box-newsdetail">
+        <div class="panel-heading">
+            <span>@Model.CMS_TypeOfVideo.Name <i class="fas fa-caret-right"></i></span>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-xs-12 new-title">
+                    <h4>@Model.Name</h4>
+                    <span class="new-createdate"><i class="far fa-calendar-alt"></i> @Convert.ToDateTime(Model.CreateDate).ToString("dd/MM/yyyy")</span>
+                </div>
+                <div class="col-xs-12">
+                    <video width="100%" controls>
+                        @*<source src="@Utilities.SiteURL_Resources()@Model.FileName" type="video/mp4">*@
+                        <source src="@Model.FileName" type="video/mp4">
+                        Your browser does not support HTML5 video.
+                    </video>
+                    <p>@Model.Description</p>
+                </div>
+            </div>
+        </div>
+    </div>
+}

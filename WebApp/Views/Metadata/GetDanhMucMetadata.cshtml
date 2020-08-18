@@ -1,0 +1,37 @@
+﻿@using WebApp.Core.EF;
+@using WebApp.Core.DAO;
+@using PagedList.Mvc;
+
+<div id="divResultMetadata"></div>
+
+<script src="~/Scripts/JSBase/jquery.min.js"></script>
+<script src="~/Scripts/JSBase/Web.config.js"></script>
+<script>
+    $.ajax({
+        type: 'POST',
+        url: SiteUrlAdmin + "/QNI_Metadata/GetMetadataTypes",
+        data: {},
+        success: function (result) {
+            $('#divResultMetadata').html(result);
+        }
+    });
+</script>
+<script>
+    function XemChiTietMetaType(id, name) {
+        $.ajax({
+            type: "POST",
+            url: SiteUrlAdmin + "/QNI_Metadata/GetDataByMetadataType",
+            data: {
+                metaTypeId: id
+            },
+            success: function (result) {
+                $('#divResultData').html(result);
+                $('#divTitle').html("THÔNG TIN " + name);
+            },
+            error: function (errormessage) {
+                alert(errormessage.responseText);
+            }
+        });
+        return false;
+    }
+</script>

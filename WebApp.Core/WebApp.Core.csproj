@@ -1,0 +1,470 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\EntityFramework.6.4.0\build\EntityFramework.props" Condition="Exists('..\packages\EntityFramework.6.4.0\build\EntityFramework.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{AA93EB44-060E-4752-9345-D6EF0ADDAE9B}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>WebApp.Core</RootNamespace>
+    <AssemblyName>WebGIS.Core</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\WebApp\bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.4.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.4.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.8\lib\net40-full\log4net.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="PagedList, Version=1.17.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\PagedList.1.17.0.0\lib\net40\PagedList.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="PagedList.Mvc, Version=4.5.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\PagedList.Mvc.4.5.0.0\lib\net40\PagedList.Mvc.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Web.Mvc, Version=4.0.0.1, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\CS.Portal\bin\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Constants\ConfigConst.cs" />
+    <Compile Include="DAO\CMS_AdImages_DAO.cs" />
+    <Compile Include="DAO\CMS_Approves_DAO.cs" />
+    <Compile Include="DAO\CMS_AreaOfDocument_DAO.cs" />
+    <Compile Include="DAO\CMS_Categories_DAO.cs" />
+    <Compile Include="DAO\CMS_Contact_DAO.cs" />
+    <Compile Include="DAO\CMS_Documents_DAO.cs" />
+    <Compile Include="DAO\CMS_Links_DAO.cs" />
+    <Compile Include="DAO\CMS_MapService_DAO.cs" />
+    <Compile Include="DAO\CMS_Maps_DAO.cs" />
+    <Compile Include="DAO\CMS_News_DAO.cs" />
+    <Compile Include="DAO\CMS_Notifications_DAO.cs" />
+    <Compile Include="DAO\CMS_Organization_DAO.cs" />
+    <Compile Include="DAO\CMS_Photos_DAO.cs" />
+    <Compile Include="DAO\CMS_Questions_DAO.cs" />
+    <Compile Include="DAO\CMS_Schedules_DAO.cs" />
+    <Compile Include="DAO\CMS_Services_DAO.cs" />
+    <Compile Include="DAO\CMS_TypeOfDocument_DAO.cs" />
+    <Compile Include="DAO\CMS_TypeOfMap_DAO.cs" />
+    <Compile Include="DAO\CMS_TypeOfPhoto_DAO.cs" />
+    <Compile Include="DAO\CMS_TypeOfQuestion_DAO.cs" />
+    <Compile Include="DAO\CMS_TypeOfVideo_DAO.cs" />
+    <Compile Include="DAO\CMS_Videos_DAO.cs" />
+    <Compile Include="DAO\CSF_Funtions_DAO.cs" />
+    <Compile Include="DAO\CSF_Logs_DAO.cs" />
+    <Compile Include="DAO\CSF_Modules_DAO.cs" />
+    <Compile Include="DAO\CSF_PageRole_DAO.cs" />
+    <Compile Include="DAO\CSF_Pages_DAO.cs" />
+    <Compile Include="DAO\CSF_Partials_DAO.cs" />
+    <Compile Include="DAO\CSF_RoleFuntion_DAO.cs" />
+    <Compile Include="DAO\CSF_Roles_DAO.cs" />
+    <Compile Include="DAO\CSF_UserRole_DAO.cs" />
+    <Compile Include="DAO\CSF_Users_DAO.cs" />
+    <Compile Include="DAO\CustomClass.cs" />
+    <Compile Include="EF\CMS_AdImages.cs">
+      <DependentUpon>WebGISModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\CMS_AdImages_LayTatCa_Result.cs">
+      <DependentUpon>WebGISModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\CMS_Approves.cs">
+      <DependentUpon>WebGISModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\CMS_Approves_byIDNews_Result.cs">
+      <DependentUpon>WebGISModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\CMS_AreaOfDocument.cs">
+      <DependentUpon>WebGISModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\CMS_AreaOfDocument_LayTatCa_Result.cs">
+      <DependentUpon>WebGISModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\CMS_Categories.cs">
+      <DependentUpon>WebGISModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\CMS_Categories_LayTatCa_Result.cs">
+      <DependentUpon>WebGISModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\CMS_Contact.cs">
+      <DependentUpon>WebGISModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\CMS_Contact_LayTatCa_Result.cs">
+      <DependentUpon>WebGISModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\CMS_Documents.cs">
+      <DependentUpon>WebGISModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\CMS_Documents_LayTatCa_Result.cs">
+      <DependentUpon>WebGISModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\CMS_Fields.cs">
+      <DependentUpon>WebGISModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\CMS_Leader.cs">
+      <DependentUpon>WebGISModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\CMS_Links.cs">
+      <DependentUpon>WebGISModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\CMS_Links_LayTatCa_Result.cs">
+      <DependentUpon>WebGISModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\CMS_Maps.cs">
+      <DependentUpon>WebGISModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\CMS_MapService.cs">
+      <DependentUpon>WebGISModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\CMS_MapService_ByMapID_Result.cs">
+      <DependentUpon>WebGISModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\CMS_Maps_LayTatCa_Result.cs">
+      <DependentUpon>WebGISModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\CMS_News.cs">
+      <DependentUpon>WebGISModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\CMS_News_LayCongBoK0CongBo_Result.cs">
+      <DependentUpon>WebGISModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\CMS_News_LayTatCa_Result.cs">
+      <DependentUpon>WebGISModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\CMS_News_LayTinBaiCongKhaiTheoCateKey_Result.cs">
+      <DependentUpon>WebGISModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\CMS_News_Status.cs">
+      <DependentUpon>WebGISModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\CMS_Notifications.cs">
+      <DependentUpon>WebGISModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\CMS_Notifications_LayTatCa_Result.cs">
+      <DependentUpon>WebGISModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\CMS_Organization.cs">
+      <DependentUpon>WebGISModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\CMS_Organization_LayTatCa_Result.cs">
+      <DependentUpon>WebGISModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\CMS_Photos.cs">
+      <DependentUpon>WebGISModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\CMS_Photos_LayTatCa_Result.cs">
+      <DependentUpon>WebGISModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\CMS_Questions.cs">
+      <DependentUpon>WebGISModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\CMS_Questions_LayTatCa_Result.cs">
+      <DependentUpon>WebGISModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\CMS_Schedules.cs">
+      <DependentUpon>WebGISModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\CMS_Schedules_LayTatCa_Result.cs">
+      <DependentUpon>WebGISModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\CMS_Services.cs">
+      <DependentUpon>WebGISModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\CMS_Services_LayTatCa_Result.cs">
+      <DependentUpon>WebGISModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\CMS_TypeOfDocument.cs">
+      <DependentUpon>WebGISModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\CMS_TypeOfDocument_LayTatCa_Result.cs">
+      <DependentUpon>WebGISModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\CMS_TypeOfMap.cs">
+      <DependentUpon>WebGISModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\CMS_TypeOfMap_LayTatCa_Result.cs">
+      <DependentUpon>WebGISModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\CMS_TypeOfPhoto.cs">
+      <DependentUpon>WebGISModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\CMS_TypeOfPhoto_LayTatCa_Result.cs">
+      <DependentUpon>WebGISModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\CMS_TypeOfQuestion.cs">
+      <DependentUpon>WebGISModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\CMS_TypeOfQuestion_LayTatCa_Result.cs">
+      <DependentUpon>WebGISModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\CMS_TypeOfVideo.cs">
+      <DependentUpon>WebGISModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\CMS_TypeOfVideo_LayTatCa_Result.cs">
+      <DependentUpon>WebGISModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\CMS_Videos.cs">
+      <DependentUpon>WebGISModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\CMS_Videos_LayTatCa_Result.cs">
+      <DependentUpon>WebGISModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\CSF_Functions.cs">
+      <DependentUpon>WebGISModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\CSF_Functions_LayTatCa_Result.cs">
+      <DependentUpon>WebGISModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\CSF_HCHuyen.cs">
+      <DependentUpon>WebGISModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\CSF_HCTinh.cs">
+      <DependentUpon>WebGISModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\CSF_HCXa.cs">
+      <DependentUpon>WebGISModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\CSF_Logs.cs">
+      <DependentUpon>WebGISModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\CSF_Logs_LayTatCa_Result.cs">
+      <DependentUpon>WebGISModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\CSF_Logs_TheoTieuChi_Result.cs">
+      <DependentUpon>WebGISModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\CSF_Modules.cs">
+      <DependentUpon>WebGISModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\CSF_Modules_LayTatCa_Result.cs">
+      <DependentUpon>WebGISModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\CSF_PagePartial.cs">
+      <DependentUpon>WebGISModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\CSF_PageRole.cs">
+      <DependentUpon>WebGISModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\CSF_Pages.cs">
+      <DependentUpon>WebGISModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\CSF_Pages_GetPageByRoleID_Result.cs">
+      <DependentUpon>WebGISModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\CSF_Pages_GetPartial_FrontEnd_Result.cs">
+      <DependentUpon>WebGISModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\CSF_Pages_GetPartial_Result.cs">
+      <DependentUpon>WebGISModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\CSF_Pages_LayTatCa_Result.cs">
+      <DependentUpon>WebGISModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\CSF_Partials.cs">
+      <DependentUpon>WebGISModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\CSF_Partials_LayTatCa_Result.cs">
+      <DependentUpon>WebGISModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\CSF_RoleFunction.cs">
+      <DependentUpon>WebGISModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\CSF_RoleFunction_LayTatCa_Result.cs">
+      <DependentUpon>WebGISModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\CSF_Roles.cs">
+      <DependentUpon>WebGISModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\CSF_Templates.cs">
+      <DependentUpon>WebGISModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\CSF_UserRole.cs">
+      <DependentUpon>WebGISModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\CSF_UserRole_GetByUser_Result.cs">
+      <DependentUpon>WebGISModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\CSF_Users.cs">
+      <DependentUpon>WebGISModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\CSF_Users_CheckLogin_Result.cs">
+      <DependentUpon>WebGISModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\CSF_Users_GetAll_Result.cs">
+      <DependentUpon>WebGISModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\CSF_Users_GetUsersInGroup_Result.cs">
+      <DependentUpon>WebGISModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\CSF_Users_GetUsersNotInGroup_Result.cs">
+      <DependentUpon>WebGISModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\DT_KhuVuc.cs">
+      <DependentUpon>WebGISModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\DT_ThoiDiem.cs">
+      <DependentUpon>WebGISModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\fun_CSVToTable_Result.cs">
+      <DependentUpon>WebGISModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\sp_helpdiagramdefinition_Result.cs">
+      <DependentUpon>WebGISModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\sp_helpdiagrams_Result.cs">
+      <DependentUpon>WebGISModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\sysdiagram.cs">
+      <DependentUpon>WebGISModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\WebGISModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>WebGISModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\WebGISModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>WebGISModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\WebGISModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>WebGISModel.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Metadatas\CMS_AdImages_Metadata.cs" />
+    <Compile Include="Metadatas\CMS_AreaOfDocument_Metadata.cs" />
+    <Compile Include="Metadatas\CMS_Categories_Metadata.cs" />
+    <Compile Include="Metadatas\CMS_Contact_Metadata.cs" />
+    <Compile Include="Metadatas\CMS_Documents_Metadata.cs" />
+    <Compile Include="Metadatas\CMS_Links_Metadata.cs" />
+    <Compile Include="Metadatas\CMS_Maps_Metadata.cs" />
+    <Compile Include="Metadatas\CMS_News_Metadata.cs" />
+    <Compile Include="Metadatas\CMS_Notifications_Metadata.cs" />
+    <Compile Include="Metadatas\CMS_Organization_Metadata.cs" />
+    <Compile Include="Metadatas\CMS_Photos_Metadata.cs" />
+    <Compile Include="Metadatas\CMS_Questions_Metadata.cs" />
+    <Compile Include="Metadatas\CMS_Schedules_Metadata.cs" />
+    <Compile Include="Metadatas\CMS_Services_Metadata.cs" />
+    <Compile Include="Metadatas\CMS_TypeOfDocument_Metadata.cs" />
+    <Compile Include="Metadatas\CMS_TypeOfMap_Metadata.cs" />
+    <Compile Include="Metadatas\CMS_TypeOfPhoto_Metadata.cs" />
+    <Compile Include="Metadatas\CMS_TypeOfQuestion_Metadata.cs" />
+    <Compile Include="Metadatas\CMS_TypeOfVideo_Metadata.cs" />
+    <Compile Include="Metadatas\CMS_Videos_Metadata.cs" />
+    <Compile Include="Metadatas\CSF_Functions_Metadata.cs" />
+    <Compile Include="Metadatas\CSF_Modules_Metadata.cs" />
+    <Compile Include="Metadatas\CSF_Pages_Metadata.cs" />
+    <Compile Include="Metadatas\CSF_Partials_Metadata.cs" />
+    <Compile Include="Metadatas\CSF_Roles_Metadata.cs" />
+    <Compile Include="Metadatas\RegisterModel_Metadata.cs" />
+    <Compile Include="Metadatas\CSF_Users_Metadata.cs" />
+    <Compile Include="Metadatas\LoginModel_Metadata.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SQLGis\RanhGioiCapPhep.cs" />
+    <Compile Include="SQLGis\SqlHelperParameterCache.cs" />
+    <Compile Include="SQLGis\SqlServerDataAccess.cs" />
+    <Compile Include="Utilities\CustomClass.cs" />
+    <Compile Include="Utilities\EFUtility.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.Config">
+      <SubType>Designer</SubType>
+    </None>
+    <EntityDeploy Include="EF\WebGISModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>WebGISModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="EF\WebGISModel.edmx.diagram">
+      <DependentUpon>WebGISModel.edmx</DependentUpon>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Content\" />
+    <Folder Include="ViewModels\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\WebApp.Common\WebApp.Common.csproj">
+      <Project>{f6b1b74a-fc45-4521-a0a3-9c5f1eadeb57}</Project>
+      <Name>WebApp.Common</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="EF\WebGISModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>WebGISModel.edmx</DependentUpon>
+      <LastGenOutput>WebGISModel.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="EF\WebGISModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>WebGISModel.edmx</DependentUpon>
+      <LastGenOutput>WebGISModel.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\EntityFramework.6.4.0\build\EntityFramework.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.4.0\build\EntityFramework.props'))" />
+    <Error Condition="!Exists('..\packages\EntityFramework.6.4.0\build\EntityFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.4.0\build\EntityFramework.targets'))" />
+  </Target>
+  <Import Project="..\packages\EntityFramework.6.4.0\build\EntityFramework.targets" Condition="Exists('..\packages\EntityFramework.6.4.0\build\EntityFramework.targets')" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

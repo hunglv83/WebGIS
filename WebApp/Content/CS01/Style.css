@@ -1,0 +1,57 @@
+﻿.container.content {
+    min-height: 500px;
+}
+/*MENU*/
+.navbar-inverse {
+    background-color: #fff;
+    border: none;
+    border-top: 1px solid #000;
+    border-radius: 0;
+}
+
+.navbar-inverse .navbar-nav>.active>a, .navbar-inverse .navbar-nav>.active>a:focus, .navbar-inverse .navbar-nav>.active>a:hover {
+    background: #000;
+}
+
+.dropdown-submenu {
+    position: relative;
+}
+
+.dropdown-submenu .dropdown-menu {
+    top: 0;
+    left: 100%;
+    margin-top: -1px;
+}
+
+.navbar-inverse .navbar-nav>.open>a, .navbar-inverse .navbar-nav>.open>a:focus, .navbar-inverse .navbar-nav>.open>a:hover {
+    background: #2d6a9f;
+}
+
+.footer {
+    background-color: #337AB7;
+    color: white;
+    padding: 15px;
+}
+/*CheckBox List*/
+.state-icon {
+    left: -5px;
+}
+.list-group-item-primary {
+    color: rgb(255, 255, 255);
+    background-color: rgb(66, 139, 202);
+}
+
+/* DEMO ONLY - REMOVES UNWANTED MARGIN */
+.well .list-group {
+    margin-bottom: 0px;
+}
+/*Giới thiệu*/
+.panel-heading
+{
+font-weight:bold;
+text-transform: uppercase;
+}
+
+table thead th {
+    vertical-align: middle;
+}

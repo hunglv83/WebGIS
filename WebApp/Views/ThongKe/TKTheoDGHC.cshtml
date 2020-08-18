@@ -1,0 +1,222 @@
+﻿@model IEnumerable<WebApp.Core.EF.TQG_HoSo>
+@using WebApp.Common;
+@using WebApp.Core.EF;
+@using WebApp.Core.DAO;
+@using PagedList.Mvc;
+
+@{
+    Uri oldUri = new Uri(Request.Url.ToString());
+    UriBuilder builder = new UriBuilder(oldUri);
+    builder.Port = -1;
+    Uri newUri = builder.Uri;
+}
+
+<div class="panel panel-default box-news">
+    <div class="panel-heading">
+        @ViewBag.TITLE
+    </div>
+    <div class="panel-body">
+        <form action="@Url.Content(newUri.GetLeftPart(UriPartial.Path))" method="post" class="form-horizontal" style="margin-top: 15px;">
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group">
+                <span class="field-validation-error text-danger" id="requiredLoaiHS"></span>
+                <div class="col-xs-4 col-xs-offset-1 text-right">
+                    <label class="control-label">Loại hồ sơ</label>
+                </div>
+                <div class="col-xs-6">
+                    <select class="form-control" id="strMaLoaiHoSo" name="strMaLoaiHoSo">
+                        <option value="0">-- Chọn loại hồ sơ</option>
+                        @if (TempData["LoaiHoSo"] != null)
+                        {
+                            List<TQG_LoaiHoSo> lData = (List<TQG_LoaiHoSo>)TempData["LoaiHoSo"];
+                            foreach (var item in lData)
+                            {
+                                if (item.MaLoaiHoSo == ViewBag.MALOAIHOSO)
+                                {
+                                    <option value="@item.MaLoaiHoSo" selected>@item.TenLoaiHoSo</option>
+                                }
+                                else
+                                {
+                                    <option value="@item.MaLoaiHoSo">@item.TenLoaiHoSo</option>
+                                }
+                            }
+                        }
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-xs-4 col-xs-offset-1 text-right">
+                    <label class="control-label">Quận huyện</label>
+                </div>
+                <div class="col-xs-6">
+                    <select class="form-control" id="strMaQuanHuyen" name="strMaQuanHuyen" onchange="changeQuanHuyen()">
+                        <option value="0">-- Tất cả ---</option>
+                        @if (TempData["QuanHuyen"] != null)
+                        {
+                            List<TQG_QuanHuyen> lData = (List<TQG_QuanHuyen>)TempData["QuanHuyen"];
+                            foreach (var item in lData)
+                            {
+                                if (item.MaQuanHuyen == ViewBag.MAQUANHUYEN)
+                                {
+                                    <option value="@item.MaQuanHuyen" selected>@item.TenQuanHuyen</option>
+                                }
+                                {
+                                    <option value="@item.MaQuanHuyen">@item.TenQuanHuyen</option>
+                                }
+                            }
+                        }
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-xs-10 col-xs-offset-1 text-center">
+                    <button id="btnTimKiem" type="submit" class="btn btn-primary btn-sm" title="Tìm kiếm">Tìm kiếm <span class="glyphicon glyphicon-search"></span></button>
+                    @*<button id="btnExport" type="button" class="btn btn-info btn-flat"><i class="fa fa-print"></i> Xuất ra Excel</button>*@
+                </div>
+            </div>
+        </form>
+        <div class="row">
+            <div class="col-xs-12">
+                <hr />
+                <label class="control-label">Danh sách kết quả</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>STT</th>
+                            <th>Tên mỏ</th>
+                            <th>Tổ chức, cá nhân</th>
+                            <th>Địa chỉ</th>
+                            <th>Loại khoáng sản</th>
+                            <th>Diện tích</th>
+                            <th>Tài liệu đính kèm</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model != null && Model.Count() > 0)
+                        {
+                            int index = 0;
+                            foreach (var item in Model)
+                            {
+                                index++;
+                                <tr id="row_@item.MaHoSo">
+                                    <td align="center">@index</td>
+                                    <td>@item.TQG_Mo.TenMo</td>
+                                    <td>@item.ChuDauTu</td>
+                                    <td>@item.DiaChiChuDauTu</td>
+                                    <td>@item.LoaiKhoangSan</td>
+                                    <td>@item.DienTich</td>
+                                    <td align="center">
+                                        <a href="#" onclick="return XemChiTiet('@item.HoSoID')" title="Xem chi tiết"><i class="fa fa-eye"></i> Chi tiết</a>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Danh sách tài liệu -->
+<div class="modal fade" id="modalDsTaiLieu" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color: #00a7d0 !important">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <span class="modal-title" style="color: white; font-size: 13px">Tài liệu đính kèm chi tiết</span>
+            </div>
+            <div class="modal-body" id="modalDsTaiLieuContent">
+
+            </div>
+            <div class="modal-footer" style="background-color: #00a7d0 !important">
+                <button type="button" class="btn btn-outline" data-dismiss="modal"><i class="fa fa-close (alias)"></i> Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Viewfile -->
+<div class="modal fade" id="modalViewTaiLieu" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color: #00a7d0 !important">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <span class="modal-title" style="color: white; font-size: 13px">Nội dung</span>
+            </div>
+            <div class="modal-body" id="modalViewContent">
+
+            </div>
+            <div class="modal-footer" style="background-color: #00a7d0 !important">
+                <button type="button" class="btn btn-outline" data-dismiss="modal"><i class="fa fa-close (alias)"></i> Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/Scripts/JSBase/jquery.min.js"></script>
+<script>
+        function XemChiTiet(id) {
+            jQuery.ajax({
+                type: "POST",
+                url: '@Url.Action("XemChiTiet", "ThongKe")',
+                data: {
+                    hosoID: id
+                },
+                success: function (result) {
+                    jQuery('#modalDsTaiLieuContent').html(result);
+                    jQuery('#modalDsTaiLieu').modal('show');
+                },
+                error: function (errormessage) {
+                    alert(errormessage.responseText);
+                }
+            });
+            return false;
+        }
+
+        function ViewFile(guiId) {
+            jQuery.ajax({
+                type: "POST",
+                url: '@Url.Action("ViewPDF", "ThongKe")',
+                data: {
+                    guiId: guiId
+                },
+                success: function (result) {
+                    jQuery('#modalViewContent').html(result);
+                    jQuery('#modalViewTaiLieu').modal('show');
+                },
+                error: function (errormessage) {
+                    alert(errormessage.responseText);
+                }
+            });
+            return false;
+        }
+</script>
+<script>
+    jQuery('#btnExport').click(function () {
+        var QuanHuyen = jQuery('select[name=strMaQuanHuyen] option:selected').val();
+        var LoaiHoSo = jQuery('select[name=strMaLoaiHoSo] option:selected').val();
+        if (LoaiHoSo == null || LoaiHoSo == "" || LoaiHoSo == "0") {
+            jQuery('#requiredLoaiHS').html('(*) Vui lòng chọn loại hồ sơ');
+            return false;
+        }
+        else jQuery('#requiredLoaiHS').html('');
+
+        jQuery.ajax({
+            type: 'POST',
+            url: '@Url.Action("LoadDataDVHC", "ThongKe")',
+            data: {
+                LoaiHoSo: LoaiHoSo,
+                QuanHuyen: QuanHuyen
+            },
+            success: function (result) {
+                alert("success");
+            }
+        });
+    });
+</script>

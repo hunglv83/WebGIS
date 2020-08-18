@@ -1,0 +1,87 @@
+﻿@using WebApp.Core.EF;
+@using WebApp.Core.DAO;
+@using PagedList.Mvc;
+
+<button id="btnClick" style="display: none"></button>
+<div id="divResultData"></div>
+
+<script src="~/Scripts/JSBase/jquery.min.js"></script>
+<script src="~/Scripts/JSBase/Web.config.js"></script>
+<script>
+    $(document).ready(function () {
+        jQuery('#btnClick').click();
+    });
+
+    jQuery("#btnClick").click(function () {
+        jQuery.ajax({
+            type: 'POST',
+            url: SiteUrlAdmin + "/QNI_Metadata/GetTop10MapDesc",
+            data: {},
+            success: function (result) {
+                jQuery('#divResultData').html(result);
+            }
+        });
+    });
+</script>
+<script>
+    function ViewMap(autoId) {
+        jQuery.ajax({
+            type: "POST",
+            url: SiteUrlAdmin + "/QNI_Metadata/ViewMap",
+            data: {
+                autoId: autoId
+            },
+            success: function (result) {
+                jQuery('#divResultData').html(result);},
+            error: function (errormessage) {
+                alert(errormessage.responseText);
+            }
+        });
+        return false;
+    }
+
+    function ShowMetadata(autoId) {
+        jQuery.ajax({
+            type: "POST",
+            url: SiteUrlAdmin + "/QNI_Metadata/ShowMetadata",
+            data: {
+                autoId: autoId
+            },
+            success: function (result) {
+                jQuery('#divShowMetadata_' + autoId).html(result);
+            },
+            error: function (errormessage) {
+                alert(errormessage.responseText);
+            }
+        });
+        return false;
+    }
+
+    function ViewMetadata(autoId) {
+        $.ajax({
+            type: "POST",
+            url: SiteUrlAdmin + "/QNI_Metadata/ViewMetadata",
+            data: {
+                autoId: autoId
+            },
+            success: function (result) {
+                $('#divResultData').html(result);
+            },
+            error: function (errormessage) {
+                alert(errormessage.responseText);
+            }
+        });
+        return false;
+    }
+
+    function ShowMap(ServiceID) {
+        var url = SiteUrl + "/cs/Map/MapView?serviceid=" + ServiceID;
+        window.open(url, '_blank');
+    }
+
+    function HideMetadata() {
+        jQuery('.divShowMetadata').html("");
+    }
+</script>
+
+

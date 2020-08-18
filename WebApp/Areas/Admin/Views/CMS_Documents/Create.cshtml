@@ -1,0 +1,278 @@
+﻿@model WebApp.Core.EF.CMS_Documents
+@using WebApp.Core.EF
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Areas/Admin/Views/Shared/_Layouts.cshtml";
+}
+
+@section header{
+    Thêm mới văn bản
+}
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Thông tin văn bản
+            </div>
+            <div class="panel-body">
+                @using (Html.BeginForm("create", "cms_documents", FormMethod.Post, new { @id = "createDocuments" }))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="form-group">
+                                <div class="control-group row">
+                                    <div class="col-lg-3">
+                                        @Html.LabelFor(model => model.DocumentNumber, htmlAttributes: new { @class = "control-label" })
+                                    </div>
+                                    <div class="col-lg-9">
+                                        @Html.TextBoxFor(model => model.DocumentNumber, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.DocumentNumber, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="control-group row">
+                                    <div class="col-lg-3">
+                                        @Html.LabelFor(model => model.Abstract, htmlAttributes: new { @class = "control-label" })
+                                    </div>
+                                    <div class="col-lg-9">
+                                        @Html.TextAreaFor(model => model.Abstract, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.Abstract, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-lg-3">
+                                    @Html.LabelFor(model => model.TypeOfDocumentID, htmlAttributes: new { @class = "control-label" })
+                                </div>
+                                <div class="col-lg-9">
+                                    <select id="@Html.IdFor(model => model.TypeOfDocumentID)" name="@Html.IdFor(model => model.TypeOfDocumentID)" class="form-control selectpicker" data-live-search="true" required>
+                                        <option value="">Chọn thể loại</option>
+                                        @if (TempData["TypeOfDocumentID"] != null)
+                                        {
+                                            List<CMS_TypeOfDocument> lData = (List<CMS_TypeOfDocument>)TempData["TypeOfDocumentID"];
+                                            for (int i = 0; i < lData.Count; i++)
+                                            {
+                                                <option value="@lData[i].ID">@lData[i].Name</option>
+                                            }
+                                        }
+                                    </select>
+                                    @Html.ValidationMessageFor(model => model.TypeOfDocumentID, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-lg-3">
+                                    @Html.LabelFor(model => model.AreaOfDocument, htmlAttributes: new { @class = "control-label" })
+                                </div>
+                                <div class="col-lg-9">
+                                    <select id="@Html.IdFor(model => model.AreaOfDocument)" name="@Html.IdFor(model => model.AreaOfDocument)" class="form-control selectpicker" data-live-search="true" required>
+                                        <option value="">Chọn lĩnh vực</option>
+                                        @if (TempData["AreaOfDocument"] != null)
+                                        {
+                                            List<CMS_AreaOfDocument> lData = (List<CMS_AreaOfDocument>)TempData["AreaOfDocument"];
+                                            for (int i = 0; i < lData.Count; i++)
+                                            {
+                                                <option value="@lData[i].ID">@lData[i].Name</option>
+                                            }
+                                        }
+                                    </select>
+                                    @Html.ValidationMessageFor(model => model.AreaOfDocument, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            @*<div class="form-group row">
+                                <div class="col-lg-3">
+                                    @Html.LabelFor(model => model.OrganizationID, htmlAttributes: new { @class = "control-label" })
+                                </div>
+                                <div class="col-lg-9">
+                                    <select id="@Html.IdFor(model => model.OrganizationID)" name="@Html.IdFor(model => model.OrganizationID)" class="form-control" required>
+                                        <option value="">Chọn cơ quan</option>
+                                        @if (TempData["OrganizationID"] != null)
+                                        {
+                                            List<CMS_Organization> lData = (List<CMS_Organization>)TempData["OrganizationID"];
+                                            for (int i = 0; i < lData.Count; i++)
+                                            {
+                                                <option value="@lData[i].ID">@lData[i].Name</option>
+                                            }
+                                        }
+                                    </select>
+                                    @Html.ValidationMessageFor(model => model.OrganizationID, "", new { @class = "text-danger" })
+                                </div>
+                            </div>*@
+                            <div class="form-group row">
+                                <div class="col-lg-3">
+                                    @Html.LabelFor(model => model.OrganizationID, htmlAttributes: new { @class = "control-label" })
+                                </div>
+                                <div class="col-lg-9">
+                                    <select id="@Html.IdFor(model => model.OrganizationID)" name="@Html.IdFor(model => model.OrganizationID)" class="form-control selectpicker" data-live-search="true">
+                                        @*<option value="0">Chọn trang cha</option>*@
+                                    </select>
+                                    @Html.ValidationMessageFor(model => model.OrganizationID, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="control-group row">
+                                    <div class="col-lg-3">
+                                        @Html.LabelFor(model => model.Contents, htmlAttributes: new { @class = "control-label" })
+                                    </div>
+                                    <div class="col-lg-9">
+                                        @Html.TextAreaFor(model => model.Contents, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.Contents, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                           
+                            <div class="form-group">
+                                <div class="control-group row">
+                                    <div class="col-lg-3">
+                                        @Html.LabelFor(model => model.Signer, htmlAttributes: new { @class = "control-label" })
+                                    </div>
+                                    <div class="col-lg-9">
+                                        @Html.TextBoxFor(model => model.Signer, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.Signer, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="control-group row">
+                                    <div class="col-lg-3">
+                                        @Html.LabelFor(model => model.IssuedDate, htmlAttributes: new { @class = "control-label" })
+                                    </div>
+                                    <div class="col-lg-3">
+                                        @Html.TextBoxFor(model => model.IssuedDate, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.IssuedDate, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="control-group row">
+                                    <div class="col-lg-3">
+                                        @Html.LabelFor(model => model.EffectiveDate, htmlAttributes: new { @class = "control-label" })
+                                    </div>
+                                    <div class="col-lg-3">
+                                        @Html.TextBoxFor(model => model.EffectiveDate, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.EffectiveDate, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="control-group row">
+                                    <div class="col-lg-3">
+                                        @Html.LabelFor(model => model.FileName, htmlAttributes: new { @class = "control-label" })
+                                    </div>
+                                    <div class="col-lg-3">
+                                        @Html.TextBoxFor(model => model.FileName, new { @class = "form-control", @readonly = "readonly" })
+                                        @Html.ValidationMessageFor(model => model.FileName, "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="col-xs-6">
+                                        <button class="btn btn-default" type="button" onclick="chooseFile()">Chọn file</button>
+                                        <button class="btn btn-danger" title="Xóa file" onclick="removeFile()" type="button"><i class="fas fa-minus"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="control-group row">
+                                    <div class="col-lg-3 col-lg-offset-3">
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="checkbox" name="@Html.IdFor(model => model.Publish)" value="true" checked> <b>Công bố</b>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="checkbox" name="@Html.IdFor(model => model.Effective)" value="true" checked> <b>Còn hiệu lực</b>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="control-group row">
+                                    <div class="col-lg-3">
+                                        @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label" })
+                                    </div>
+                                    <div class="col-lg-9">
+                                        @Html.TextAreaFor(model => model.Description, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-lg-12 text-center">
+                                    <input type="submit" value="Lưu" class="btn btn-primary" />
+                                    <a class="btn btn-default" href="@Url.Content("~/admin/cms_documents")">Quay lại</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@section jsFooter{
+    <script src="@Url.Content("~/ckeditor/ckeditor.js")" type="text/javascript"></script>
+    <script>
+        CKEDITOR.replace(@Html.IdFor(model => model.Contents));
+        jQuery('#createDocuments').on('submit', function () {
+            for (instance in CKEDITOR.instances) {
+                CKEDITOR.instances[instance].updateElement();
+            }
+        });
+        ////
+        var date_input = jQuery('#@Html.IdFor(model => model.IssuedDate)');
+        date_input.datetimepicker({
+            format: 'DD/MM/YYYY'
+        });
+        jQuery('#@Html.IdFor(model => model.EffectiveDate)').datetimepicker({
+            format: 'DD/MM/YYYY'
+        });
+        jQuery("input[data-val-date]").removeAttr("data-val-date");
+        /////
+        function chooseFile() {
+            var finder = new CKFinder();
+            finder.basePath = '~/ckfinder';
+            finder.selectActionFunction = SetFileField1;
+            finder.popup();
+        }
+        // This is a sample function which is called when a file is selected in CKFinder.
+        function SetFileField1(fileUrl) {
+            document.getElementById('@Html.IdFor(model => model.FileName)').value = fileUrl;
+        }
+    </script>
+    <script src="@Url.Content("~/areas/admin/jscontroller/CMS_Documents.js")"></script>
+<script type="text/javascript">
+        changeIsAdmin();
+        function changeIsAdmin() {
+
+            var pJson = {  };
+            jQuery.ajax({
+                url: SiteUrlAdmin + "/CMS_Documents/GetParentID",
+                contentType: 'application/json',
+                dataType: 'json',
+                data: JSON.stringify(pJson),
+                type: "POST",
+                success: function (r) {
+                    if (r.state == true) {
+                        var data = r.listTree;
+                        var content = '<option value="0">Chọn tổ chức</option>';
+                        for (var i = 0; i < data.length; i++) {
+                            content += '<option value="' + data[i].id + '">' + data[i].name + '</option>';
+                        }
+                        jQuery('#@Html.IdFor(model => model.OrganizationID)').html(content);
+                        jQuery('.selectpicker').selectpicker("refresh");
+                    }
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    jQuery('#@Html.IdFor(model => model.OrganizationID)').html('<option value="0">Chọn tổ chức</option>');
+                }
+            });
+        }
+
+</script>
+}

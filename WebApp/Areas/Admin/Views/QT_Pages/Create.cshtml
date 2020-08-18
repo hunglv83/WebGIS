@@ -1,0 +1,163 @@
+﻿@model WebApp.Core.EF.CSF_Pages
+@using WebApp.Core.DAO
+@using WebApp.Core.EF
+
+@{
+    ViewBag.Title = "THÊM MỚI TRANG";
+    Layout = "~/Areas/Admin/Views/Shared/_Layouts.cshtml";
+}
+
+<div class="row">
+    <div class="col-12">
+        <div class="card card-primary">
+            <div class="card-header">
+                <h3 class="card-title"><i class="fa fa-users"></i> Thông tin trang</h3>
+            </div>
+            <div class="card-body">
+                <div class="form-group">
+                    @using (Html.BeginForm("Create", "QT_Pages", FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label" })
+                                    @Html.TextBoxFor(model => model.Name, new { @class = "form-control", @data_validation_required_message = "Không được bỏ trống" })
+                                    <div class="col-md-12">
+                                        @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Key, htmlAttributes: new { @class = "control-label" })
+                                    @Html.TextBoxFor(model => model.Key, new { @class = "form-control", @data_validation_required_message = "Không được bỏ trống" })
+                                    <div class="col-md-12">
+                                        @Html.ValidationMessageFor(model => model.Key, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Order, htmlAttributes: new { @class = "control-label" })
+                                    @Html.TextBoxFor(model => model.Order, new { @class = "form-control", @data_validation_required_message = "Không được bỏ trống" })
+                                    <div class="col-md-12">
+                                        @Html.ValidationMessageFor(model => model.Order, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Icon, htmlAttributes: new { @class = "control-label" })
+                                    @Html.TextBoxFor(model => model.Icon, new { @class = "form-control" })
+                                    <div class="col-md-12">
+                                        @Html.ValidationMessageFor(model => model.Icon, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-md-2">
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="checkbox" name="@Html.IdFor(model => model.IsActive)" value="true" checked>
+                                                <b style="font-weight: 500">@Html.DisplayNameFor(model => model.IsActive)</b>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="checkbox" name="@Html.IdFor(model => model.IsBlank)" value="false">
+                                                <b style="font-weight: 500">@Html.DisplayNameFor(model => model.IsBlank)</b>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="checkbox" name="@Html.IdFor(model => model.IsAdmin)" id="@Html.IdFor(model => model.IsAdmin)" value="false" onclick="changeIsAdmin();">
+                                                <b style="font-weight: 500">@Html.DisplayNameFor(model => model.IsAdmin)</b>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2 hidden">
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="checkbox" name="@Html.IdFor(model => model.IsHost)" value="false">
+                                                <b style="font-weight: 500">@Html.DisplayNameFor(model => model.IsHost)</b>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.ModuleID, htmlAttributes: new { @class = "control-label" })
+                                    <select id="@Html.IdFor(model => model.ModuleID)" name="@Html.IdFor(model => model.ModuleID)" class="form-control select2 select2bs4" data-live-search="true">
+                                        <option value="">Chọn module</option>
+                                        @if (TempData["module"] != null)
+                                        {
+                                            List<CSF_Modules> lData = (List<CSF_Modules>)TempData["module"];
+                                            for (int i = 0; i < lData.Count; i++)
+                                            {
+                                                <option value="@lData[i].ID">@lData[i].Name</option>
+                                            }
+                                        }
+                                    </select>
+                                    <div class="col-md-12">
+                                        @Html.ValidationMessageFor(model => model.ModuleID, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.ParentID, htmlAttributes: new { @class = "control-label" })
+                                    <select id="@Html.IdFor(model => model.ParentID)" name="@Html.IdFor(model => model.ParentID)" class="form-control select2 select2bs4" data-live-search="true">
+                                        <option value="0">Chọn trang cha</option>
+                                    </select>
+                                    <div class="col-md-12">
+                                        @Html.ValidationMessageFor(model => model.ParentID, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-sm btn-success"><i class="fa fa-save"></i> Lưu lại</button>
+                                    <a class="btn btn-sm btn-outline-info" href="@Url.Content("~/Admin/QT_Pages/Index")"><i class="fa fa-reply"></i> Quay lại</a>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script src="@Url.Content("~/areas/admin/jscontroller/QT_Pages.js")"></script>
+    <script type="text/javascript">
+        changeIsAdmin();
+        function changeIsAdmin() {
+            var isadmin = "false";
+            var chk = jQuery("#@Html.IdFor(model => model.IsAdmin)");
+            if (chk.is(':checked')) {
+                isadmin = "true";
+            } else {
+                isadmin = "false";
+            }
+            var pJson = { 'isadmin': isadmin };
+            jQuery.ajax({
+                url: SiteUrlAdmin + "/qt_pages/GetPageParent",
+                contentType: 'application/json',
+                dataType: 'json',
+                data: JSON.stringify(pJson),
+                type: "POST",
+                success: function (r) {
+                    if (r.state == true) {
+                        var data = r.listTree;
+                        var content = '<option value="0">Chọn trang cha</option>';
+                        for (var i = 0; i < data.length; i++) {
+                            content += '<option value="' + data[i].id + '">' + data[i].name + '</option>';
+                        }
+                        jQuery('#@Html.IdFor(model => model.ParentID)').html(content);
+                        jQuery('.selectpicker').selectpicker("refresh");
+                    }
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    jQuery('#@Html.IdFor(model => model.ParentID)').html('<option value="0">Chọn trang cha</option>');
+                }
+            });
+
+        }
+    </script>
+}

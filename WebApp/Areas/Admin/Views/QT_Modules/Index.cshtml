@@ -1,0 +1,72 @@
+﻿@model IEnumerable<WebApp.Core.EF.CSF_Modules_LayTatCa_Result>
+@{
+    ViewBag.Title = "QUẢN TRỊ MODULE";
+    Layout = "~/Areas/Admin/Views/Shared/_Layouts.cshtml";
+}
+
+<div class="row">
+    <div class="col-12">
+        <div class="card card-primary">
+            <div class="card-header">
+                <h3 class="card-title"><i class="fa fa-users"></i> Danh sách module</h3>
+            </div>
+            <div class="card-body">
+                <div class="form-group">
+                    <div class="col-md-12">
+                        <a class="btn btn-sm btn-success" title="Thêm mới" href="@Url.Content("~/Admin/QT_Modules/Create")"><i class="fa fa-plus-square"></i> Thêm mới</a>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-12">
+                        <table id="tblData" class="table table-striped table-bordered table-hover nowrap" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">STT</th>
+                                    <th class="text-center">Tên Module</th>
+                                    <th class="text-center">Mô tả</th>
+                                    <th class="text-center">Trạng thái</th>
+                                    <th class="text-center">Thao tác</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{
+                                    var i = 0;
+                                    var index = 0;
+                                }
+                                @foreach (var item in Model)
+                                {
+                                    i++;
+                                    index++;
+                                <tr id="row_@item.ID">
+                                    <td align="center">@index</td>
+                                    <td>@item.Name</td>
+                                    <td>@item.Description</td>
+                                    <td align="center">
+                                        @{
+                                            if (Convert.ToInt16(item.IsActive) == 1)
+                                            { <span class="badge badge-success">Kích hoạt</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="badge badge-danger">Khóa</span>
+                                            }
+                                        }
+                                    </td>
+                                    <td align="center">
+                                        <a href="@Url.Content("~/Admin/QT_Modules/Edit/")@item.ID" type="button" title="Sửa"><span class="fa fa-edit text-info"></span></a>
+                                        <a style="cursor: pointer" onclick="del(@item.ID)" title="Xóa"><span class="fa fa-trash-alt text-danger"></span></a>
+                                    </td>
+                                </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script src="@Url.Content("~/areas/admin/jscontroller/QT_Modules.js")"></script>
+}

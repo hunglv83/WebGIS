@@ -1,0 +1,49 @@
+﻿@model IEnumerable<WebApp.Core.EF.CSF_Pages_GetPartial_FrontEnd_Result>
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="row">
+    @{int row = 0;}
+    @if (Model != null)
+    {
+        foreach (var item in Model.Where(x => x.IsBox == true))
+        {
+            if (row != item.Row)
+            {
+                @Html.Raw("</div><div class='row'>")
+                row = (int)item.Row;
+            }
+            <div class="@item.Position">
+                <div class="row flex-box">
+                    @{int rowC = 0;}
+                    @foreach (var itemChild in Model.Where(x => x.BoxParent == item.ID))
+                    {
+                        if (rowC != itemChild.Row)
+                        {
+                            @Html.Raw("</div><div class='row flex-box'>")
+                            rowC = (int)itemChild.Row;
+                        }
+                        <div class="@itemChild.Position">
+                            @{Html.RenderAction(itemChild.Key, itemChild.Controller, new { title = itemChild.Title, category = ViewBag.KEY });}
+                        </div>
+                    }
+                </div>
+            </div>
+        }
+    }
+</div>
+<script>
+    var key1 = '@ViewBag.KEY1';
+    var key2 = '@ViewBag.KEY2';
+    var interval_active = setInterval(function () {
+        if (window.jQuery) {
+            jQuery('ul.nav li.active').removeClass('active');
+            jQuery('#page-' + key1).addClass('active');
+            jQuery('#page-' + key2).addClass('active');
+            clearInterval(interval_active);
+        }
+        else {
+            console.log('wait jquery');
+        }
+    }, 0);
+</script>

@@ -1,0 +1,48 @@
+﻿@model WebApp.Core.EF.CMS_Notifications_LayTatCa_Result
+@using WebApp.Common;
+@using WebApp.Core.EF;
+
+@{
+    ViewBag.Title = "Detail";
+    Layout = "~/Areas/Admin/Views/Shared/_Layouts.cshtml";
+}
+
+@section header{
+    Chi tiết thông báo
+}
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Chi tiết thông báo
+            </div>
+            <div class="panel-body">
+                @if (Model != null)
+                {
+                    <div class="row">
+                        <div class="col-xs-12 new-title">
+                            <h4>@Model.Title</h4>
+                            <span class="new-createdate"><i class="far fa-calendar-alt"></i> @Convert.ToDateTime(Model.CreateDate).ToString("dd/MM/yyyy")</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-2">
+                            <label class="control-label">Nội dung</label>
+                        </div>
+                        <div class="col-xs-10">
+                            @Html.Raw(Model.Contents)
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-8 text-center">
+                            <a class="btn btn-default" title="Thêm mới thông báo" href="@Url.Content("~/admin/cms_notifications/create")">Thêm mới</a>
+                            <a class="btn btn-default" title="Chỉnh sửa thông báo này" href="@Url.Content("~/admin/cms_notifications/edit/")@Model.ID">Chỉnh sửa</a>
+                            <a class="btn btn-default" title="Quay lại trang quản lý" href="@Url.Content("~/admin/cms_notifications")">Quay lại</a>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
